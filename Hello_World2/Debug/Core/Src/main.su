@@ -1,9 +1,9 @@
 ../Drivers/CMSIS/Include/core_cm4.h:2064:26:ITM_SendChar	16	static,ignoring_inline_asm
-../Core/Src/main.c:83:5:main	32808	static
-../Core/Src/main.c:158:6:SystemClock_Config	88	static
-../Core/Src/main.c:204:13:MX_I2C1_Init	8	static
-../Core/Src/main.c:238:13:MX_I2S3_Init	8	static
-../Core/Src/main.c:272:13:MX_SPI1_Init	8	static
-../Core/Src/main.c:310:13:MX_GPIO_Init	56	static
-../Core/Src/main.c:404:5:_write	32	static
-../Core/Src/main.c:421:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:84:5:main	32832	static
+../Core/Src/main.c:183:6:SystemClock_Config	88	static
+../Core/Src/main.c:229:13:MX_I2C1_Init	8	static
+../Core/Src/main.c:263:13:MX_I2S3_Init	8	static
+../Core/Src/main.c:297:13:MX_SPI1_Init	8	static
+../Core/Src/main.c:335:13:MX_GPIO_Init	56	static
+../Core/Src/main.c:434:5:_write	32	static
+../Core/Src/main.c:451:6:Error_Handler	4	static,ignoring_inline_asm

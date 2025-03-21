@@ -37,6 +37,7 @@
 /* USER CODE BEGIN PD */
 #define PI 3.14159265358979323846
 #define TAU (2.0 * PI)
+#define DACADDR 0x94
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -93,6 +94,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  uint8_t buf[12];
 
   /* USER CODE END Init */
 
@@ -110,8 +112,11 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
-	printf("Hello world \r\n");
-	HAL_Delay(1);
+  // DAC Reset is active low, so pull the pin high.
+  HAL_GPIO_WritePin(Audio_RST_GPIO_Port, Audio_RST_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Audio_RST_GPIO_Port, Audio_RST_Pin, GPIO_PIN_SET);
+  printf("Hello world \r\n");
+  HAL_Delay(1);
 
   HAL_StatusTypeDef res;
   int16_t signal[16384]; //was 46876
@@ -140,7 +145,27 @@ int main(void)
     HAL_Delay(500);
     printf("In loop \r\n");
 
+    // Tell CL we want to read ID register
+    buf[0] = 0x01; // ID register
+    res = HAL_I2C_Master_Transmit(&hi2c1, DACADDR, buf, 1, HAL_MAX_DELAY);
+	if(res != HAL_OK) {
+		printf("I2C1 - Master Transmit ERROR, res = %d!\r\n", res);
+		//break;
+	}
+	else {
+	// Read back data from CL ID register
+		res = HAL_I2C_Master_Receive(&hi2c1, DACADDR, buf, 1, HAL_MAX_DELAY);
+		if(res != HAL_OK) {
+			printf("I2C1 - Master Receive ERROR, res = %d!\r\n", res);
+			//break;
+		}
+		else {
+			printf("Received %d \r\n", buf[0]);
 
+		}
+	}
+
+	// Attempt to transmit audio data to DAC
 	res = HAL_I2S_Transmit(&hi2s3, (uint16_t*)signal, nsamples, HAL_MAX_DELAY);
 	if(res != HAL_OK) {
 		printf("I2S - ERROR, res = %d!\r\n", res);
@@ -374,14 +399,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
   HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin
-                           Audio_RST_Pin */
-  GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
-                          |Audio_RST_Pin;
+  /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin */
+  GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : Audio_RST_Pin */
+  GPIO_InitStruct.Pin = Audio_RST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(Audio_RST_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : OTG_FS_OverCurrent_Pin */
   GPIO_InitStruct.Pin = OTG_FS_OverCurrent_Pin;

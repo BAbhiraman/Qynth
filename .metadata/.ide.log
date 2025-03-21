@@ -1,0 +1,554 @@
+2025-03-21 07:38:47,068 [INFO] WebApp:194 - Connection lost
+2025-03-21 07:38:47,352 [INFO] WebApp:191 - Connection restablished
+2025-03-21 07:38:48,657 [INFO] WebApp:194 - Connection lost
+2025-03-21 07:38:48,786 [INFO] WebApp:191 - Connection restablished
+2025-03-21 07:39:10,694 [INFO] I2sManager:658 - 9.6E7
+2025-03-21 07:39:10,694 [INFO] I2sManager:195 - I2S Clock Value : 9.6E7
+2025-03-21 07:39:10,694 [INFO] I2sManager:553 - AudioClock : 93750Divider : 2Odd : 0
+2025-03-21 07:39:10,794 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 07:39:54,584 [INFO] I2sManager:658 - 9.6E7
+2025-03-21 07:39:54,585 [INFO] I2sManager:195 - I2S Clock Value : 9.6E7
+2025-03-21 07:39:54,585 [INFO] I2sManager:553 - AudioClock : 93750Divider : 2Odd : 0
+2025-03-21 07:39:54,629 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 07:40:01,011 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 07:40:10,560 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 07:40:19,864 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 07:40:34,041 [INFO] WebApp:194 - Connection lost
+2025-03-21 07:40:34,160 [INFO] WebApp:191 - Connection restablished
+2025-03-21 07:41:22,355 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 07:41:36,030 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 844996704 Bytes (1066401792)
+2025-03-21 07:41:37,455 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 874314456 Bytes (1066401792)
+2025-03-21 07:41:39,287 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 337485672 Bytes (1045430272)
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SPI
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2S
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SYS
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: RCC
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2C
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_OTG_FS
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: NVIC
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_HOST
+2025-03-21 07:41:39,473 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: DMA
+2025-03-21 07:41:39,475 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: GPIO
+2025-03-21 07:41:39,475 [INFO] CodeGenerator:882 - code generatio: config db path: C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.14.0.202502271554\\db\
+2025-03-21 07:41:39,478 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-21 07:41:39,478 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-21 07:41:39,582 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\license.tmp_save
+2025-03-21 07:41:39,760 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\license.tmp
+2025-03-21 07:41:39,806 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp_save
+2025-03-21 07:41:39,912 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp
+2025-03-21 07:41:39,988 [WARN] IPConfigManager:3174 - Warning: the RefConfig PWREx_EnableUSBVoltageDetector is not available in your config.xml file
+2025-03-21 07:41:39,995 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp_save
+2025-03-21 07:41:40,081 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp
+2025-03-21 07:41:40,084 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp_save
+2025-03-21 07:41:40,150 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp
+2025-03-21 07:41:40,155 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp_save
+2025-03-21 07:41:40,242 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp
+2025-03-21 07:41:40,245 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp_save
+2025-03-21 07:41:40,331 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp
+2025-03-21 07:41:40,572 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\dma.tmp_save
+2025-03-21 07:41:40,632 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\dma.tmp
+2025-03-21 07:41:40,635 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\dma_GV.tmp_save
+2025-03-21 07:41:40,693 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\dma_GV.tmp
+2025-03-21 07:41:40,709 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\App\usb_host.c_save
+2025-03-21 07:41:40,778 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\App\usb_host.c
+2025-03-21 07:41:40,783 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\App\usb_host.h_save
+2025-03-21 07:41:40,849 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\App\usb_host.h
+2025-03-21 07:41:40,853 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.h_save
+2025-03-21 07:41:40,918 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.h
+2025-03-21 07:41:40,922 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.c_save
+2025-03-21 07:41:40,991 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.c
+2025-03-21 07:41:40,995 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.c_save
+2025-03-21 07:41:41,056 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.c
+2025-03-21 07:41:41,061 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.h_save
+2025-03-21 07:41:41,121 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.h
+2025-03-21 07:41:41,134 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c_save
+2025-03-21 07:41:41,377 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c
+2025-03-21 07:41:41,382 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h_save
+2025-03-21 07:41:41,443 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h
+2025-03-21 07:41:41,458 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c_save
+2025-03-21 07:41:41,560 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c
+2025-03-21 07:41:41,564 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\system.tmp_save
+2025-03-21 07:41:41,621 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\system.tmp
+2025-03-21 07:41:41,628 [INFO] CodeEngine:319 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h_save
+2025-03-21 07:41:41,696 [INFO] CodeEngine:343 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h
+2025-03-21 07:41:41,729 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\main.h_save
+2025-03-21 07:41:41,822 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\main.h
+2025-03-21 07:41:41,827 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\main.c_save
+2025-03-21 07:41:41,919 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\main.c
+2025-03-21 07:41:42,267 [INFO] ProjectBuilder:3324 - Time for Copy HAL[1] : 185mS.
+2025-03-21 07:41:42,271 [INFO] ProjectBuilder:4912 - Project Generator version: 4.6.0-B36
+2025-03-21 07:41:42,344 [INFO] ConfigFileManager:1590 - The Die is : DIE413
+2025-03-21 07:41:43,297 [INFO] ProjectBuilder:5191 - Time for Generating toolchain IDE Files: 1026mS.
+2025-03-21 07:41:43,297 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 0mS.
+2025-03-21 07:41:43,301 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 0mS.
+2025-03-21 08:03:49,108 [INFO] I2sManager:658 - 9.6E7
+2025-03-21 08:03:49,108 [INFO] I2sManager:195 - I2S Clock Value : 9.6E7
+2025-03-21 08:03:49,111 [INFO] I2sManager:553 - AudioClock : 93750Divider : 2Odd : 0
+2025-03-21 08:03:52,002 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,450x97,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 08:03:53,415 [INFO] I2sManager:658 - 9.6E7
+2025-03-21 08:03:53,415 [INFO] I2sManager:195 - I2S Clock Value : 9.6E7
+2025-03-21 08:03:53,416 [INFO] I2sManager:553 - AudioClock : 93750Divider : 2Odd : 0
+2025-03-21 08:03:53,520 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 08:03:55,043 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 764749408 Bytes (1045430272)
+2025-03-21 08:03:56,590 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 793583200 Bytes (1045430272)
+2025-03-21 08:03:59,697 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 888481376 Bytes (1045430272)
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SPI
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2S
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SYS
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: RCC
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2C
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_OTG_FS
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: NVIC
+2025-03-21 08:04:00,203 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_HOST
+2025-03-21 08:04:00,204 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: GPIO
+2025-03-21 08:04:00,207 [INFO] CodeGenerator:882 - code generatio: config db path: C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.14.0.202502271554\\db\
+2025-03-21 08:04:00,209 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-21 08:04:00,209 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-21 08:04:00,358 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\license.tmp_save
+2025-03-21 08:04:00,768 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\license.tmp
+2025-03-21 08:04:00,836 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp_save
+2025-03-21 08:04:00,980 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp
+2025-03-21 08:04:01,096 [WARN] IPConfigManager:3174 - Warning: the RefConfig PWREx_EnableUSBVoltageDetector is not available in your config.xml file
+2025-03-21 08:04:01,102 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp_save
+2025-03-21 08:04:01,220 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp
+2025-03-21 08:04:01,223 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp_save
+2025-03-21 08:04:01,321 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp
+2025-03-21 08:04:01,325 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp_save
+2025-03-21 08:04:01,438 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp
+2025-03-21 08:04:01,442 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp_save
+2025-03-21 08:04:01,574 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp
+2025-03-21 08:04:01,923 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\App\usb_host.c_save
+2025-03-21 08:04:02,033 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\App\usb_host.c
+2025-03-21 08:04:02,042 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\App\usb_host.h_save
+2025-03-21 08:04:02,146 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\App\usb_host.h
+2025-03-21 08:04:02,151 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.h_save
+2025-03-21 08:04:02,245 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.h
+2025-03-21 08:04:02,251 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.c_save
+2025-03-21 08:04:02,345 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.c
+2025-03-21 08:04:02,352 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.c_save
+2025-03-21 08:04:02,437 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.c
+2025-03-21 08:04:02,442 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.h_save
+2025-03-21 08:04:02,523 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.h
+2025-03-21 08:04:02,536 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c_save
+2025-03-21 08:04:02,794 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c
+2025-03-21 08:04:02,800 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h_save
+2025-03-21 08:04:02,886 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h
+2025-03-21 08:04:02,904 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c_save
+2025-03-21 08:04:03,054 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c
+2025-03-21 08:04:03,058 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\system.tmp_save
+2025-03-21 08:04:03,141 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\system.tmp
+2025-03-21 08:04:03,153 [INFO] CodeEngine:319 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h_save
+2025-03-21 08:04:03,243 [INFO] CodeEngine:343 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h
+2025-03-21 08:04:03,286 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\main.h_save
+2025-03-21 08:04:03,429 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\main.h
+2025-03-21 08:04:03,435 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\main.c_save
+2025-03-21 08:04:03,564 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\main.c
+2025-03-21 08:04:04,335 [INFO] ProjectBuilder:3324 - Time for Copy HAL[1] : 379mS.
+2025-03-21 08:04:04,352 [INFO] ProjectBuilder:4912 - Project Generator version: 4.6.0-B36
+2025-03-21 08:04:04,517 [INFO] ConfigFileManager:1590 - The Die is : DIE413
+2025-03-21 08:04:05,481 [INFO] ProjectBuilder:5191 - Time for Generating toolchain IDE Files: 1129mS.
+2025-03-21 08:04:05,481 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 0mS.
+2025-03-21 08:04:05,487 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 0mS.
+2025-03-21 08:29:42,173 [INFO] MainUpdater:2872 - connection check result : 10
+2025-03-21 08:29:42,660 [INFO] McuFinderGlobals:76 - Set McuFinderConnectedMode to true
+2025-03-21 08:29:42,666 [INFO] MultiScanPanel:200 - Auto-refresh data requested => check proxy status ongoing
+2025-03-21 08:29:42,668 [INFO] FinderPluginLoader:95 - Searching for filters in installed packs
+2025-03-21 08:29:45,750 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-03-21 08:29:45,750 [INFO] DetailPanel:341 - Set advertising image to C:/Users/bhask/STM32Cube/Repository/\en.prom-stm32u3-mcu-finder.jpg
+2025-03-21 08:29:47,100 [INFO] MultiScanPanel:200 - Auto-refresh data requested => check proxy status ongoing
+2025-03-21 08:29:47,236 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-03-21 08:29:47,236 [INFO] DetailPanel:341 - Set advertising image to C:/Users/bhask/STM32Cube/Repository/\en.prom-stm32u3-mcu-finder.jpg
+2025-03-21 08:29:47,313 [INFO] MultiScanPanel:200 - Auto-refresh data requested => check proxy status ongoing
+2025-03-21 08:29:47,453 [INFO] ApiDb:668 - CubeFinder database Data Model version=2.1
+2025-03-21 08:29:47,453 [INFO] ApiDb:669 - CubeFinder database Configuration version=3.0.39
+2025-03-21 08:29:47,453 [INFO] ApiDb:670 - CubeFinder database generation date=2025-03-07 (1741340029)
+2025-03-21 08:29:47,453 [INFO] ApiDb:671 - CubeFinder database FW Pack versions=[FP-ATR-ASTRA1_V2.0.0, FP-SNS-FLIGHT1_V5.0.2, FP-SNS-MOTENV1_V5.0.0, FP-SNS-MOTENVWB1_V1.4.0, FP-SNS-SMARTAG2_V1.2.0, FP-SNS-STBOX1_V2.0.0, STM32Cube_FW_C0_V1.4.0, STM32Cube_FW_F4_V1.28.1, STM32Cube_FW_F7_V1.17.2, STM32Cube_FW_G0_V1.6.2, STM32Cube_FW_G4_V1.6.1, STM32Cube_FW_H5_V1.5.0, STM32Cube_FW_H7RS_V1.2.0, STM32Cube_FW_H7_V1.12.1, STM32Cube_FW_L0_V1.12.2, STM32Cube_FW_L4_V1.18.1, STM32Cube_FW_L5_V1.5.1, STM32Cube_FW_N6_V1.1.0, STM32Cube_FW_U0_V1.2.0, STM32Cube_FW_U3_V1.1.0, STM32Cube_FW_U5_V1.7.0, STM32Cube_FW_WB0_V1.2.0, STM32Cube_FW_WBA_V1.6.0, STM32Cube_FW_WB_V1.22.0, STM32Cube_FW_WL3_V1.1.0, STM32Cube_FW_WL_V1.3.1, X-CUBE-ALGOBUILD_V1.4.0, X-CUBE-ALS_V1.0.2, X-CUBE-AZRTOS-F4_V1.1.0, X-CUBE-AZRTOS-F7_V1.1.0, X-CUBE-AZRTOS-G0_V1.1.0, X-CUBE-AZRTOS-G4_V2.0.0, X-CUBE-AZRTOS-H7RS_V1.0.0, X-CUBE-AZRTOS-H7_V3.3.0, X-CUBE-AZRTOS-L4_V2.0.0, X-CUBE-AZRTOS-L5_V2.0.0, X-CUBE-AZRTOS-WB_V2.0.0, X-CUBE-AZRTOS-WL_V2.0.0, X-CUBE-BLE1_V7.1.0, X-CUBE-BLE2_V3.3.0, X-CUBE-BLEMGR_V4.0.0, X-CUBE-EEPRMA1_V5.1.0, X-CUBE-FREERTOS_V1.3.0, X-CUBE-GNSS1_V6.0.0, X-CUBE-MEMS1_V11.1.0, X-CUBE-NFC4_V3.0.0, X-CUBE-NFC7_V1.0.1, X-CUBE-SFXS2LP1_V4.0.0, X-CUBE-SUBG2_V5.0.0, X-CUBE-TOF1_V3.4.2]
+2025-03-21 08:29:48,728 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,728 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,729 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,729 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,959 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,959 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,959 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,960 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,960 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,960 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,961 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,961 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:48,961 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:49,292 [ERROR] DbExamplesSqlite:437 - Missing JSON key: board_cpn
+2025-03-21 08:29:49,311 [INFO] DbExamplesSqlite:395 - Ignored 46 examples not supported by CubeIDE
+2025-03-21 08:29:49,311 [INFO] DbExamplesSqlite:396 - Found 10814 examples active
+2025-03-21 08:29:49,311 [INFO] DbExamplesSqlite:397 - Found 0 examples obsolete
+2025-03-21 08:29:49,311 [INFO] DbExamplesSqlite:398 - Found 0 examples under development
+2025-03-21 08:29:49,311 [INFO] DbExamplesSqlite:399 - Found 79 examples not building
+2025-03-21 08:29:49,313 [INFO] DbExamples:125 - Found 10847 examples
+2025-03-21 08:29:49,334 [ERROR] DbExamples:208 - Found 3 examples with invalid data (board or MCU)
+2025-03-21 08:29:49,335 [INFO] DbExamples:222 - Found 134 boards with related examples
+2025-03-21 08:29:49,336 [INFO] DbExamples:235 - Found 110 MCUs with related examples
+2025-03-21 08:29:49,369 [INFO] ApiDb:423 - Load user favorites file C:\Users\bhask/.stm32cubeide/favorites.examples.txt: 0 item(s)
+2025-03-21 08:29:49,369 [INFO] ApiDb:427 - User favorites Examples=[]
+2025-03-21 08:29:49,370 [INFO] DbExamples:250 - Set 0 / 0 favorites Examples
+2025-03-21 08:29:50,700 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'FP-ATR-ASTRA1_V2.0.0'
+2025-03-21 08:29:50,700 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'FP-SNS-FLIGHT1_V5.0.2'
+2025-03-21 08:29:50,701 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'FP-SNS-MOTENV1_V5.0.0'
+2025-03-21 08:29:50,701 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'FP-SNS-MOTENVWB1_V1.4.0'
+2025-03-21 08:29:50,701 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'FP-SNS-SMARTAG2_V1.2.0'
+2025-03-21 08:29:50,701 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'FP-SNS-STBOX1_V2.0.0'
+2025-03-21 08:29:50,712 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_C0_V1.4.0'
+2025-03-21 08:29:50,717 [INFO] SoftwarePacks:131 - Found SW pack 'STM32Cube_FW_F4_V1.28.1' up-to-date on disk.
+2025-03-21 08:29:50,721 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_F7_V1.17.2'
+2025-03-21 08:29:50,724 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_G0_V1.6.2'
+2025-03-21 08:29:50,727 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_G4_V1.6.1'
+2025-03-21 08:29:50,731 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_H5_V1.5.0'
+2025-03-21 08:29:50,734 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_H7RS_V1.2.0'
+2025-03-21 08:29:50,738 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_H7_V1.12.1'
+2025-03-21 08:29:50,744 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_L0_V1.12.2'
+2025-03-21 08:29:50,750 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_L4_V1.18.1'
+2025-03-21 08:29:50,757 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_L5_V1.5.1'
+2025-03-21 08:29:50,764 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_N6_V1.1.0'
+2025-03-21 08:29:50,767 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_U0_V1.2.0'
+2025-03-21 08:29:50,772 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_U3_V1.1.0'
+2025-03-21 08:29:50,776 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_U5_V1.7.0'
+2025-03-21 08:29:50,780 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_WB0_V1.2.0'
+2025-03-21 08:29:50,784 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_WBA_V1.6.0'
+2025-03-21 08:29:50,787 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_WB_V1.22.0'
+2025-03-21 08:29:50,791 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_WL3_V1.1.0'
+2025-03-21 08:29:50,795 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'STM32Cube_FW_WL_V1.3.1'
+2025-03-21 08:29:50,795 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-ALGOBUILD_V1.4.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-ALS_V1.0.2'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-F4_V1.1.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-F7_V1.1.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-G0_V1.1.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-G4_V2.0.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-H7RS_V1.0.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-H7_V3.3.0'
+2025-03-21 08:29:50,796 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-L4_V2.0.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-L5_V2.0.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-WB_V2.0.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-AZRTOS-WL_V2.0.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-BLE1_V7.1.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-BLE2_V3.3.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-BLEMGR_V4.0.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-EEPRMA1_V5.1.0'
+2025-03-21 08:29:50,797 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-FREERTOS_V1.3.0'
+2025-03-21 08:29:50,798 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-GNSS1_V6.0.0'
+2025-03-21 08:29:50,798 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-MEMS1_V11.1.0'
+2025-03-21 08:29:50,798 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-NFC4_V3.0.0'
+2025-03-21 08:29:50,798 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-NFC7_V1.0.1'
+2025-03-21 08:29:50,798 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-SFXS2LP1_V4.0.0'
+2025-03-21 08:29:50,798 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-SUBG2_V5.0.0'
+2025-03-21 08:29:50,799 [INFO] SoftwarePacks:127 - Download is needed for SW pack 'X-CUBE-TOF1_V3.4.2'
+2025-03-21 08:29:53,384 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-03-21 08:29:53,384 [INFO] DetailPanel:341 - Set advertising image to C:/Users/bhask/STM32Cube/Repository/\en.prom-stm32u3-mcu-finder.jpg
+2025-03-21 08:29:55,346 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,756 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,757 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,757 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,757 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,757 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,758 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,758 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,758 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,758 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,759 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,759 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,759 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,759 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,760 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,760 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,760 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,761 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,761 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,761 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,762 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,762 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,762 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,762 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,763 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,763 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,763 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,763 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,764 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,764 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,764 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,765 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,765 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,765 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,766 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,766 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,766 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,766 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,766 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,767 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,767 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,767 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,767 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,768 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,768 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,768 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,768 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,769 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,769 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,770 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,770 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,770 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,771 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,771 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,771 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,771 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,772 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,772 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,772 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,772 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,773 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,773 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,773 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,773 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,774 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,774 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,774 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,775 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,775 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,775 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,776 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,776 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,776 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,777 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,777 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,777 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,777 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,777 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,778 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,778 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,778 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,778 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,779 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,779 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,779 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,779 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,780 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,780 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,780 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,780 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,781 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,781 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,782 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,782 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,782 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,782 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,783 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,783 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,783 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,783 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,784 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,784 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,784 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,784 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,785 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,785 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,785 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,786 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,786 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,786 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,788 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,788 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,788 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,788 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,788 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,789 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,789 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,789 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,789 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,790 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,790 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,790 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,791 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,791 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,791 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,791 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,792 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,792 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,792 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,792 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,793 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,793 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,793 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,793 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,794 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,794 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,794 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,795 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,795 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,795 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,795 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,796 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,796 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,796 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,796 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,797 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,797 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,797 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,797 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,798 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,798 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,798 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,798 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,799 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,799 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,799 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,799 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,800 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,800 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,800 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,800 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,801 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,801 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,801 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,802 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,802 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,802 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,803 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,803 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,803 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,803 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,803 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,803 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,805 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,805 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,805 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,806 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,806 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,806 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,806 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,807 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,807 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,807 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,807 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,808 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,808 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,808 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,808 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,809 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,809 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,809 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,809 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,810 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,810 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,810 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,811 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,811 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,811 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,811 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,812 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,812 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,812 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,812 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,813 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,813 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,813 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,813 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,814 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,814 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,814 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,814 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,815 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,815 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,815 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,815 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,816 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,816 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,816 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,817 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,817 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:29:55,817 [ERROR] AppliInfo:139 - Unknown STM32CubeMX version: 6.12.1
+2025-03-21 08:30:24,162 [INFO] ExampleResultTable:608 - Mark Example STM32CUBEF4-SWX-20560(EEPROM_Emulation) as favorite
+2025-03-21 08:30:24,224 [INFO] SoftwarePacks:190 - Size of SW pack 'STM32Cube_FW_F4_V1.28.1' is: 895.0 MB
+2025-03-21 08:30:27,913 [INFO] ExampleResultTable:608 - Mark Example STM32CUBEF4-SWX-20565(DAC_SignalsGeneration) as favorite
+2025-03-21 08:30:51,627 [INFO] ExampleResultTable:608 - Unmark Example STM32CUBEF4-SWX-20565(DAC_SignalsGeneration) as favorite
+2025-03-21 08:30:51,782 [INFO] ExampleResultTable:608 - Mark Example STM32CUBEF4-SWX-20565(DAC_SignalsGeneration) as favorite
+2025-03-21 08:30:55,140 [INFO] ExampleResultTable:608 - Unmark Example STM32CUBEF4-SWX-20560(EEPROM_Emulation) as favorite
+2025-03-21 08:30:55,282 [INFO] ExampleResultTable:608 - Mark Example STM32CUBEF4-SWX-20560(EEPROM_Emulation) as favorite
+2025-03-21 08:30:55,981 [INFO] ExampleResultTable:608 - Unmark Example STM32CUBEF4-SWX-20560(EEPROM_Emulation) as favorite
+2025-03-21 08:30:56,845 [INFO] ExampleResultTable:608 - Unmark Example STM32CUBEF4-SWX-20565(DAC_SignalsGeneration) as favorite
+2025-03-21 08:31:11,659 [INFO] ExampleToolKit:674 - [info] 2025/03/21 08:31:11
+2025-03-21 08:31:11,661 [INFO] ExampleToolKit:722 - [info] Start Project: DAC_SignalsGeneration
+2025-03-21 08:31:11,663 [WARN] ExampleToolKit:784 - [WARNING] IDE PROJECT 'SW4STM32' NOT FOUND
+2025-03-21 08:31:11,663 [INFO] ExampleToolKit:816 - [info] Project path: C:\Qynth\DAC_SignalsGeneration
+2025-03-21 08:31:11,746 [WARN] ExampleToolKit:2161 - [WARNING] IDE PROJECT 'SW4STM32'NOT FOUND
+2025-03-21 08:31:11,771 [INFO] ExampleToolKit:1069 - [info] SW Package located in: C:\Users\bhask\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.1
+2025-03-21 08:31:11,771 [INFO] ExampleToolKit:1074 - [info] SW Package copy: LITE
+2025-03-21 08:31:16,133 [INFO] ExampleToolKit:888 - [info] Project 'DAC_SignalsGeneration' installed successfully
+2025-03-21 08:31:16,134 [INFO] ExampleToolKit:914 - [info] 2025/03/21 08:31:16
+2025-03-21 08:31:16,138 [INFO] ExampleToolKit:1033 - [info] Elapsed time: 0h 0m 4s 476ms
+2025-03-21 08:31:18,868 [INFO] McuFinderGlobals:76 - Set McuFinderConnectedMode to true
+2025-03-21 08:31:18,870 [INFO] ApiDb:448 - Save user favorites file C:\Users\bhask/.stm32cubeide/favorites.mcus.txt: 0 item(s)
+2025-03-21 08:31:18,870 [INFO] ApiDb:452 - User favorites MCUs=[]
+2025-03-21 08:31:18,873 [INFO] ApiDb:448 - Save user favorites file C:\Users\bhask/.stm32cubeide/favorites.boards.txt: 1 item(s)
+2025-03-21 08:31:18,874 [INFO] ApiDb:452 - User favorites Boards=[STM32F407G-DISC1]
+2025-03-21 08:31:18,877 [INFO] ApiDb:448 - Save user favorites file C:\Users\bhask/.stm32cubeide/favorites.examples.txt: 0 item(s)
+2025-03-21 08:31:18,878 [INFO] ApiDb:452 - User favorites Examples=[]
+2025-03-21 09:00:03,326 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-21 09:00:03,326 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-21 09:01:03,157 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,450x97,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-21 09:20:05,037 [INFO] Gpio:277 - dependency for GPIO [I2C1, I2S3, RCC, SPI1, SYS, USB_OTG_FS]
+2025-03-21 09:21:23,361 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 459222744 Bytes (1073741824)
+2025-03-21 09:21:25,123 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 502740696 Bytes (1073741824)
+2025-03-21 09:21:27,543 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 610217688 Bytes (1073741824)
+2025-03-21 09:21:28,137 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SPI
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2S
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SYS
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: RCC
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2C
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_OTG_FS
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: NVIC
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_HOST
+2025-03-21 09:21:28,138 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: GPIO
+2025-03-21 09:21:28,139 [INFO] CodeGenerator:882 - code generatio: config db path: C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.14.0.202502271554\\db\
+2025-03-21 09:21:28,142 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-21 09:21:28,142 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-21 09:21:28,257 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\license.tmp_save
+2025-03-21 09:21:28,525 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\license.tmp
+2025-03-21 09:21:28,592 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp_save
+2025-03-21 09:21:28,773 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp
+2025-03-21 09:21:28,960 [WARN] IPConfigManager:3174 - Warning: the RefConfig PWREx_EnableUSBVoltageDetector is not available in your config.xml file
+2025-03-21 09:21:28,968 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp_save
+2025-03-21 09:21:29,104 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp
+2025-03-21 09:21:29,108 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp_save
+2025-03-21 09:21:29,326 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp
+2025-03-21 09:21:29,335 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp_save
+2025-03-21 09:21:29,649 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp
+2025-03-21 09:21:29,663 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp_save
+2025-03-21 09:21:29,847 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp
+2025-03-21 09:21:30,181 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\App\usb_host.c_save
+2025-03-21 09:21:30,279 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\App\usb_host.c
+2025-03-21 09:21:30,284 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\App\usb_host.h_save
+2025-03-21 09:21:30,378 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\App\usb_host.h
+2025-03-21 09:21:30,382 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.h_save
+2025-03-21 09:21:30,487 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.h
+2025-03-21 09:21:30,493 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.c_save
+2025-03-21 09:21:30,585 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_conf.c
+2025-03-21 09:21:30,593 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.c_save
+2025-03-21 09:21:30,685 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.c
+2025-03-21 09:21:30,692 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.h_save
+2025-03-21 09:21:30,780 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_HOST\Target\usbh_platform.h
+2025-03-21 09:21:30,795 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c_save
+2025-03-21 09:21:31,043 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c
+2025-03-21 09:21:31,049 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h_save
+2025-03-21 09:21:31,133 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h
+2025-03-21 09:21:31,153 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c_save
+2025-03-21 09:21:31,282 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c
+2025-03-21 09:21:31,286 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\system.tmp_save
+2025-03-21 09:21:31,369 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\system.tmp
+2025-03-21 09:21:31,380 [INFO] CodeEngine:319 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h_save
+2025-03-21 09:21:31,477 [INFO] CodeEngine:343 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h
+2025-03-21 09:21:31,533 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\main.h_save
+2025-03-21 09:21:31,652 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\main.h
+2025-03-21 09:21:31,659 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\main.c_save
+2025-03-21 09:21:31,804 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\main.c
+2025-03-21 09:21:32,354 [INFO] ProjectBuilder:3324 - Time for Copy HAL[1] : 225mS.
+2025-03-21 09:21:32,363 [INFO] ProjectBuilder:4912 - Project Generator version: 4.6.0-B36
+2025-03-21 09:21:32,469 [INFO] ConfigFileManager:1590 - The Die is : DIE413
+2025-03-21 09:21:33,467 [INFO] ProjectBuilder:5191 - Time for Generating toolchain IDE Files: 1104mS.
+2025-03-21 09:21:33,469 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 2mS.
+2025-03-21 09:21:33,477 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 1mS.

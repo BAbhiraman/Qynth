@@ -1,4 +1,4 @@
-08:06:54 **** Incremental Build of configuration Debug for project Hello_World2 ****
+09:34:29 **** Incremental Build of configuration Debug for project Hello_World2 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -7,11 +7,11 @@ Finished building target: Hello_World2.elf
 arm-none-eabi-size  Hello_World2.elf 
 arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
    text	   data	    bss	    dec	    hex	filename
-  47472	    136	   4128	  51736	   ca18	Hello_World2.elf
+  51256	    136	   4128	  55520	   d8e0	Hello_World2.elf
 Finished building: default.size.stdout
  
 Finished building: Hello_World2.list
  
 
-08:06:56 Build Finished. 0 errors, 0 warnings. (took 2s.164ms)
+09:34:31 Build Finished. 0 errors, 0 warnings. (took 1s.801ms)
 
