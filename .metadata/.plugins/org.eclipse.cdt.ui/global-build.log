@@ -1,0 +1,138 @@
+07:56:23 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  49208	    136	   4224	  53568	   d140	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+07:56:32 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  49208	    136	   4224	  53568	   d140	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+07:58:39 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:117:21: warning: unused variable 'res' [-Wunused-variable]
+  117 |   HAL_StatusTypeDef res;
+      |                     ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  46824	    136	   4224	  51184	   c7f0	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+08:01:25 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  49136	    136	   4224	  53496	   d0f8	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+08:02:24 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:142:31: error: 'LD6' undeclared (first use in this function)
+  142 |     HAL_GPIO_TogglePin(GPIOD, LD6);
+      |                               ^~~
+../Core/Src/main.c:142:31: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+08:02:37 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  39560	    136	   4224	  43920	   ab90	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+08:03:14 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  39560	    136	   4224	  43920	   ab90	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+08:05:06 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  37836	    136	   4128	  42100	   a474	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+08:05:47 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  37836	    136	   4128	  42100	   a474	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+08:06:42 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:144:9: error: 'res' undeclared (first use in this function)
+  144 |         res = HAL_I2S_Transmit(&hi2s3, (uint16_t*)signal, nsamples, HAL_MAX_DELAY);
+      |         ^~~
+../Core/Src/main.c:144:9: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:144:51: error: 'signal' undeclared (first use in this function); did you mean 'sinhl'?
+  144 |         res = HAL_I2S_Transmit(&hi2s3, (uint16_t*)signal, nsamples, HAL_MAX_DELAY);
+      |                                                   ^~~~~~
+      |                                                   sinhl
+../Core/Src/main.c:144:59: error: 'nsamples' undeclared (first use in this function)
+  144 |         res = HAL_I2S_Transmit(&hi2s3, (uint16_t*)signal, nsamples, HAL_MAX_DELAY);
+      |                                                           ^~~~~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+08:06:54 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  47472	    136	   4128	  51736	   ca18	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
