@@ -1,29 +1,25 @@
-09:39:13 **** Incremental Build of configuration Debug for project Hello_World2 ****
+12:23:25 **** Incremental Build of configuration Debug for project Hello_World2 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_HOST/App -I../USB_HOST/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'cs4x_init':
-../Core/Src/main.c:309:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
-  309 |         memset(dac, 0, sizeof(struct cs4x_drv));
-      |         ^~~~~~
-../Core/Src/main.c:29:1: note: include '<string.h>' or provide a declaration of 'memset'
-   28 | #include <stdio.h>
-  +++ |+#include <string.h>
-   29 | 
-../Core/Src/main.c:309:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
-  309 |         memset(dac, 0, sizeof(struct cs4x_drv));
-      |         ^~~~~~
-../Core/Src/main.c:309:9: note: include '<string.h>' or provide a declaration of 'memset'
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:137:43: warning: statement with no effect [-Wunused-value]
+  137 |                 t = (float)(n/2) * 1.0/FS + tglobal;
+      |                                           ^
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:460:17: warning: unused variable 'buf' [-Wunused-variable]
+  460 |         uint8_t buf[12];
+      |                 ^~~
 arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Hello_World2.elf
  
 arm-none-eabi-size  Hello_World2.elf 
 arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
    text	   data	    bss	    dec	    hex	filename
-  52632	    136	   4128	  56896	   de40	Hello_World2.elf
+  50728	    348	 105404	 156480	  26340	Hello_World2.elf
 Finished building: default.size.stdout
  
 Finished building: Hello_World2.list
  
 
-09:39:14 Build Finished. 0 errors, 2 warnings. (took 1s.8ms)
+12:23:26 Build Finished. 0 errors, 2 warnings. (took 1s.111ms)
 
