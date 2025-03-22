@@ -3,21 +3,21 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="ticks"/>
+		<item value="tglobal"/>
+		<item value="tglob"/>
+		<item value="48095"/>
+		<item value="tglo"/>
+		<item value="callback"/>
+		<item value="BUFFER_SIZE"/>
+		<item value="LD6"/>
+		<item value="processData"/>
+		<item value="dataReadyFlag"/>
+		<item value="outBufPtr"/>
 		<item value="start"/>
 		<item value="DBG"/>
 		<item value="ADDR"/>
 		<item value="DAC_ADDR"/>
-		<item value="initia"/>
-		<item value="rst"/>
-		<item value="i2c_rd(dac-&gt;cfg.i2c, dac-&gt;cfg.adr"/>
-		<item value="i2c_wr(dac-&gt;cfg.i2c, dac-&gt;cfg.adr, "/>
-		<item value="user button"/>
-		<item value="utton"/>
-		<item value="LED5"/>
-		<item value="LED"/>
-		<item value="begin 3"/>
-		<item value="printf"/>
-		<item value="LD6"/>
 	</list>
 	<list key="replacehistory">
 		<item value="i2c_rd("/>

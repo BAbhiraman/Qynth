@@ -36,12 +36,12 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define PI 3.14159265358979323846
+#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 #define TAU (2.0 * PI)
 #define BUFFER_SIZE 48000 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32768.0f)
 #define FLOAT_TO_INT16 32768.0f
-#define FS 48095.0f; //see IOC see for 48 kHz inaccuracy
+#define FS 48000.0f; //see IOC see for 48 kHz inaccuracy
 
 // DAC PARAMS
 #define DACADDR 0x94
@@ -102,7 +102,8 @@ int16_t dacData[BUFFER_SIZE];
 
 static volatile int16_t *outBufPtr = &dacData[0];
 uint8_t dataReadyFlag = 0; // added this = 0
-float tglobal = 0;
+uint64_t ticks = 0; //number of samples output
+double tglobal = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -130,17 +131,34 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 }
 
 void processData() {
+	HAL_GPIO_TogglePin(GPIOD, LD6_Pin);
 	static float leftOut, rightOut;
-	float t;
+	double t;
+	uint16_t M = BUFFER_SIZE/4;
+	uint16_t quarter = M/4;
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
-
-		t = (float)(n/2) * 1.0/FS + tglobal;
-		leftOut = sinf(192.3953916 *TAU * t);
+//		uint16_t i = n/2;
+//		if (i < quarter) {
+//			leftOut = 4.0*(float)i/(float)M;
+//		}
+//		else if ((i >= quarter) & (i < 3*quarter)) {
+//			leftOut = 2.0 - 4.0*(float)i/(float)M;
+//		}
+//		else {
+//			leftOut = -4.0 + 4.0*(float)i/(float)M;
+//		}
+		//t = (double)(n/2)/(double)FS;
+		t = (ticks)/(double)FS;
+		double f = 196.0 + 30.0*sin(1.5*TAU*t);
+		double phase = TAU *f* t;
+		//tglobal += 1.0/FS;
+		leftOut = (float)sin(phase);
 		rightOut = leftOut;
 		outBufPtr[n] = (int16_t) (FLOAT_TO_INT16 * leftOut);
 		outBufPtr[n + 1] = (int16_t) (FLOAT_TO_INT16 * rightOut);
+		ticks++;
+
 	}
-	tglobal += 1.0/FS;
 	dataReadyFlag = 0;
 
 }
@@ -502,7 +520,9 @@ int main(void)
 
 
 	// Attempt to transmit audio data to DAC
-	processData(); //stuck here?
+	processData();
+	outBufPtr = &dacData[BUFFER_SIZE / 2];
+	processData();
 	res = HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) dacData, BUFFER_SIZE);
 	//res = HAL_I2S_Transmit(&hi2s3, (uint16_t*) signal, nsamples,HAL_MAX_DELAY);
 	if (res != HAL_OK) {
