@@ -1175,3 +1175,684 @@ Finished building: default.size.stdout
  
 Finished building: Hello_World2.list
  
+15:20:17 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:478:17: warning: unused variable 'buf' [-Wunused-variable]
+  478 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52664	    348	 105408	 158420	  26ad4	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+15:21:01 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52664	    348	 105408	 158420	  26ad4	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+15:50:28 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:478:17: warning: unused variable 'buf' [-Wunused-variable]
+  478 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52664	    348	 105408	 158420	  26ad4	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:01:11 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:153:24: warning: unused variable 'phase' [-Wunused-variable]
+  153 |                 double phase = TAU *f* t;
+      |                        ^~~~~
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:478:17: warning: unused variable 'buf' [-Wunused-variable]
+  478 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  47484	    348	 105408	 153240	  25698	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:02:30 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:153:24: warning: unused variable 'phase' [-Wunused-variable]
+  153 |                 double phase = TAU *f* t;
+      |                        ^~~~~
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:481:17: warning: unused variable 'buf' [-Wunused-variable]
+  481 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  47500	    348	 105408	 153256	  256a8	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:04:13 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:153:24: warning: unused variable 'phase' [-Wunused-variable]
+  153 |                 double phase = TAU *f* t;
+      |                        ^~~~~
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:481:17: warning: unused variable 'buf' [-Wunused-variable]
+  481 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  47532	    348	 105408	 153288	  256c8	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:05:13 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:479:17: warning: unused variable 'buf' [-Wunused-variable]
+  479 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52664	    348	 105408	 158420	  26ad4	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:07:56 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:162:34: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  162 |                         printf("%d, %d", ticks, leftOut);
+      |                                 ~^       ~~~~~
+      |                                  |       |
+      |                                  int     uint64_t {aka long long unsigned int}
+      |                                 %lld
+../Core/Src/main.c:162:38: warning: format '%d' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  162 |                         printf("%d, %d", ticks, leftOut);
+      |                                     ~^          ~~~~~~~
+      |                                      |          |
+      |                                      int        double
+      |                                     %f
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:482:17: warning: unused variable 'buf' [-Wunused-variable]
+  482 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52744	    348	 105408	 158500	  26b24	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:09:17 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:162:40: warning: format '%d' expects argument of type 'int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  162 |                         printf("ticks %d, leftOut %d \r\n", ticks, leftOut);
+      |                                       ~^                    ~~~~~
+      |                                        |                    |
+      |                                        int                  uint64_t {aka long long unsigned int}
+      |                                       %lld
+../Core/Src/main.c:162:52: warning: format '%d' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  162 |                         printf("ticks %d, leftOut %d \r\n", ticks, leftOut);
+      |                                                   ~^               ~~~~~~~
+      |                                                    |               |
+      |                                                    int             double
+      |                                                   %f
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:482:17: warning: unused variable 'buf' [-Wunused-variable]
+  482 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52760	    348	 105408	 158516	  26b34	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:10:55 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:162:40: warning: format '%u' expects argument of type 'unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  162 |                         printf("ticks %u, leftOut %hu \r\n", ticks, leftOut);
+      |                                       ~^                     ~~~~~
+      |                                        |                     |
+      |                                        unsigned int          uint64_t {aka long long unsigned int}
+      |                                       %llu
+../Core/Src/main.c:162:53: warning: format '%hu' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  162 |                         printf("ticks %u, leftOut %hu \r\n", ticks, leftOut);
+      |                                                   ~~^               ~~~~~~~
+      |                                                     |               |
+      |                                                     int             double
+      |                                                   %f
+../Core/Src/main.c:138:18: warning: unused variable 'quarter' [-Wunused-variable]
+  138 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:482:17: warning: unused variable 'buf' [-Wunused-variable]
+  482 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52760	    348	 105408	 158516	  26b34	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:13:27 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:163:37: warning: format '%hu' expects argument of type 'int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, leftOut %hu \r\n", ticks, leftOut);
+      |                                   ~~^                               ~~~~~
+      |                                     |                               |
+      |                                     int                             uint64_t {aka long long unsigned int}
+      |                                   %llu
+../Core/Src/main.c:163:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'double' [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, leftOut %hu \r\n", ticks, leftOut);
+      |                                              ~^                            ~~~~~~~
+      |                                               |                            |
+      |                                               unsigned int                 double
+      |                                              %f
+../Core/Src/main.c:163:60: warning: format '%hu' expects a matching 'int' argument [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, leftOut %hu \r\n", ticks, leftOut);
+      |                                                          ~~^
+      |                                                            |
+      |                                                            int
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:484:17: warning: unused variable 'buf' [-Wunused-variable]
+  484 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52784	    348	 105408	 158540	  26b4c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:14:04 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:163:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, leftOut %hu \r\n", n, ticks, leftOut);
+      |                                              ~^                        ~~~~~
+      |                                               |                        |
+      |                                               unsigned int             uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:163:60: warning: format '%hu' expects argument of type 'int', but argument 4 has type 'double' [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, leftOut %hu \r\n", n, ticks, leftOut);
+      |                                                          ~~^                  ~~~~~~~
+      |                                                            |                  |
+      |                                                            int                double
+      |                                                          %f
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:484:17: warning: unused variable 'buf' [-Wunused-variable]
+  484 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52784	    348	 105408	 158540	  26b4c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:15:39 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:163:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, outBufPtr[n]);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:484:17: warning: unused variable 'buf' [-Wunused-variable]
+  484 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52776	    348	 105408	 158532	  26b44	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:16:01 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52776	    348	 105408	 158532	  26b44	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+17:19:29 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:163:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  163 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, dacData[n]);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:484:17: warning: unused variable 'buf' [-Wunused-variable]
+  484 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52768	    348	 105408	 158524	  26b3c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:21:02 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:485:17: warning: unused variable 'buf' [-Wunused-variable]
+  485 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52776	    348	 105408	 158532	  26b44	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:23:01 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:485:17: warning: unused variable 'buf' [-Wunused-variable]
+  485 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52792	    348	 105408	 158548	  26b54	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:23:08 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52792	    348	 105408	 158548	  26b54	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+17:24:46 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:485:17: warning: unused variable 'buf' [-Wunused-variable]
+  485 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52792	    348	 105408	 158548	  26b54	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:25:55 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52808	    348	 105408	 158564	  26b64	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:27:41 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52816	    348	 105408	 158572	  26b6c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:28:32 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52888	    348	 105408	 158644	  26bb4	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:30:02 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  56528	    348	 105408	 162284	  279ec	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:30:27 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52816	    348	 105408	 158572	  26b6c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:32:38 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52816	    348	 105408	 158572	  26b6c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 
+17:33:26 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-size  Hello_World2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52816	    348	 105408	 158572	  26b6c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+17:34:28 **** Incremental Build of configuration Debug for project Hello_World2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:164:47: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+  164 |                         printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+      |                                              ~^                   ~~~~~
+      |                                               |                   |
+      |                                               unsigned int        uint64_t {aka long long unsigned int}
+      |                                              %llu
+../Core/Src/main.c:139:18: warning: unused variable 'quarter' [-Wunused-variable]
+  139 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:486:17: warning: unused variable 'buf' [-Wunused-variable]
+  486 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
+arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+   text	   data	    bss	    dec	    hex	filename
+  52816	    348	 105408	 158572	  26b6c	Hello_World2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Hello_World2.list
+ 

@@ -41,7 +41,7 @@
 #define BUFFER_SIZE 48000 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32768.0f)
 #define FLOAT_TO_INT16 32768.0f
-#define FS 48000.0f; //see IOC see for 48 kHz inaccuracy
+#define FS 48000.0f; //see IOC see for 48 kHz inaccuracy WAS 48000
 
 // DAC PARAMS
 #define DACADDR 0x94
@@ -131,6 +131,7 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 }
 
 void processData() {
+	//navflag
 	HAL_GPIO_TogglePin(GPIOD, LD6_Pin);
 	static float leftOut, rightOut;
 	double t;
@@ -149,16 +150,23 @@ void processData() {
 //		}
 		//t = (double)(n/2)/(double)FS;
 		t = (ticks)/(double)FS;
-		double f = 196.0 + 30.0*sin(1.5*TAU*t);
+		double f = 196.0; // + 30.0*sinf(1.5*TAU*t);
 		double phase = TAU *f* t;
 		//tglobal += 1.0/FS;
 		leftOut = (float)sin(phase);
+
 		rightOut = leftOut;
-		outBufPtr[n] = (int16_t) (FLOAT_TO_INT16 * leftOut);
-		outBufPtr[n + 1] = (int16_t) (FLOAT_TO_INT16 * rightOut);
+		outBufPtr[n] = (int16_t) (15000 * leftOut);
+		outBufPtr[n + 1] = (int16_t) (15000 * rightOut);
 		ticks++;
+		if ((n <= 4) | (n > (BUFFER_SIZE/2) - 7)) {
+			int16_t datum = (int16_t) (FLOAT_TO_INT16 * leftOut);
+			printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+			printf("out %i\r\n", datum);
+		}
 
 	}
+	printf("\r\n");
 	dataReadyFlag = 0;
 
 }
@@ -656,7 +664,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
   hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
-  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_44K;
   hi2s3.Init.CPOL = I2S_CPOL_LOW;
   hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
