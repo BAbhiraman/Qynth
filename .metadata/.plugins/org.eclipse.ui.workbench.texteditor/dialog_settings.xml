@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="hasShownOverlayPopupBefore" value="true"/>
+	<item key="replaceBarOpen" value="true"/>
+	<list key="searchhistory">
+		<item value="start"/>
+		<item value="DBG"/>
+		<item value="ADDR"/>
+		<item value="DAC_ADDR"/>
+		<item value="initia"/>
+		<item value="rst"/>
+		<item value="i2c_rd(dac-&gt;cfg.i2c, dac-&gt;cfg.adr"/>
+		<item value="i2c_wr(dac-&gt;cfg.i2c, dac-&gt;cfg.adr, "/>
+		<item value="user button"/>
+		<item value="utton"/>
+		<item value="LED5"/>
+		<item value="LED"/>
+		<item value="begin 3"/>
+		<item value="printf"/>
+		<item value="LD6"/>
+	</list>
+	<list key="replacehistory">
+		<item value="i2c_rd("/>
+		<item value="i2c_wr("/>
+	</list>
+</section>

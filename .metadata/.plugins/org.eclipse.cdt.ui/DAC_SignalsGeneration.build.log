@@ -1,0 +1,17 @@
+08:41:37 **** Incremental Build of configuration Debug for project DAC_SignalsGeneration ****
+make -j12 all 
+arm-none-eabi-gcc "C:/Qynth/DAC_SignalsGeneration/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_STM32F4_DISCO -DSTM32F407xx -DUSE_HAL_DRIVER -c -I../../Inc -I../../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../../Drivers/STM32F4xx_HAL_Driver/Inc -I../../Drivers/BSP/STM32F4-Discovery -I../../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Example/User/main.d" -MT"Example/User/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Example/User/main.o"
+arm-none-eabi-gcc -o "DAC_SignalsGeneration.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\DAC_SignalsGeneration\STM32CubeIDE\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SignalsGeneration.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SignalsGeneration.elf
+ 
+arm-none-eabi-size  DAC_SignalsGeneration.elf 
+arm-none-eabi-objdump -h -S DAC_SignalsGeneration.elf  > "DAC_SignalsGeneration.list"
+   text	   data	    bss	    dec	    hex	filename
+  12224	     32	   1864	  14120	   3728	DAC_SignalsGeneration.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SignalsGeneration.list
+ 
+
+08:41:38 Build Finished. 0 errors, 0 warnings. (took 1s.530ms)
+
