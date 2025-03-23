@@ -38,7 +38,7 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 #define TAU (2.0 * PI)
-#define BUFFER_SIZE 48000 //Phil's lab used 128. 48000 working.
+#define BUFFER_SIZE 24000 //Phil's lab used 128. 48000 working.
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 48000.0f; //see IOC see for 48 kHz inaccuracy WAS 48000
@@ -97,17 +97,16 @@ DMA_HandleTypeDef hdma_spi3_tx;
 
 SPI_HandleTypeDef hspi1;
 
-int8_t odeToJoy[] = {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2};
-uint8_t lenJoy = 16;
-
 /* USER CODE BEGIN PV */
 int16_t dacData[BUFFER_SIZE];
 
 static volatile int16_t *outBufPtr = &dacData[0];
 uint8_t dataReadyFlag = 0; // added this = 0
-static volatile uint8_t writeFirstHalf = 1;
+volatile uint8_t writeFirstHalf = 0;
 uint64_t ticks = 0; //number of samples output
-double tglobal = 0;
+uint64_t loops = 0;
+int8_t odeToJoy[] = {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2};
+uint8_t lenJoy = 16;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -128,7 +127,7 @@ void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
 	writeFirstHalf = 1;
 	dataReadyFlag = 1;
 	HAL_GPIO_TogglePin(GPIOD, LD4_Pin); //green
-	processData(0);
+	//processData(0);
 }
 
 void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
@@ -136,7 +135,7 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 	dataReadyFlag = 1;
 	writeFirstHalf = 0;
 	HAL_GPIO_TogglePin(GPIOD, LD3_Pin); //orange
-	processData(1);
+	//processData(1);
 }
 
 void processData(uint8_t firstHalf) {
@@ -153,10 +152,10 @@ void processData(uint8_t firstHalf) {
 	double phase;
 	uint16_t M = BUFFER_SIZE/4;
 	uint16_t quarter = M/4;
-	uint8_t noteInd = ((uint8_t)(tglobal/2)) % lenJoy;
+	uint8_t noteInd = ((uint8_t)(loops/2)) % lenJoy;
 	//printf("%u\r\n",noteInd);
 	f = 440*pow(1.0594630943592952646,odeToJoy[noteInd]); // + 4*sinf(1.5*TAU*t);
-	printf("%d \r\n", odeToJoy[noteInd]);
+	//printf("%d \r\n", odeToJoy[noteInd]);
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
 //		uint16_t i = n/2;
 //		if (i < quarter) {
@@ -185,7 +184,7 @@ void processData(uint8_t firstHalf) {
 //			printf("out %i\r\n", datum);
 //		}
 	}
-	tglobal++;
+	loops++;
 //	printf("\r\n");
 	dataReadyFlag = 0;
 
@@ -549,6 +548,7 @@ int main(void)
 
 	// Attempt to transmit audio data to DAC
 	processData(1);
+	processData(0);
 	//outBufPtr = &dacData[BUFFER_SIZE / 2];
 	//processData();
 	res = HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) dacData, BUFFER_SIZE);
@@ -576,8 +576,17 @@ int main(void)
 //		}
 
 		if (dataReadyFlag) {
-			//processData();
-			//printf("processing data \r\n");
+			//printf("loops %ld \r\n", (long)loops);
+			if (loops % 2) {
+				processData(1); //thought this would be the other way...
+				//printf("1\r\n");
+			}
+			else
+			{
+				processData(0);
+				//printf("0\r\n");
+			}
+
 		}
 
 	}
