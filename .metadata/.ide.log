@@ -3053,3 +3053,131 @@
 2025-03-22 17:32:17,006 [INFO] I2sManager:658 - 1.015E8
 2025-03-22 17:32:17,006 [INFO] I2sManager:195 - I2S Clock Value : 1.015E8
 2025-03-22 17:32:17,006 [INFO] I2sManager:553 - AudioClock : 44053Divider : 4Odd : 1
+2025-03-22 23:22:49,151 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-22 23:22:49,225 [INFO] I2sManager:658 - 1.015E8
+2025-03-22 23:22:49,226 [INFO] I2sManager:195 - I2S Clock Value : 1.015E8
+2025-03-22 23:22:49,227 [INFO] I2sManager:553 - AudioClock : 49560Divider : 4Odd : 0
+2025-03-22 23:22:49,331 [INFO] NvicIntPanel:101 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2025-03-22 23:23:00,458 [INFO] I2sManager:658 - 9.8E7
+2025-03-22 23:23:00,458 [INFO] I2sManager:195 - I2S Clock Value : 9.8E7
+2025-03-22 23:23:00,459 [INFO] I2sManager:553 - AudioClock : 47851Divider : 4Odd : 0
+2025-03-22 23:23:00,610 [WARN] IP:2250 - DEVICE_SERIAL0_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,610 [WARN] IP:2250 - DEVICE_SERIAL1_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,610 [WARN] IP:2250 - DEVICE_SERIAL2_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,611 [WARN] IP:2250 - DEVICE_SERIAL0_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,611 [WARN] IP:2250 - DEVICE_SERIAL1_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,611 [WARN] IP:2250 - DEVICE_SERIAL2_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,642 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,642 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,643 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,643 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:00,715 [INFO] I2sManager:658 - 9.8E7
+2025-03-22 23:23:00,715 [INFO] I2sManager:195 - I2S Clock Value : 9.8E7
+2025-03-22 23:23:00,715 [INFO] I2sManager:553 - AudioClock : 47851Divider : 4Odd : 0
+2025-03-22 23:23:01,488 [INFO] I2sManager:658 - 9.8E7
+2025-03-22 23:23:01,488 [INFO] I2sManager:195 - I2S Clock Value : 9.8E7
+2025-03-22 23:23:01,488 [INFO] I2sManager:553 - AudioClock : 47851Divider : 4Odd : 0
+2025-03-22 23:23:05,953 [INFO] I2sManager:658 - 9.85E7
+2025-03-22 23:23:05,953 [INFO] I2sManager:195 - I2S Clock Value : 9.85E7
+2025-03-22 23:23:05,954 [INFO] I2sManager:553 - AudioClock : 48095Divider : 4Odd : 0
+2025-03-22 23:23:06,104 [WARN] IP:2250 - DEVICE_SERIAL0_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,104 [WARN] IP:2250 - DEVICE_SERIAL1_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,105 [WARN] IP:2250 - DEVICE_SERIAL2_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,105 [WARN] IP:2250 - DEVICE_SERIAL0_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,105 [WARN] IP:2250 - DEVICE_SERIAL1_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,105 [WARN] IP:2250 - DEVICE_SERIAL2_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,129 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,129 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,130 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,130 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:06,183 [INFO] I2sManager:658 - 9.85E7
+2025-03-22 23:23:06,183 [INFO] I2sManager:195 - I2S Clock Value : 9.85E7
+2025-03-22 23:23:06,184 [INFO] I2sManager:553 - AudioClock : 48095Divider : 4Odd : 0
+2025-03-22 23:23:06,584 [INFO] I2sManager:658 - 9.85E7
+2025-03-22 23:23:06,585 [INFO] I2sManager:195 - I2S Clock Value : 9.85E7
+2025-03-22 23:23:06,585 [INFO] I2sManager:553 - AudioClock : 48095Divider : 4Odd : 0
+2025-03-22 23:23:47,262 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 375704464 Bytes (605028352)
+2025-03-22 23:23:48,991 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 254941696 Bytes (605028352)
+2025-03-22 23:23:51,011 [INFO] UtilMem:75 - End SaveConfig() Used Memory: 342499840 Bytes (605028352)
+2025-03-22 23:23:51,772 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SPI
+2025-03-22 23:23:51,772 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_DEVICE
+2025-03-22 23:23:51,772 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2S
+2025-03-22 23:23:51,772 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: SYS
+2025-03-22 23:23:51,772 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: RCC
+2025-03-22 23:23:51,773 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: I2C
+2025-03-22 23:23:51,773 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: USB_OTG_FS
+2025-03-22 23:23:51,773 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: NVIC
+2025-03-22 23:23:51,773 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: DMA
+2025-03-22 23:23:51,774 [INFO] BlockDiagram:2775 - set Specific Code input for plugin: GPIO
+2025-03-22 23:23:51,775 [INFO] CodeGenerator:882 - code generatio: config db path: C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.14.0.202502271554\\db\
+2025-03-22 23:23:51,782 [WARN] IP:2250 - I2C_Coeff_DF not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:51,782 [WARN] IP:2250 - Analog_Filter not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:51,795 [WARN] IP:2250 - DEVICE_SERIAL0_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:51,795 [WARN] IP:2250 - DEVICE_SERIAL1_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:51,795 [WARN] IP:2250 - DEVICE_SERIAL2_CDC_FS not found: check if there is a RefParameter without a condition.
+2025-03-22 23:23:52,021 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\license.tmp_save
+2025-03-22 23:23:52,409 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\license.tmp
+2025-03-22 23:23:52,487 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp_save
+2025-03-22 23:23:52,627 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\gpio.tmp
+2025-03-22 23:23:52,772 [WARN] IPConfigManager:3174 - Warning: the RefConfig PWREx_EnableUSBVoltageDetector is not available in your config.xml file
+2025-03-22 23:23:52,784 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp_save
+2025-03-22 23:23:52,871 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_vars.tmp
+2025-03-22 23:23:52,874 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp_save
+2025-03-22 23:23:52,937 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_inc.tmp
+2025-03-22 23:23:52,940 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp_save
+2025-03-22 23:23:53,021 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_HalInit.tmp
+2025-03-22 23:23:53,024 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp_save
+2025-03-22 23:23:53,113 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\usb_otg_fs_Msp.tmp
+2025-03-22 23:23:53,370 [INFO] Middleware:1452 - No code input for Bsp Dependency
+2025-03-22 23:23:53,390 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\dma.tmp_save
+2025-03-22 23:23:53,461 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\dma.tmp
+2025-03-22 23:23:53,466 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\dma_GV.tmp_save
+2025-03-22 23:23:53,526 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\dma_GV.tmp
+2025-03-22 23:23:53,585 [INFO] Middleware:1452 - No code input for Bsp Dependency
+2025-03-22 23:23:53,592 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\App\usb_device.c_save
+2025-03-22 23:23:53,672 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\App\usb_device.c
+2025-03-22 23:23:53,677 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\App\usb_device.h_save
+2025-03-22 23:23:53,750 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\App\usb_device.h
+2025-03-22 23:23:53,755 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\Target\usbd_conf.h_save
+2025-03-22 23:23:53,826 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\Target\usbd_conf.h
+2025-03-22 23:23:53,832 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\Target\usbd_conf.c_save
+2025-03-22 23:23:53,914 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\Target\usbd_conf.c
+2025-03-22 23:23:53,921 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_desc.h_save
+2025-03-22 23:23:53,978 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_desc.h
+2025-03-22 23:23:53,983 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_desc.c_save
+2025-03-22 23:23:54,043 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_desc.c
+2025-03-22 23:23:54,047 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_cdc_if.h_save
+2025-03-22 23:23:54,101 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_cdc_if.h
+2025-03-22 23:23:54,105 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_cdc_if.c_save
+2025-03-22 23:23:54,158 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\USB_DEVICE\App\usbd_cdc_if.c
+2025-03-22 23:23:54,172 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c_save
+2025-03-22 23:23:54,266 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_it.c
+2025-03-22 23:23:54,273 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h_save
+2025-03-22 23:23:54,365 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_it.h
+2025-03-22 23:23:54,410 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c_save
+2025-03-22 23:23:54,621 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\stm32f4xx_hal_msp.c
+2025-03-22 23:23:54,629 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\MXTmpFiles\system.tmp_save
+2025-03-22 23:23:54,701 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\MXTmpFiles\system.tmp
+2025-03-22 23:23:54,713 [INFO] CodeEngine:319 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h_save
+2025-03-22 23:23:54,806 [INFO] CodeEngine:343 - Generated code: C:\Qynth\Hello_World2\Core\Inc\stm32f4xx_hal_conf.h
+2025-03-22 23:23:54,855 [INFO] ApiDbMcu:508 - Load IP Config File for I2C1
+2025-03-22 23:23:54,859 [INFO] ApiDbMcu:508 - Load IP Config File for I2S3
+2025-03-22 23:23:54,863 [INFO] ApiDbMcu:508 - Load IP Config File for SPI1
+2025-03-22 23:23:54,870 [INFO] ApiDbMcu:508 - Load IP Config File for RCC
+2025-03-22 23:23:54,890 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Inc\main.h_save
+2025-03-22 23:23:55,106 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Inc\main.h
+2025-03-22 23:23:55,115 [INFO] CodeEngine:263 - oldGeneratedFile, C:\Qynth\Hello_World2\Core\Src\main.c_save
+2025-03-22 23:23:55,590 [INFO] CodeEngine:287 - Generated code: C:\Qynth\Hello_World2\Core\Src\main.c
+2025-03-22 23:23:56,240 [INFO] ProjectBuilder:3324 - Time for Copy HAL[1] : 186mS.
+2025-03-22 23:23:56,248 [INFO] ProjectBuilder:4912 - Project Generator version: 4.6.0-B36
+2025-03-22 23:23:56,348 [INFO] ConfigFileManager:1590 - The Die is : DIE413
+2025-03-22 23:23:56,358 [INFO] ApiDbMcu:508 - Load IP Config File for FATFS
+2025-03-22 23:23:56,366 [INFO] ApiDbMcu:508 - Load IP Config File for FREERTOS
+2025-03-22 23:23:56,370 [INFO] ApiDbMcu:508 - Load IP Config File for LIBJPEG
+2025-03-22 23:23:56,382 [INFO] ApiDbMcu:508 - Load IP Config File for LWIP
+2025-03-22 23:23:56,391 [INFO] ApiDbMcu:508 - Load IP Config File for MBEDTLS
+2025-03-22 23:23:56,397 [INFO] ApiDbMcu:508 - Load IP Config File for USB_HOST
+2025-03-22 23:23:56,811 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2025-03-22 23:23:57,935 [INFO] ProjectBuilder:5191 - Time for Generating toolchain IDE Files: 1687mS.
+2025-03-22 23:23:57,940 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 3mS.
+2025-03-22 23:23:57,948 [INFO] ProjectBuilder:3181 - Time for Copy CMSIS : 0mS.

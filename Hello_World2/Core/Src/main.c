@@ -38,9 +38,9 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 #define TAU (2.0 * PI)
-#define BUFFER_SIZE 48000 //Phil's lab used 128
-#define INT16_TO_FLOAT 1.0f/(32768.0f)
-#define FLOAT_TO_INT16 32768.0f
+#define BUFFER_SIZE 48000 //Phil's lab used 128. 48000 working.
+#define INT16_TO_FLOAT 1.0f/(32767.0f)
+#define FLOAT_TO_INT16 32767.0f
 #define FS 48000.0f; //see IOC see for 48 kHz inaccuracy WAS 48000
 
 // DAC PARAMS
@@ -97,11 +97,15 @@ DMA_HandleTypeDef hdma_spi3_tx;
 
 SPI_HandleTypeDef hspi1;
 
+int8_t odeToJoy[] = {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2};
+uint8_t lenJoy = 16;
+
 /* USER CODE BEGIN PV */
 int16_t dacData[BUFFER_SIZE];
 
 static volatile int16_t *outBufPtr = &dacData[0];
 uint8_t dataReadyFlag = 0; // added this = 0
+static volatile uint8_t writeFirstHalf = 1;
 uint64_t ticks = 0; //number of samples output
 double tglobal = 0;
 /* USER CODE END PV */
@@ -121,22 +125,38 @@ static void MX_SPI1_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
 	outBufPtr = &dacData[0];
+	writeFirstHalf = 1;
 	dataReadyFlag = 1;
+	HAL_GPIO_TogglePin(GPIOD, LD4_Pin); //green
+	processData(0);
 }
 
 void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 	outBufPtr = &dacData[BUFFER_SIZE / 2];
-
 	dataReadyFlag = 1;
+	writeFirstHalf = 0;
+	HAL_GPIO_TogglePin(GPIOD, LD3_Pin); //orange
+	processData(1);
 }
 
-void processData() {
+void processData(uint8_t firstHalf) {
 	//navflag
-	HAL_GPIO_TogglePin(GPIOD, LD6_Pin);
+	if (firstHalf) {
+		HAL_GPIO_TogglePin(GPIOD, LD6_Pin); //blue
+	}
+	else {
+		HAL_GPIO_TogglePin(GPIOD, LD5_Pin); //red
+	}
 	static float leftOut, rightOut;
 	double t;
+	double f;
+	double phase;
 	uint16_t M = BUFFER_SIZE/4;
 	uint16_t quarter = M/4;
+	uint8_t noteInd = ((uint8_t)(tglobal/2)) % lenJoy;
+	//printf("%u\r\n",noteInd);
+	f = 440*pow(1.0594630943592952646,odeToJoy[noteInd]); // + 4*sinf(1.5*TAU*t);
+	printf("%d \r\n", odeToJoy[noteInd]);
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
 //		uint16_t i = n/2;
 //		if (i < quarter) {
@@ -150,23 +170,23 @@ void processData() {
 //		}
 		//t = (double)(n/2)/(double)FS;
 		t = (ticks)/(double)FS;
-		double f = 196.0; // + 30.0*sinf(1.5*TAU*t);
-		double phase = TAU *f* t;
+
+		phase = TAU *f* t;
 		//tglobal += 1.0/FS;
 		leftOut = (float)sin(phase);
 
 		rightOut = leftOut;
-		outBufPtr[n] = (int16_t) (15000 * leftOut);
-		outBufPtr[n + 1] = (int16_t) (15000 * rightOut);
+		dacData[n + (!firstHalf)*BUFFER_SIZE/2] = (int16_t) (FLOAT_TO_INT16 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
+		dacData[n + 1 + (!firstHalf)*BUFFER_SIZE/2] = (int16_t) (FLOAT_TO_INT16 * rightOut);
 		ticks++;
-		if ((n <= 4) | (n > (BUFFER_SIZE/2) - 7)) {
-			int16_t datum = (int16_t) (FLOAT_TO_INT16 * leftOut);
-			printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
-			printf("out %i\r\n", datum);
-		}
-
+//		if ((n <= 4) | (n > (BUFFER_SIZE/2) - 7)) {
+//			int16_t datum = (int16_t) (FLOAT_TO_INT16 * leftOut);
+//			printf("n %hu, ticks %u, out %d \r\n", n, ticks, datum);
+//			printf("out %i\r\n", datum);
+//		}
 	}
-	printf("\r\n");
+	tglobal++;
+//	printf("\r\n");
 	dataReadyFlag = 0;
 
 }
@@ -528,9 +548,9 @@ int main(void)
 
 
 	// Attempt to transmit audio data to DAC
-	processData();
-	outBufPtr = &dacData[BUFFER_SIZE / 2];
-	processData();
+	processData(1);
+	//outBufPtr = &dacData[BUFFER_SIZE / 2];
+	//processData();
 	res = HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) dacData, BUFFER_SIZE);
 	//res = HAL_I2S_Transmit(&hi2s3, (uint16_t*) signal, nsamples,HAL_MAX_DELAY);
 	if (res != HAL_OK) {
@@ -556,7 +576,7 @@ int main(void)
 //		}
 
 		if (dataReadyFlag) {
-			processData();
+			//processData();
 			//printf("processing data \r\n");
 		}
 
@@ -664,7 +684,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
   hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
-  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_44K;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
   hi2s3.Init.CPOL = I2S_CPOL_LOW;
   hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
