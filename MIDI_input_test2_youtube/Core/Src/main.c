@@ -52,9 +52,9 @@ DMA_HandleTypeDef hdma_spi3_tx;
 
 SPI_HandleTypeDef hspi1;
 
-USBH_HandleTypeDef hUSBHost;
-
 uint64_t cnt = 0;
+
+extern USBH_HandleTypeDef hUsbHostFS;
 
 /* USER CODE BEGIN PV */
 
@@ -78,7 +78,7 @@ void MX_USB_HOST_Process(void);
 void USBH_MIDI_ReceiveCallback(USBH_HandleTypeDef *phost)
 {
 	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
-	USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
+	USBH_MIDI_Receive(&hUsbHostFS, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
 	//ProcessReceivedMidiDatas();
 	//USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
 }
@@ -133,7 +133,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     if (cnt == 0) {
-    	USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE);
+    	USBH_MIDI_Receive(&hUsbHostFS, MIDI_RX_Buffer, RX_BUFF_SIZE);
     }
     HAL_Delay(1000);
     HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
