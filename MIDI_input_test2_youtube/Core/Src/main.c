@@ -54,6 +54,8 @@ SPI_HandleTypeDef hspi1;
 
 USBH_HandleTypeDef hUSBHost;
 
+uint64_t cnt = 0;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -115,8 +117,9 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-  //MX_USB_HOST_Init();
+  MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
+
 
   /* USER CODE END 2 */
 
@@ -129,8 +132,13 @@ int main(void)
 
 
     /* USER CODE BEGIN 3 */
+    if (cnt == 0) {
+    	USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE);
+    }
     HAL_Delay(1000);
     HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
+
+    cnt++;
   }
   /* USER CODE END 3 */
 }
