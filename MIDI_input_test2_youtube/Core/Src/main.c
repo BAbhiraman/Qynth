@@ -19,6 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_host.h"
+#include "usbh_core.h"
+#include "usbh_def.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -32,7 +34,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define RX_BUFF_SIZE 64 /* USB MIDI buffer : max received data 64 bytes */
 
+uint8_t MIDI_RX_Buffer[RX_BUFF_SIZE]; // MIDI reception buffer
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,6 +51,8 @@ I2S_HandleTypeDef hi2s3;
 DMA_HandleTypeDef hdma_spi3_tx;
 
 SPI_HandleTypeDef hspi1;
+
+USBH_HandleTypeDef hUSBHost;
 
 /* USER CODE BEGIN PV */
 
@@ -67,7 +73,13 @@ void MX_USB_HOST_Process(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void USBH_MIDI_ReceiveCallback(USBH_HandleTypeDef *phost)
+{
+	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+	USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
+	//ProcessReceivedMidiDatas();
+	//USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
+}
 /* USER CODE END 0 */
 
 /**
@@ -103,7 +115,7 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-  MX_USB_HOST_Init();
+  //MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -115,7 +127,10 @@ int main(void)
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
+
     /* USER CODE BEGIN 3 */
+    HAL_Delay(1000);
+    HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
   }
   /* USER CODE END 3 */
 }
@@ -405,6 +420,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+	  HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
+	  HAL_Delay(200);
   }
   /* USER CODE END Error_Handler_Debug */
 }

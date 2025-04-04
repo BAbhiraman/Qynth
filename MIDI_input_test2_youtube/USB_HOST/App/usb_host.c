@@ -81,26 +81,26 @@ void MX_USB_HOST_Init(void)
   {
     Error_Handler();
   }
-  if (USBH_RegisterClass(&hUsbHostFS, USBH_AUDIO_CLASS) != USBH_OK)
-  {
-    Error_Handler();
-  }
-  if (USBH_RegisterClass(&hUsbHostFS, USBH_CDC_CLASS) != USBH_OK)
-  {
-    Error_Handler();
-  }
-  if (USBH_RegisterClass(&hUsbHostFS, USBH_MSC_CLASS) != USBH_OK)
-  {
-    Error_Handler();
-  }
-  if (USBH_RegisterClass(&hUsbHostFS, USBH_HID_CLASS) != USBH_OK)
-  {
-    Error_Handler();
-  }
-  if (USBH_RegisterClass(&hUsbHostFS, USBH_MTP_CLASS) != USBH_OK)
-  {
-    Error_Handler();
-  }
+//  if (USBH_RegisterClass(&hUsbHostFS, USBH_AUDIO_CLASS) != USBH_OK)
+//  {
+//    Error_Handler();
+//  }
+//  if (USBH_RegisterClass(&hUsbHostFS, USBH_CDC_CLASS) != USBH_OK)
+//  {
+//    Error_Handler();
+//  }
+//  if (USBH_RegisterClass(&hUsbHostFS, USBH_MSC_CLASS) != USBH_OK)
+//  {
+//    Error_Handler();
+//  }
+//  if (USBH_RegisterClass(&hUsbHostFS, USBH_HID_CLASS) != USBH_OK)
+//  {
+//    Error_Handler();
+//  }
+//  if (USBH_RegisterClass(&hUsbHostFS, USBH_MTP_CLASS) != USBH_OK)
+//  {
+//    Error_Handler();
+//  }
   if (USBH_RegisterClass(&hUsbHostFS, USBH_MIDI_CLASS) != USBH_OK)
   {
     Error_Handler();
