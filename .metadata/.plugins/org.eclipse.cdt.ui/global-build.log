@@ -1,439 +1,903 @@
-23:36:38 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:46:05 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:144:18: warning: unused variable 'quarter' [-Wunused-variable]
-  144 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:493:17: warning: unused variable 'buf' [-Wunused-variable]
-  493 |         uint8_t buf[12];
+../Core/Src/main.c:647:17: warning: unused variable 'buf' [-Wunused-variable]
+  647 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56488	    368	 105416	 162272	  279e0	Hello_World2.elf
+  70448	    760	 109792	 181000	  2c308	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-23:37:18 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:46:12 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-size  Waveform1.elf 
    text	   data	    bss	    dec	    hex	filename
-  56488	    368	 105416	 162272	  279e0	Hello_World2.elf
+  70448	    760	 109792	 181000	  2c308	Waveform1.elf
 Finished building: default.size.stdout
  
-23:39:44 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:48:55 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:144:18: warning: unused variable 'quarter' [-Wunused-variable]
-  144 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:494:17: warning: unused variable 'buf' [-Wunused-variable]
-  494 |         uint8_t buf[12];
+../Core/Src/main.c:647:17: warning: unused variable 'buf' [-Wunused-variable]
+  647 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56512	    368	 105416	 162296	  279f8	Hello_World2.elf
+  70656	    760	 109792	 181208	  2c3d8	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-23:42:47 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:50:06 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:149:18: warning: unused variable 'quarter' [-Wunused-variable]
-  149 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:297:16: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  297 |         double tNote;
+      |                ^~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:499:17: warning: unused variable 'buf' [-Wunused-variable]
-  499 |         uint8_t buf[12];
+../Core/Src/main.c:647:17: warning: unused variable 'buf' [-Wunused-variable]
+  647 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56536	    368	 105416	 162320	  27a10	Hello_World2.elf
+  69896	    752	 109784	 180432	  2c0d0	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-23:43:12 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:51:08 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-size  Hello_World2.elf 
-   text	   data	    bss	    dec	    hex	filename
-  56536	    368	 105416	 162320	  27a10	Hello_World2.elf
-Finished building: default.size.stdout
- 
-23:44:40 **** Incremental Build of configuration Debug for project Hello_World2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:149:18: warning: unused variable 'quarter' [-Wunused-variable]
-  149 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: variable 'rightOut' set but not used [-Wunused-but-set-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:499:17: warning: unused variable 'buf' [-Wunused-variable]
-  499 |         uint8_t buf[12];
+../Core/Src/main.c:649:17: warning: unused variable 'buf' [-Wunused-variable]
+  649 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56520	    368	 105416	 162304	  27a00	Hello_World2.elf
+  70608	    760	 109792	 181160	  2c3a8	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-23:46:22 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:51:41 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:149:18: warning: unused variable 'quarter' [-Wunused-variable]
-  149 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: variable 'rightOut' set but not used [-Wunused-but-set-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:499:17: warning: unused variable 'buf' [-Wunused-variable]
-  499 |         uint8_t buf[12];
+../Core/Src/main.c:649:17: warning: unused variable 'buf' [-Wunused-variable]
+  649 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56504	    368	 105416	 162288	  279f0	Hello_World2.elf
+  70608	    760	 109792	 181160	  2c3a8	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-23:59:26 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:52:54 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:149:18: warning: unused variable 'quarter' [-Wunused-variable]
-  149 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: variable 'rightOut' set but not used [-Wunused-but-set-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:499:17: warning: unused variable 'buf' [-Wunused-variable]
-  499 |         uint8_t buf[12];
+../Core/Src/main.c:649:17: warning: unused variable 'buf' [-Wunused-variable]
+  649 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56512	    368	 105416	 162296	  279f8	Hello_World2.elf
+  70400	    760	 109792	 180952	  2c2d8	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-00:05:00 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:53:49 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:152:18: warning: unused variable 'quarter' [-Wunused-variable]
-  152 |         uint16_t quarter = M/4;
+../Core/Src/main.c:320:24: error: incompatible type for argument 1 of 'printf'
+  320 |                 printf(rightOut);
+      |                        ^~~~~~~~
+      |                        |
+      |                        float
+In file included from ../USB_DEVICE/Target/usbd_conf.h:30,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:28,
+                 from ../USB_DEVICE/App/usb_device.h:32,
+                 from ../Core/Src/main.c:23:
+C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/stdio.h:206:17: note: expected 'const char * restrict' but argument is of type 'float'
+  206 | int     printf (const char *__restrict, ...)
+      |                 ^
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:502:17: warning: unused variable 'buf' [-Wunused-variable]
-  502 |         uint8_t buf[12];
-      |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
- 
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
-   text	   data	    bss	    dec	    hex	filename
-  56568	    372	 105416	 162356	  27a34	Hello_World2.elf
-Finished building: default.size.stdout
- 
-Finished building: Hello_World2.list
- 
-00:05:40 **** Incremental Build of configuration Debug for project Hello_World2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:152:18: warning: unused variable 'quarter' [-Wunused-variable]
-  152 |         uint16_t quarter = M/4;
-      |                  ^~~~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:502:17: warning: unused variable 'buf' [-Wunused-variable]
-  502 |         uint8_t buf[12];
-      |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
- 
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
-   text	   data	    bss	    dec	    hex	filename
-  56560	    372	 105416	 162348	  27a2c	Hello_World2.elf
-Finished building: default.size.stdout
- 
-Finished building: Hello_World2.list
- 
-00:09:00 **** Incremental Build of configuration Debug for project Hello_World2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:153:18: warning: unused variable 'quarter' [-Wunused-variable]
-  153 |         uint16_t quarter = M/4;
-      |                  ^~~~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:503:17: warning: unused variable 'buf' [-Wunused-variable]
-  503 |         uint8_t buf[12];
-      |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
- 
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
-   text	   data	    bss	    dec	    hex	filename
-  56568	    372	 105416	 162356	  27a34	Hello_World2.elf
-Finished building: default.size.stdout
- 
-Finished building: Hello_World2.list
- 
-00:10:21 **** Incremental Build of configuration Debug for project Hello_World2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:153:18: warning: unused variable 'quarter' [-Wunused-variable]
-  153 |         uint16_t quarter = M/4;
-      |                  ^~~~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:503:17: warning: unused variable 'buf' [-Wunused-variable]
-  503 |         uint8_t buf[12];
-      |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
- 
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
-   text	   data	    bss	    dec	    hex	filename
-  56576	    372	 105416	 162364	  27a3c	Hello_World2.elf
-Finished building: default.size.stdout
- 
-Finished building: Hello_World2.list
- 
-00:14:05 **** Incremental Build of configuration Debug for project Hello_World2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.c:131:9: warning: implicit declaration of function 'processData' [-Wimplicit-function-declaration]
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:142:6: warning: conflicting types for 'processData'; have 'void(uint8_t)' {aka 'void(unsigned char)'}
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:131:9: note: previous implicit declaration of 'processData' with type 'void(uint8_t)' {aka 'void(unsigned char)'}
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:155:18: warning: unused variable 'quarter' [-Wunused-variable]
-  155 |         uint16_t quarter = M/4;
-      |                  ^~~~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:550:9: error: too few arguments to function 'processData'
-  550 |         processData();
-      |         ^~~~~~~~~~~
-../Core/Src/main.c:142:6: note: declared here
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:578:25: error: too few arguments to function 'processData'
-  578 |                         processData();
-      |                         ^~~~~~~~~~~
-../Core/Src/main.c:142:6: note: declared here
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:505:17: warning: unused variable 'buf' [-Wunused-variable]
-  505 |         uint8_t buf[12];
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
       |                 ^~~
 make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
 "make -j12 all" terminated with exit code 2. Build might be incomplete.
-00:14:25 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:54:02 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.c:131:9: warning: implicit declaration of function 'processData' [-Wimplicit-function-declaration]
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:142:6: warning: conflicting types for 'processData'; have 'void(uint8_t)' {aka 'void(unsigned char)'}
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:131:9: note: previous implicit declaration of 'processData' with type 'void(uint8_t)' {aka 'void(unsigned char)'}
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:155:18: warning: unused variable 'quarter' [-Wunused-variable]
-  155 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:578:25: error: too few arguments to function 'processData'
-  578 |                         processData();
-      |                         ^~~~~~~~~~~
-../Core/Src/main.c:142:6: note: declared here
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:505:17: warning: unused variable 'buf' [-Wunused-variable]
-  505 |         uint8_t buf[12];
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
       |                 ^~~
-make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
-"make -j12 all" terminated with exit code 2. Build might be incomplete.
-00:15:00 **** Incremental Build of configuration Debug for project Hello_World2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.c:131:9: warning: implicit declaration of function 'processData' [-Wimplicit-function-declaration]
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:142:6: warning: conflicting types for 'processData'; have 'void(uint8_t)' {aka 'void(unsigned char)'}
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:131:9: note: previous implicit declaration of 'processData' with type 'void(uint8_t)' {aka 'void(unsigned char)'}
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:155:18: warning: unused variable 'quarter' [-Wunused-variable]
-  155 |         uint16_t quarter = M/4;
-      |                  ^~~~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:505:17: warning: unused variable 'buf' [-Wunused-variable]
-  505 |         uint8_t buf[12];
-      |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56576	    372	 105416	 162364	  27a3c	Hello_World2.elf
+  70440	    760	 109792	 180992	  2c300	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-00:19:01 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:54:24 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.c:131:9: warning: implicit declaration of function 'processData' [-Wimplicit-function-declaration]
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:142:6: warning: conflicting types for 'processData'; have 'void(uint8_t)' {aka 'void(unsigned char)'}
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:131:9: note: previous implicit declaration of 'processData' with type 'void(uint8_t)' {aka 'void(unsigned char)'}
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:155:18: warning: unused variable 'quarter' [-Wunused-variable]
-  155 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:31: warning: variable 'rightOut' set but not used [-Wunused-but-set-variable]
+  293 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:506:17: warning: unused variable 'buf' [-Wunused-variable]
-  506 |         uint8_t buf[12];
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56600	    372	 105416	 162388	  27a54	Hello_World2.elf
+  70400	    760	 109792	 180952	  2c2d8	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-00:21:08 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:54:48 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.c:131:9: warning: implicit declaration of function 'processData' [-Wimplicit-function-declaration]
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:142:6: warning: conflicting types for 'processData'; have 'void(uint8_t)' {aka 'void(unsigned char)'}
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:131:9: note: previous implicit declaration of 'processData' with type 'void(uint8_t)' {aka 'void(unsigned char)'}
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Core/Startup/startup_stm32f407vgtx.d" -MT"Core/Startup/startup_stm32f407vgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Startup/startup_stm32f407vgtx.o" "../Core/Startup/startup_stm32f407vgtx.s"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:155:18: warning: unused variable 'quarter' [-Wunused-variable]
-  155 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:506:17: warning: unused variable 'buf' [-Wunused-variable]
-  506 |         uint8_t buf[12];
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56616	    372	 105416	 162404	  27a64	Hello_World2.elf
+  70448	    760	 109792	 181000	  2c308	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-00:23:23 **** Incremental Build of configuration Debug for project Hello_World2 ****
+20:15:01 **** Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.c:131:9: warning: implicit declaration of function 'processData' [-Wimplicit-function-declaration]
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:142:6: warning: conflicting types for 'processData'; have 'void(uint8_t)' {aka 'void(unsigned char)'}
-  142 | void processData(uint8_t firstHalf) {
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:131:9: note: previous implicit declaration of 'processData' with type 'void(uint8_t)' {aka 'void(unsigned char)'}
-  131 |         processData(0);
-      |         ^~~~~~~~~~~
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'processData':
-../Core/Src/main.c:155:18: warning: unused variable 'quarter' [-Wunused-variable]
-  155 |         uint16_t quarter = M/4;
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
       |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:506:17: warning: unused variable 'buf' [-Wunused-variable]
-  506 |         uint8_t buf[12];
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
       |                 ^~~
-arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Hello_World2.elf
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
  
-arm-none-eabi-size  Hello_World2.elf 
-arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56592	    372	 105416	 162380	  27a4c	Hello_World2.elf
+  70920	    760	 109792	 181472	  2c4e0	Waveform1.elf
 Finished building: default.size.stdout
  
-Finished building: Hello_World2.list
+Finished building: Waveform1.list
  
-00:23:37 **** Incremental Build of configuration Debug for project Hello_World2 ****
+20:19:00 **** Incremental Build of configuration Debug for project Waveform1 ****
 make -j12 all 
-arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
    text	   data	    bss	    dec	    hex	filename
-  56592	    372	 105416	 162380	  27a4c	Hello_World2.elf
+  70888	    760	 109792	 181440	  2c4c0	Waveform1.elf
 Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:19:42 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  70888	    760	 109792	 181440	  2c4c0	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:20:44 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  70944	    760	 109792	 181496	  2c4f8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:21:07 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  70944	    760	 109792	 181496	  2c4f8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:21:43 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  71016	    760	 109792	 181568	  2c540	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:22:02 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  71008	    760	 109792	 181560	  2c538	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:22:25 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  70984	    760	 109792	 181536	  2c520	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:24:51 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:301:18: warning: unused variable 'quarter' [-Wunused-variable]
+  301 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:294:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  294 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:293:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  293 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:650:17: warning: unused variable 'buf' [-Wunused-variable]
+  650 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  70736	    760	 109792	 181288	  2c428	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:50:00 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69756	    760	   9688	  80204	  1394c	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+20:52:15 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69756	    752	   9696	  80204	  1394c	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:06:36 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    752	   9696	  80308	  139b4	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:07:01 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    752	   9696	  80308	  139b4	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:07:23 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    752	   9696	  80308	  139b4	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:07:40 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    752	   9696	  80308	  139b4	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:10:03 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    756	   9696	  80312	  139b8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:10:31 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    756	   9696	  80312	  139b8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:13:51 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    756	   9696	  80312	  139b8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:14:47 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    756	   9696	  80312	  139b8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:15:23 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    756	   9696	  80312	  139b8	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+21:16:03 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:278:18: warning: unused variable 'quarter' [-Wunused-variable]
+  278 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:271:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  271 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:270:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  270 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:627:17: warning: unused variable 'buf' [-Wunused-variable]
+  627 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  69860	    752	   9696	  80308	  139b4	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
  

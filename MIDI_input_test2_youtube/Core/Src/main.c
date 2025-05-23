@@ -21,6 +21,7 @@
 #include "usb_host.h"
 #include "usbh_core.h"
 #include "usbh_def.h"
+#include "usbh_MIDI.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -77,7 +78,7 @@ void MX_USB_HOST_Process(void);
 /* USER CODE BEGIN 0 */
 void USBH_MIDI_ReceiveCallback(USBH_HandleTypeDef *phost)
 {
-	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+	HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET);
 	USBH_MIDI_Receive(&hUsbHostFS, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
 	//ProcessReceivedMidiDatas();
 	//USBH_MIDI_Receive(&hUSBHost, MIDI_RX_Buffer, RX_BUFF_SIZE); // start a new reception
@@ -120,7 +121,7 @@ int main(void)
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
 
-
+  HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_RESET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -135,7 +136,7 @@ int main(void)
     if (cnt == 0) {
     	USBH_MIDI_Receive(&hUsbHostFS, MIDI_RX_Buffer, RX_BUFF_SIZE);
     }
-    HAL_Delay(1000);
+    //HAL_Delay(1000);
     HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
 
     cnt++;

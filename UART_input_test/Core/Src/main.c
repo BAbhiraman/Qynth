@@ -105,6 +105,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -113,19 +114,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  uint8_t buffer[] = "Hello world!\r\n";
-	  CDC_Transmit_FS(buffer,sizeof(buffer));
-	  HAL_Delay(10000);
-
-	  // https://controllerstech.com/send-and-receive-data-to-pc-without-uart-stm32-usb-com/
-
-	  //uint8_t rx_buffer[1];
-
-//	  if (CDC_Receive_FS(rx_buffer, sizeof(rx_buffer)) == USBD_OK) {
-//		  uint8_t buffer[] = "Hello world!\r\n";
-//		  CDC_Transmit_FS(buffer,sizeof(buffer));
-//		  HAL_Delay(1000);
-//	  }
 
     /* USER CODE BEGIN 3 */
   }

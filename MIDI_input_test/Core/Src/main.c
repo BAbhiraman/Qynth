@@ -49,7 +49,11 @@ DMA_HandleTypeDef hdma_spi3_tx;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-
+uint16_t wire;
+uint16_t message;
+uint8_t channel;
+uint8_t messageByte1;
+uint8_t messageByte2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,7 +69,20 @@ static void MX_SPI1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void USBD_MIDI_DataInHandler(uint8_t *usb_rx_buffer, uint8_t usb_rx_buffer_length)
+{
+  while (usb_rx_buffer_length && *usb_rx_buffer != 0x00)
+  {
+    wire = usb_rx_buffer[0] >> 4;
+    message = usb_rx_buffer[1] >> 4;
+    channel = usb_rx_buffer[1] & 0x0F;
+    messageByte1 = usb_rx_buffer[2];
+    messageByte2 = usb_rx_buffer[3];
+    usb_rx_buffer += 4;
+    usb_rx_buffer_length -= 4;
+    HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -113,10 +130,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  uint8_t buffer[] = "Hello world!\r\n";
+	  //uint8_t buffer[] = "Hello world!\r\n";
 	  //CDC_Transmit_FS(buffer,sizeof(buffer));
-	  HAL_Delay(1000);
-	  HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
+	  //HAL_Delay(1000);
+	  //HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
   }
   /* USER CODE END 3 */
 }

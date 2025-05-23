@@ -1,10 +1,31 @@
-00:23:37 **** Incremental Build of configuration Debug for project Hello_World2 ****
+22:43:42 **** Incremental Build of configuration Debug for project Hello_World2 ****
 make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:170:18: warning: unused variable 'quarter' [-Wunused-variable]
+  170 |         uint16_t quarter = M/4;
+      |                  ^~~~~~~
+../Core/Src/main.c:163:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  163 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c:163:22: warning: unused variable 'leftOut' [-Wunused-variable]
+  163 |         static float leftOut, rightOut;
+      |                      ^~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:521:17: warning: unused variable 'buf' [-Wunused-variable]
+  521 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Hello_World2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Hello_World2\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Hello_World2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Hello_World2.elf
+ 
 arm-none-eabi-size  Hello_World2.elf 
+arm-none-eabi-objdump -h -S Hello_World2.elf  > "Hello_World2.list"
    text	   data	    bss	    dec	    hex	filename
-  56592	    372	 105416	 162380	  27a4c	Hello_World2.elf
+  60220	    368	   9672	  70260	  11274	Hello_World2.elf
 Finished building: default.size.stdout
  
+Finished building: Hello_World2.list
+ 
 
-00:23:38 Build Finished. 0 errors, 0 warnings. (took 363ms)
+22:43:44 Build Finished. 0 errors, 4 warnings. (took 1s.974ms)
 
