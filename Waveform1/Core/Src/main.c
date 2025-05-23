@@ -20,7 +20,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -38,7 +37,7 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 #define TAU (2.0 * PI)
-#define BUFFER_SIZE 128 //Phil's lab used 128. 48000 working.
+#define BUFFER_SIZE 128 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
@@ -85,7 +84,6 @@
 #define CS43L22_REG_Speaker_Status                  0x31
 #define CS43L22_REG_Charge_Pump_Frequency           0x34
 
-#define EXP_TABLE_SIZE 1024
 
 /* USER CODE END PD */
 
@@ -102,6 +100,8 @@ DMA_HandleTypeDef hdma_spi3_tx;
 
 SPI_HandleTypeDef hspi1;
 
+PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
 /* USER CODE BEGIN PV */
 int16_t dacData[BUFFER_SIZE];
 
@@ -115,12 +115,11 @@ int8_t odeToJoy[] = {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2,4,4,5,7,7,5,4,2,0,0,2,4,2,2
 //int8_t odeToJoy[] = {0,0,12,12,0,0,-12,-12,0,0,12,12,0,0,-12,-12,};
 uint8_t lenJoy = sizeof(odeToJoy);
 
-float ATTACK_TIME = 0.0; //units: seconds
-float DECAY_TIME = 0.9; // time constant tau: seconds
-float RELEASE_TIME = 0.0; // time constant tau: seconds
+float ATTACK_TIME = 0.2; //units: seconds
+float DECAY_TIME = 0.4; // time constant tau: seconds
+float RELEASE_TIME = 0.4; // time constant tau: seconds
 float SUSTAIN_LEVEL = 0.0;
 
-float exp_table[EXP_TABLE_SIZE];
 float input_scale;
 
 uint8_t prevNoteInd = 0;
@@ -128,7 +127,7 @@ volatile uint64_t ticksNote = 0;
 
 double expTest[12000];
 
-const uint16_t sineLookupTable[] = {
+const int16_t sineLookupTable[] = { //4096 entries. from https://deepbluembedded.com/sine-lookup-table-generator-calculator/
 		0, 50, 101, 151, 201, 251, 302, 352, 402, 452, 503, 553, 603, 653, 704, 754, 804, 854, 905, 955, 1005, 1055, 1106, 1156, 1206, 1256, 1307, 1357, 1407, 1457, 1507, 1558, 1608, 1658, 1708, 1758, 1809, 1859, 1909, 1959, 2009, 2059, 2110, 2160, 2210, 2260, 2310, 2360, 2410, 2461, 2511, 2561, 2611, 2661, 2711, 2761, 2811, 2861, 2911, 2962, 3012, 3062, 3112, 3162, 3212, 3262, 3312, 3362, 3412, 3462, 3512, 3562, 3612, 3662, 3712, 3761, 3811, 3861, 3911, 3961, 4011, 4061, 4111, 4161, 4210, 4260, 4310, 4360, 4410, 4460, 4509, 4559, 4609, 4659, 4708, 4758, 4808, 4858, 4907, 4957, 5007, 5056, 5106, 5156, 5205, 5255, 5305, 5354, 5404, 5453, 5503, 5552, 5602, 5651, 5701, 5750, 5800, 5849, 5899, 5948, 5998, 6047, 6096, 6146, 6195, 6245, 6294, 6343, 6393, 6442, 6491, 6540, 6590, 6639, 6688, 6737, 6786, 6836, 6885, 6934, 6983, 7032, 7081, 7130, 7179, 7228, 7277, 7326, 7375, 7424, 7473, 7522, 7571, 7620, 7669, 7718, 7767, 7815, 7864, 7913, 7962, 8010, 8059, 8108, 8157, 8205, 8254, 8303, 8351, 8400, 8448, 8497, 8545, 8594, 8642, 8691, 8739, 8788, 8836, 8885, 8933, 8981, 9030, 9078, 9126, 9175, 9223, 9271, 9319, 9367, 9416, 9464, 9512, 9560, 9608, 9656, 9704, 9752, 9800, 9848, 9896, 9944, 9992, 10039, 10087, 10135, 10183, 10231, 10278, 10326, 10374, 10421, 10469, 10517, 10564, 10612, 10659, 10707, 10754, 10802, 10849, 10897, 10944, 10992, 11039, 11086, 11133, 11181, 11228, 11275, 11322, 11370, 11417, 11464, 11511, 11558, 11605, 11652, 11699, 11746, 11793, 11840, 11886, 11933, 11980, 12027, 12074, 12120, 12167, 12214, 12260, 12307, 12353, 12400, 12446, 12493, 12539, 12586, 12632, 12679, 12725, 12771, 12817, 12864, 12910, 12956, 13002, 13048, 13094, 13141, 13187, 13233, 13279, 13324, 13370, 13416, 13462, 13508, 13554, 13599, 13645, 13691, 13736, 13782, 13828, 13873, 13919, 13964, 14010, 14055, 14101, 14146, 14191, 14236, 14282, 14327, 14372, 14417, 14462, 14507, 14553, 14598, 14643, 14688, 14732, 14777, 14822, 14867, 14912, 14956, 15001, 15046, 15090, 15135, 15180, 15224, 15269, 15313, 15358, 15402, 15446, 15491, 15535, 15579, 15623, 15667, 15712, 15756, 15800, 15844, 15888, 15932, 15976, 16019, 16063, 16107, 16151, 16195, 16238, 16282, 16325, 16369, 16413, 16456, 16499, 16543, 16586, 16630, 16673, 16716, 16759, 16802, 16846, 16889, 16932, 16975, 17018, 17061, 17104, 17146, 17189, 17232, 17275, 17317, 17360, 17403, 17445, 17488, 17530, 17573, 17615, 17657, 17700, 17742, 17784, 17827, 17869, 17911, 17953, 17995, 18037, 18079, 18121, 18163, 18204, 18246, 18288, 18330, 18371, 18413, 18454, 18496, 18537, 18579, 18620, 18661, 18703, 18744, 18785, 18826,
 		18868, 18909, 18950, 18991, 19032, 19072, 19113, 19154, 19195, 19236, 19276, 19317, 19357, 19398, 19438, 19479, 19519, 19560, 19600, 19640, 19680, 19721, 19761, 19801, 19841, 19881, 19921, 19961, 20000, 20040, 20080, 20120, 20159, 20199, 20238, 20278, 20317, 20357, 20396, 20436, 20475, 20514, 20553, 20592, 20631, 20670, 20709, 20748, 20787, 20826, 20865, 20904, 20942, 20981, 21019, 21058, 21096, 21135, 21173, 21212, 21250, 21288, 21326, 21364, 21403, 21441, 21479, 21516, 21554, 21592, 21630, 21668, 21705, 21743, 21781, 21818, 21856, 21893, 21930, 21968, 22005, 22042, 22079, 22116, 22154, 22191, 22227, 22264, 22301, 22338, 22375, 22411, 22448, 22485, 22521, 22558, 22594, 22631, 22667, 22703, 22739, 22776, 22812, 22848, 22884, 22920, 22956, 22991, 23027, 23063, 23099, 23134, 23170, 23205, 23241, 23276, 23311, 23347, 23382, 23417, 23452, 23487, 23522, 23557, 23592, 23627, 23662, 23697, 23731, 23766, 23801, 23835, 23870, 23904, 23938, 23973, 24007, 24041, 24075, 24109, 24143, 24177, 24211, 24245, 24279, 24312, 24346, 24380, 24413, 24447, 24480, 24514, 24547, 24580, 24613, 24647, 24680, 24713, 24746, 24779, 24811, 24844, 24877, 24910, 24942, 24975, 25007, 25040, 25072, 25105, 25137, 25169, 25201, 25233, 25265, 25297, 25329, 25361, 25393, 25425, 25456, 25488, 25519, 25551, 25582, 25614, 25645, 25676, 25708, 25739, 25770, 25801, 25832, 25863, 25893, 25924, 25955, 25986, 26016, 26047, 26077, 26108, 26138, 26168, 26198, 26229, 26259, 26289, 26319, 26349, 26378, 26408, 26438, 26468, 26497, 26527, 26556, 26586, 26615, 26644, 26674, 26703, 26732, 26761, 26790, 26819, 26848, 26876, 26905, 26934, 26962, 26991, 27019, 27048, 27076, 27104, 27133, 27161, 27189, 27217, 27245, 27273, 27300, 27328, 27356, 27384, 27411, 27439, 27466, 27493, 27521, 27548, 27575, 27602, 27629, 27656, 27683, 27710, 27737, 27764, 27790, 27817, 27843, 27870, 27896, 27923, 27949, 27975, 28001, 28027, 28053, 28079, 28105, 28131, 28157, 28182, 28208, 28234, 28259, 28284, 28310, 28335, 28360, 28385, 28411, 28436, 28460, 28485, 28510, 28535, 28560, 28584, 28609, 28633, 28658, 28682, 28706, 28730, 28755, 28779, 28803, 28827, 28850, 28874, 28898, 28922, 28945, 28969, 28992, 29016, 29039, 29062, 29085, 29108, 29131, 29154, 29177, 29200, 29223, 29246, 29268, 29291, 29313, 29336, 29358, 29380, 29403, 29425, 29447, 29469, 29491, 29513, 29534, 29556, 29578, 29599, 29621, 29642, 29664, 29685, 29706, 29728, 29749, 29770, 29791, 29812, 29832, 29853, 29874, 29894, 29915, 29936, 29956, 29976, 29997, 30017, 30037, 30057, 30077, 30097, 30117, 30136, 30156, 30176, 30195, 30215, 30234, 30253, 30273, 30292, 30311, 30330, 30349, 30368, 30387, 30406, 30424, 30443, 30462, 30480, 30498, 30517, 30535, 30553, 30571, 30589, 30607, 30625, 30643, 30661, 30679, 30696, 30714, 30731, 30749, 30766, 30783, 30800, 30818, 30835,
 		30852, 30868, 30885, 30902, 30919, 30935, 30952, 30968, 30985, 31001, 31017, 31033, 31050, 31066, 31082, 31097, 31113, 31129, 31145, 31160, 31176, 31191, 31206, 31222, 31237, 31252, 31267, 31282, 31297, 31312, 31327, 31341, 31356, 31371, 31385, 31400, 31414, 31428, 31442, 31456, 31470, 31484, 31498, 31512, 31526, 31539, 31553, 31567, 31580, 31593, 31607, 31620, 31633, 31646, 31659, 31672, 31685, 31698, 31710, 31723, 31736, 31748, 31760, 31773, 31785, 31797, 31809, 31821, 31833, 31845, 31857, 31869, 31880, 31892, 31903, 31915, 31926, 31937, 31949, 31960, 31971, 31982, 31993, 32004, 32014, 32025, 32036, 32046, 32057, 32067, 32077, 32087, 32098, 32108, 32118, 32128, 32137, 32147, 32157, 32166, 32176, 32185, 32195, 32204, 32213, 32223, 32232, 32241, 32250, 32258, 32267, 32276, 32285, 32293, 32302, 32310, 32318, 32327, 32335, 32343, 32351, 32359, 32367, 32375, 32382, 32390, 32397, 32405, 32412, 32420, 32427, 32434, 32441, 32448, 32455, 32462, 32469, 32476, 32482, 32489, 32495, 32502, 32508, 32514, 32521, 32527, 32533, 32539, 32545, 32550, 32556, 32562, 32567, 32573, 32578, 32584, 32589, 32594, 32599, 32604, 32609, 32614, 32619, 32624, 32628, 32633, 32637, 32642, 32646, 32650, 32655, 32659, 32663, 32667, 32671, 32674, 32678, 32682, 32685, 32689, 32692, 32696, 32699, 32702, 32705, 32708, 32711, 32714, 32717, 32720, 32722, 32725, 32728, 32730, 32732, 32735, 32737, 32739, 32741, 32743, 32745, 32747, 32748, 32750, 32752, 32753, 32755, 32756, 32757, 32758, 32759, 32760, 32761, 32762, 32763, 32764, 32765, 32765, 32766, 32766, 32766, 32767, 32767, 32767, 32767, 32767, 32767, 32767, 32766, 32766, 32766, 32765, 32765, 32764, 32763, 32762, 32761, 32760, 32759, 32758, 32757, 32756, 32755, 32753, 32752, 32750, 32748, 32747, 32745, 32743, 32741, 32739, 32737, 32735, 32732, 32730, 32728, 32725, 32722, 32720, 32717, 32714, 32711, 32708, 32705, 32702, 32699, 32696, 32692, 32689, 32685, 32682, 32678, 32674, 32671, 32667, 32663, 32659, 32655, 32650, 32646, 32642, 32637, 32633, 32628, 32624, 32619, 32614, 32609, 32604, 32599, 32594, 32589, 32584, 32578, 32573, 32567, 32562, 32556, 32550, 32545, 32539, 32533, 32527, 32521, 32514, 32508, 32502, 32495, 32489, 32482, 32476, 32469, 32462, 32455, 32448, 32441, 32434, 32427, 32420, 32412, 32405, 32397, 32390, 32382, 32375, 32367, 32359, 32351, 32343, 32335, 32327, 32318, 32310, 32302, 32293, 32285, 32276, 32267, 32258, 32250, 32241, 32232, 32223, 32213, 32204, 32195, 32185, 32176, 32166, 32157, 32147, 32137, 32128, 32118, 32108, 32098, 32087, 32077, 32067, 32057, 32046, 32036, 32025, 32014, 32004, 31993, 31982, 31971, 31960, 31949, 31937, 31926, 31915, 31903, 31892, 31880, 31869, 31857, 31845, 31833, 31821, 31809, 31797, 31785, 31773, 31760, 31748, 31736, 31723, 31710, 31698, 31685, 31672, 31659, 31646, 31633, 31620, 31607, 31593,
@@ -149,6 +148,7 @@ static void MX_DMA_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_USB_OTG_FS_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -227,13 +227,14 @@ float powe(float x) {
 
 // Function to calculate the ADSR envelope value
 float adsr_envelope(float time_elapsed, int key_pressed) {
+	//TODO bugs in if statements. must modify to keep track of sample state. Becaus
 	float amplitude;
 
 	if (key_pressed) { // Key is currently pressed
 		if (time_elapsed < ATTACK_TIME) {
 			// Attack phase: Linear ramp-up
 			amplitude = time_elapsed / ATTACK_TIME;
-		} else if (time_elapsed < ATTACK_TIME + DECAY_TIME) {
+		} else if (time_elapsed < ATTACK_TIME + 3*DECAY_TIME) {
 			// Decay phase: Exponential decay to sustain level
 			float time_in_decay = time_elapsed - ATTACK_TIME;
 			amplitude = (1.0 - SUSTAIN_LEVEL) * powe(-time_in_decay / DECAY_TIME) + SUSTAIN_LEVEL;
@@ -272,11 +273,12 @@ void processData() {
 	float t;
 	float f;
 	float tNote;
+	float intermediate;
 	//double phase;
 	uint16_t phase = 0;
 	uint16_t M = BUFFER_SIZE/4;
 	uint16_t quarter = M/4;
-	uint8_t noteInd = ((uint8_t)(loops/4000)) % lenJoy;
+	uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
 	if (noteInd != prevNoteInd) {
 		ticksNote = 0;
 	}
@@ -290,12 +292,7 @@ void processData() {
 		tNote = (ticksNote)/(float)FS;
 
 		phase = ((uint16_t)(LOOKUPSIZE *f* t)) % LOOKUPSIZE;
-		//tglobal += 1.0/FS;
-		//leftOut = (float)sin(phase);
-		// just test to see if FLOPs are killing timing. They're not!
-		rightOut = adsr_envelope(tNote, 1);
-		//printf("%f \r\n",rightOut);
-		leftOutInt = (uint16_t)(0.5*sineLookupTable[phase]*rightOut); //0.5 makes it sound right
+		leftOutInt = (int16_t)(sineLookupTable[phase] * adsr_envelope(tNote, tNote < ATTACK_TIME + 2*DECAY_TIME));
 
 		//rightOut = leftOut;
 		outBufPtr[n] = (int16_t) leftOutInt; //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
@@ -608,41 +605,41 @@ int cs4x_resume(struct cs4x_drv *dac) {
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
 
-	/* USER CODE BEGIN 1 */
+  /* USER CODE BEGIN 1 */
 
-	/* USER CODE END 1 */
+  /* USER CODE END 1 */
 
-	/* MCU Configuration--------------------------------------------------------*/
+  /* MCU Configuration--------------------------------------------------------*/
 
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-	/* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
 	uint8_t buf[12];
 
-	/* USER CODE END Init */
+  /* USER CODE END Init */
 
-	/* Configure the system clock */
-	SystemClock_Config();
+  /* Configure the system clock */
+  SystemClock_Config();
 
-	/* USER CODE BEGIN SysInit */
+  /* USER CODE BEGIN SysInit */
 
-	/* USER CODE END SysInit */
+  /* USER CODE END SysInit */
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_DMA_Init();
-	MX_I2C1_Init();
-	MX_I2S3_Init();
-	MX_SPI1_Init();
-	MX_USB_DEVICE_Init();
-	/* USER CODE BEGIN 2 */
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_I2C1_Init();
+  MX_I2S3_Init();
+  MX_SPI1_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  /* USER CODE BEGIN 2 */
 
 
 	// EXT DAC INTIIALIZATION
@@ -672,14 +669,14 @@ int main(void)
 	}
 	printf("loops after first two processes: %ld\r\n", (long)loops);
 
-	/* USER CODE END 2 */
+  /* USER CODE END 2 */
 
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
 	while (1) {
-		/* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-		/* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
 
 		if (dataReadyFlag) {
 			processData();
@@ -688,277 +685,312 @@ int main(void)
 
 	}
 
-	/* USER CODE END 3 */
+  /* USER CODE END 3 */
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-	/** Configure the main internal regulator output voltage
-	 */
-	__HAL_RCC_PWR_CLK_ENABLE();
-	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-	/** Initializes the RCC Oscillators according to the specified parameters
-	 * in the RCC_OscInitTypeDef structure.
-	 */
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-	RCC_OscInitStruct.PLL.PLLM = 8;
-	RCC_OscInitStruct.PLL.PLLN = 336;
-	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-	RCC_OscInitStruct.PLL.PLLQ = 7;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 336;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-	/** Initializes the CPU, AHB and APB buses clocks
-	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /**
- * @brief I2C1 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_I2C1_Init(void)
 {
 
-	/* USER CODE BEGIN I2C1_Init 0 */
+  /* USER CODE BEGIN I2C1_Init 0 */
 
-	/* USER CODE END I2C1_Init 0 */
+  /* USER CODE END I2C1_Init 0 */
 
-	/* USER CODE BEGIN I2C1_Init 1 */
+  /* USER CODE BEGIN I2C1_Init 1 */
 
-	/* USER CODE END I2C1_Init 1 */
-	hi2c1.Instance = I2C1;
-	hi2c1.Init.ClockSpeed = 100000;
-	hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-	hi2c1.Init.OwnAddress1 = 0;
-	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-	hi2c1.Init.OwnAddress2 = 0;
-	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-	if (HAL_I2C_Init(&hi2c1) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN I2C1_Init 2 */
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
 
-	/* USER CODE END I2C1_Init 2 */
+  /* USER CODE END I2C1_Init 2 */
 
 }
 
 /**
- * @brief I2S3 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief I2S3 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_I2S3_Init(void)
 {
 
-	/* USER CODE BEGIN I2S3_Init 0 */
+  /* USER CODE BEGIN I2S3_Init 0 */
 
-	/* USER CODE END I2S3_Init 0 */
+  /* USER CODE END I2S3_Init 0 */
 
-	/* USER CODE BEGIN I2S3_Init 1 */
+  /* USER CODE BEGIN I2S3_Init 1 */
 
-	/* USER CODE END I2S3_Init 1 */
-	hi2s3.Instance = SPI3;
-	hi2s3.Init.Mode = I2S_MODE_MASTER_TX;
-	hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
-	hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
-	hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
-	hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
-	hi2s3.Init.CPOL = I2S_CPOL_LOW;
-	hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
-	hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
-	if (HAL_I2S_Init(&hi2s3) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN I2S3_Init 2 */
+  /* USER CODE END I2S3_Init 1 */
+  hi2s3.Instance = SPI3;
+  hi2s3.Init.Mode = I2S_MODE_MASTER_TX;
+  hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
+  hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
+  hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
+  hi2s3.Init.CPOL = I2S_CPOL_LOW;
+  hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
+  hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
+  if (HAL_I2S_Init(&hi2s3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2S3_Init 2 */
 
-	/* USER CODE END I2S3_Init 2 */
+  /* USER CODE END I2S3_Init 2 */
 
 }
 
 /**
- * @brief SPI1 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief SPI1 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_SPI1_Init(void)
 {
 
-	/* USER CODE BEGIN SPI1_Init 0 */
+  /* USER CODE BEGIN SPI1_Init 0 */
 
-	/* USER CODE END SPI1_Init 0 */
+  /* USER CODE END SPI1_Init 0 */
 
-	/* USER CODE BEGIN SPI1_Init 1 */
+  /* USER CODE BEGIN SPI1_Init 1 */
 
-	/* USER CODE END SPI1_Init 1 */
-	/* SPI1 parameter configuration*/
-	hspi1.Instance = SPI1;
-	hspi1.Init.Mode = SPI_MODE_MASTER;
-	hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-	hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-	hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-	hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-	hspi1.Init.NSS = SPI_NSS_SOFT;
-	hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-	hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-	hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-	hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-	hspi1.Init.CRCPolynomial = 10;
-	if (HAL_SPI_Init(&hspi1) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN SPI1_Init 2 */
+  /* USER CODE END SPI1_Init 1 */
+  /* SPI1 parameter configuration*/
+  hspi1.Instance = SPI1;
+  hspi1.Init.Mode = SPI_MODE_MASTER;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI1_Init 2 */
 
-	/* USER CODE END SPI1_Init 2 */
+  /* USER CODE END SPI1_Init 2 */
 
 }
 
 /**
- * Enable DMA controller clock
- */
+  * @brief USB_OTG_FS Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USB_OTG_FS_PCD_Init(void)
+{
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
+
+  /* USER CODE END USB_OTG_FS_Init 0 */
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
+
+  /* USER CODE END USB_OTG_FS_Init 1 */
+  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
+  hpcd_USB_OTG_FS.Init.dev_endpoints = 4;
+  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+  hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+  hpcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
+
+  /* USER CODE END USB_OTG_FS_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
 static void MX_DMA_Init(void)
 {
 
-	/* DMA controller clock enable */
-	__HAL_RCC_DMA1_CLK_ENABLE();
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
 
-	/* DMA interrupt init */
-	/* DMA1_Stream5_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
+  /* DMA interrupt init */
+  /* DMA1_Stream5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
 
 }
 
 /**
- * @brief GPIO Initialization Function
- * @param None
- * @retval None
- */
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_GPIO_Init(void)
 {
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	/* USER CODE BEGIN MX_GPIO_Init_1 */
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
 
-	/* USER CODE END MX_GPIO_Init_1 */
+  /* USER CODE END MX_GPIO_Init_1 */
 
-	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOE_CLK_ENABLE();
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	__HAL_RCC_GPIOH_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	__HAL_RCC_GPIOD_CLK_ENABLE();
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(CS_I2C_SPI_GPIO_Port, CS_I2C_SPI_Pin, GPIO_PIN_RESET);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(CS_I2C_SPI_GPIO_Port, CS_I2C_SPI_Pin, GPIO_PIN_RESET);
 
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
 
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
-			|Audio_RST_Pin, GPIO_PIN_RESET);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
+                          |Audio_RST_Pin, GPIO_PIN_RESET);
 
-	/*Configure GPIO pin : CS_I2C_SPI_Pin */
-	GPIO_InitStruct.Pin = CS_I2C_SPI_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(CS_I2C_SPI_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : CS_I2C_SPI_Pin */
+  GPIO_InitStruct.Pin = CS_I2C_SPI_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(CS_I2C_SPI_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : OTG_FS_PowerSwitchOn_Pin */
-	GPIO_InitStruct.Pin = OTG_FS_PowerSwitchOn_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(OTG_FS_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : OTG_FS_PowerSwitchOn_Pin */
+  GPIO_InitStruct.Pin = OTG_FS_PowerSwitchOn_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(OTG_FS_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : PDM_OUT_Pin */
-	GPIO_InitStruct.Pin = PDM_OUT_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
-	HAL_GPIO_Init(PDM_OUT_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : PDM_OUT_Pin */
+  GPIO_InitStruct.Pin = PDM_OUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  HAL_GPIO_Init(PDM_OUT_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : B1_Pin */
-	GPIO_InitStruct.Pin = B1_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : B1_Pin */
+  GPIO_InitStruct.Pin = B1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : BOOT1_Pin */
-	GPIO_InitStruct.Pin = BOOT1_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(BOOT1_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : BOOT1_Pin */
+  GPIO_InitStruct.Pin = BOOT1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BOOT1_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : CLK_IN_Pin */
-	GPIO_InitStruct.Pin = CLK_IN_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
-	HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : CLK_IN_Pin */
+  GPIO_InitStruct.Pin = CLK_IN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin */
-	GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin */
+  GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : Audio_RST_Pin */
-	GPIO_InitStruct.Pin = Audio_RST_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(Audio_RST_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : Audio_RST_Pin */
+  GPIO_InitStruct.Pin = Audio_RST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(Audio_RST_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : OTG_FS_OverCurrent_Pin */
-	GPIO_InitStruct.Pin = OTG_FS_OverCurrent_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(OTG_FS_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : OTG_FS_OverCurrent_Pin */
+  GPIO_InitStruct.Pin = OTG_FS_OverCurrent_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OTG_FS_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : MEMS_INT2_Pin */
-	GPIO_InitStruct.Pin = MEMS_INT2_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(MEMS_INT2_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : MEMS_INT2_Pin */
+  GPIO_InitStruct.Pin = MEMS_INT2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(MEMS_INT2_GPIO_Port, &GPIO_InitStruct);
 
-	/* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
 
-	/* USER CODE END MX_GPIO_Init_2 */
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -974,33 +1006,33 @@ int _write(int file, char *ptr, int len) {
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
-	/* USER CODE BEGIN Error_Handler_Debug */
+  /* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1) {
 		printf("Error\r\n");
 	}
-	/* USER CODE END Error_Handler_Debug */
+  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-	/* USER CODE BEGIN 6 */
+  /* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-	/* USER CODE END 6 */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
