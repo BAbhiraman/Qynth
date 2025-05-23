@@ -2521,3 +2521,900 @@ Finished building: default.size.stdout
  
 Finished building: Waveform1.list
  
+10:11:07 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:320:18: warning: unused variable 'M' [-Wunused-variable]
+  320 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:314:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:313:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  313 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:548:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:548:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:548:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:664:17: warning: unused variable 'buf' [-Wunused-variable]
+  664 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63900	    520	   3800	  68220	  10a7c	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:12:03 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:320:18: warning: unused variable 'M' [-Wunused-variable]
+  320 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:314:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:314:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:313:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  313 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:548:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:548:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:548:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:664:17: warning: unused variable 'buf' [-Wunused-variable]
+  664 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63908	    520	   3792	  68220	  10a7c	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:12:25 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:320:18: warning: unused variable 'M' [-Wunused-variable]
+  320 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:314:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:314:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:313:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  313 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:548:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:548:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:548:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:664:17: warning: unused variable 'buf' [-Wunused-variable]
+  664 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63916	    520	   3792	  68228	  10a84	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:12:56 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:320:18: warning: unused variable 'M' [-Wunused-variable]
+  320 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:314:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:314:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  314 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:313:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  313 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:548:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:548:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  548 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:548:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:664:17: warning: unused variable 'buf' [-Wunused-variable]
+  664 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63908	    520	   3792	  68220	  10a7c	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:51:57 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[attack_ind], k_decayTable[decay_ind], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  64556	    476	   5848	  70880	  114e0	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:55:29 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[attack_ind], k_decayTable[decay_ind], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  64556	    476	   5848	  70880	  114e0	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:58:00 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[attack_ind], k_decayTable[decay_ind], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  64556	    476	   5848	  70880	  114e0	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:59:14 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[attack_ind], k_decayTable[decay_ind], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  64556	    512	   5848	  70916	  11504	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+10:59:54 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[70], k_decayTable[140], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:00:22 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[70], k_decayTable[200], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:00:43 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[70], k_decayTable[240], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:01:05 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[70], k_decayTable[254], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:01:20 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[70], k_decayTable[255], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:03:08 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[125], k_decayTable[255], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:05:06 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[125], k_decayTable[255], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  63508	    512	   5848	  69868	  110ec	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:07:16 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[125], k_decayTable[255], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  67448	    512	   6872	  74832	  12450	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:07:59 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[125], k_decayTable[80], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  67448	    512	   6872	  74832	  12450	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
+11:08:43 **** Incremental Build of configuration Debug for project Waveform1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:406:36: warning: passing argument 1 of 'updateNoteEnvelope' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  406 |                 updateNoteEnvelope(&myNote, attackTable[100], k_decayTable[80], k_releaseTable[release_ind]);
+      |                                    ^~~~~~~
+../Core/Src/main.c:330:31: note: expected 'Note *' but argument is of type 'volatile Note *'
+  330 | void updateNoteEnvelope(Note* note_ptr, float attack_time_sec, float decay_k, float release_k) {
+      |                         ~~~~~~^~~~~~~~
+../Core/Src/main.c:390:18: warning: unused variable 'M' [-Wunused-variable]
+  390 |         uint16_t M = BUFFER_SIZE/4;
+      |                  ^
+../Core/Src/main.c:387:15: warning: variable 'tNote' set but not used [-Wunused-but-set-variable]
+  387 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:384:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:384:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  384 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:383:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  383 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:618:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:618:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  618 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:618:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:734:17: warning: unused variable 'buf' [-Wunused-variable]
+  734 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waveform1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waveform1\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waveform1.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waveform1.elf
+ 
+arm-none-eabi-size  Waveform1.elf 
+arm-none-eabi-objdump -h -S Waveform1.elf  > "Waveform1.list"
+   text	   data	    bss	    dec	    hex	filename
+  67448	    512	   6872	  74832	  12450	Waveform1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waveform1.list
+ 
