@@ -130,8 +130,11 @@ volatile uint8_t  attack_ind = 180;
 volatile uint8_t  decay_ind  = 180;
 volatile uint8_t  release_ind = 68;
 volatile Note myNote;
+volatile Note myNote2;
 
-int8_t odeToJoy[] = {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2,4,4,5,7,7,5,4,2,0,0,2,4,2,2,0,0};
+int8_t odeToJoy[] =  {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2,4,4,5,7,7,5,4,2,0,0,2,4,2,2,0,0};
+int8_t odeToJoy2[] = {0, -5, -3, -1, -5, -3, -4, -1, -3, -4, -5, -6, -10, -6, -5, -1, 0, -5, -3, -1, -5, -3, -4, -1, -3, -4, -10, -6, -7, -5, -8, -12};
+
 uint8_t lenJoy = sizeof(odeToJoy);
 
 float ATTACK_TIME = 0.2; //units: seconds
@@ -205,7 +208,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 		//printf("%d\r\n",AD_RES_COPY[i]);
 	}
 	//printf("\r\n");
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, 3);
+	//HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, 3);
 }
 
 
@@ -398,33 +401,47 @@ void processData() {
 	}
 	static float leftOut, rightOut;
 	static int16_t leftOutInt, rightOutInt;
-	float t;
+	float vibrato;
 	float f;
+	float f2;
 	float tNote;
 	//double phase;
 	uint16_t phase = 0;
-	uint16_t M = BUFFER_SIZE/4;
+	uint16_t phase2 = 0;
+	uint16_t phase_vib = 0;
 	uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+	uint8_t vibrato_amt;
 	if (noteInd != prevNoteInd) {
 		myNote = Note_init(36 + odeToJoy[noteInd], 100);  // Middle C = 60, velocity 100
+		myNote2 = Note_init(36 + odeToJoy2[noteInd], 100);
 	}
 	prevNoteInd = noteInd;
+
+
 	//printf("%u\r\n",noteInd);
 	f = 65.41*pow(1.0594630943592952646,myNote.pitch); // + 4*sinf(1.5*TAU*t);
+	f2 = 65.41*pow(1.0594630943592952646,myNote2.pitch);
 	//printf("%d \r\n", odeToJoy[noteInd]);
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
 
-		t = (ticks)/(float)FS;
+		//t = (ticks)/(float)FS;
 		tNote = (myNote.ticks_pressed)/(float)FS;
+											//vibrato 0.5 to 60 Hz or so
+		vibrato_amt = 255-AD_RES_COPY[1];
+		if (vibrato_amt > 10) vibrato_amt -= 10;
+		phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
+		vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
 
-		phase = ((uint16_t)(LOOKUPSIZE *f* t)) % LOOKUPSIZE;
-		leftOut = (sineLookupTable[phase] * myNote.env);
+		phase = ((uint16_t)(LOOKUPSIZE *f*vibrato*tNote)) % LOOKUPSIZE;
+		phase2 = ((uint16_t)(LOOKUPSIZE *f2*vibrato*tNote)) % LOOKUPSIZE; //todo change tNote
+		leftOut = (sineLookupTable[phase] * myNote.env + sineLookupTable[phase2] * myNote2.env);
 		// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
 		updateNoteEnvelope(&myNote, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+		updateNoteEnvelope(&myNote2, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
 		//updateNoteEnvelope(&myNote, attackTable[100], k_decayTable[100], k_releaseTable[100]);
 
 		//rightOut = leftOut;
-		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
+		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/2.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
 		outBufPtr[n + 1] = outBufPtr[n]; //(10000 * rightOut);
 		ticks++;
 
@@ -807,9 +824,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
 		if (dataReadyFlag) {
-			if (! (loops % 2000)) {
+			if (! (loops % 2000)) { //was 2000
 				//TODO move this to within the processData call
 				HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, 3);
 			}
