@@ -3,21 +3,21 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="UART"/>
+		<item value="_write"/>
+		<item value="print"/>
+		<item value="printf"/>
+		<item value="prototype"/>
+		<item value="LD3"/>
+		<item value="LD"/>
+		<item value="navflag"/>
+		<item value="vibrato"/>
+		<item value="processData"/>
 		<item value="pClass"/>
 		<item value="registration"/>
 		<item value="midi"/>
 		<item value="MIDI"/>
 		<item value="endpoint_configuration_HID"/>
-		<item value="handletypedef"/>
-		<item value="Endpoint"/>
-		<item value="PCD_SNG"/>
-		<item value="user code begin "/>
-		<item value="user code begin"/>
-		<item value="PCDEx"/>
-		<item value="usb_rx_buffer"/>
-		<item value="DataInHandler"/>
-		<item value="fs"/>
-		<item value="begin 2"/>
 	</list>
 	<list key="replacehistory">
 		<item value="i2c_rd("/>

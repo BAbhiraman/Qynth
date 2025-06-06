@@ -2,4 +2,5 @@ DeviceConfigurationTool.AskToSwitchToCdtPerspective=false
 DeviceConfigurationTool.AskToSwitchToCubeMxPerspective=false
 DeviceConfigurationTool.SwitchToCdtPerspective=true
 DeviceConfigurationTool.SwitchToCubeMxPerspective=true
+com.st.stm32cube.ide.mcu.debug.swv.pref_buff_size=20000000
 eclipse.preferences.version=1
