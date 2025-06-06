@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <math.h>   // For fminf, fmaxf
 
 /* USER CODE END Includes */
 
@@ -33,6 +34,16 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define RX_BUFFER_SIZE 256
+#define MIDI_PITCHES_COUNT 128
+#define FS 48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
+
+typedef struct {
+    uint8_t  vel[MIDI_PITCHES_COUNT];            // MIDI standard velocity (0-127) for each pitch
+    uint8_t  released[MIDI_PITCHES_COUNT];       // True if the note has been released, false if pressed for each pitch
+    uint32_t ticks_pressed[MIDI_PITCHES_COUNT];  // Ticks elapsed since the note was pressed for each pitch
+    uint32_t ticks_released[MIDI_PITCHES_COUNT]; // Ticks elapsed since the note was released for each pitch
+    float    env[MIDI_PITCHES_COUNT];            // Current envelope level (e.g., 0.0 to 1.0) for each pitch
+} Notes; // Renamed to Notes (plural) as it now holds data for multiple notes
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,6 +70,20 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 /* USER CODE BEGIN PV */
 uint8_t RxUART[RX_BUFFER_SIZE];
 volatile uint16_t OldPos = 0;
+typedef enum {
+    LAST_READ_STATUS,
+    LAST_READ_PITCH,
+    LAST_READ_VELOCITY,
+    LAST_READ_PEDAL,
+    LAST_READ_NONE // Good to have an initial/default state
+} lastRead_t; // Using a typedef for easier use, and _t suffix is common for enums/structs
+lastRead_t currentLastRead = LAST_READ_NONE;
+uint8_t inNoteEvent = 0;
+uint16_t currentMIDIPitch = 255; //actual values are 0-127
+const int N_voices = 8;  // The number of voices to process
+
+Notes my_midi_notes; // Declare an instance of the Notes struct
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,15 +102,245 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//	HAL_GPIO_TogglePin(GPIOD, LD3_Pin);
-//	if (RxUART[0] != 254) {
-//		printf("0x%X, %d, %d\r\n", RxUART[0] >> 4,RxUART[1], RxUART[2]);
-//		printf("\r\n");
-//	}
-//	HAL_UART_Receive_DMA(&huart2, RxUART, sizeof(RxUART));
-//}
+void Notes_init(Notes* notes_system) {
+    // Loop through all possible MIDI pitches and set their initial state
+    for (int i = 0; i < MIDI_PITCHES_COUNT; i++) {
+        notes_system->vel[i] = 0;              // No velocity (note off)
+        notes_system->released[i] = 0;         //
+        notes_system->ticks_pressed[i] = 0;    // No ticks yet
+        notes_system->ticks_released[i] = 0;   // No ticks yet
+        notes_system->env[i] = 0.0f;           // Envelope at zero
+    }
+}
+
+void clear_note(Notes* notes_system, uint8_t note_index) {
+    // Basic validation to ensure the index is within bounds
+    if (note_index < MIDI_PITCHES_COUNT) {
+        notes_system->vel[note_index] = 0;              // Set velocity to 0 (note off)
+        notes_system->released[note_index] = 0;         //
+        notes_system->ticks_pressed[note_index] = 0;    // Reset ticks since pressed
+        notes_system->ticks_released[note_index] = 0;   // Reset ticks since released
+        notes_system->env[note_index] = 0.0f;           // Reset envelope level to 0.0
+    } else {
+
+        // Optional: Add an error handling or logging mechanism if an invalid index is provided
+        // For embedded systems, you might have a dedicated error LED, a serial print, or nothing at all
+        // depending on your error handling strategy.
+        printf(stderr, "Error: clear_note called with invalid note_index: %u\n", note_index);
+    }
+}
+
+/**
+ * @brief Adds (activates) a note in the Notes tracking system with a given pitch and velocity.
+ *
+ * This function simulates a MIDI "Note On" event. It sets the velocity,
+ * marks the note as pressed, and resets relevant envelope/timing parameters
+ * for the specified pitch.
+ *
+ * @param notes_system A pointer to the Notes struct holding the state of all MIDI pitches.
+ * @param pitch The MIDI pitch number (0-127) of the note to activate.
+ * @param velocity The velocity value (0-127) for the note.
+ */
+void add_note(Notes* notes_system, uint8_t pitch, uint8_t velocity) {
+    // Basic validation for the pitch
+    if (notes_system == NULL) {
+        printf("Error: NULL Notes system pointer passed to add_note.\r\n");
+        return;
+    }
+    if (pitch >= MIDI_PITCHES_COUNT) {
+        printf("Error: add_note called with invalid pitch: %u (max %u)\r\n", pitch, MIDI_PITCHES_COUNT - 1);
+        return;
+    }
+
+    // A velocity of 0 is typically interpreted as a "Note Off" event.
+    // While this function is named "add_note", it's good practice to handle
+    // velocity 0 either by calling clear_note or just returning.
+    if (velocity == 0) {
+        // If velocity is 0, treat it as a note off (set released flag)
+        // or clear the note entirely. For simplicity here, we'll mark it released
+        // and let updateNoteEnvelope handle the decay.
+        notes_system->released[pitch] = 1;
+        // Don't actually set the vel[pitch] to 0! That variable tracks what was :')
+        return;
+    }
+
+    // Set the velocity for the specified pitch
+    notes_system->vel[pitch] = velocity;
+    // Mark the note as pressed (not released)
+    notes_system->released[pitch] = 0;
+    // Reset ticks related to pressing/releasing for a new press
+    notes_system->ticks_pressed[pitch] = 0;
+    notes_system->ticks_released[pitch] = 0; // Not applicable for a pressed note
+    // Reset envelope to 0.0f, as it will start its attack phase
+    notes_system->env[pitch] = 0.0f;
+}
+
+/**
+ * @brief Updates the envelope level for active notes within the Notes tracking system.
+ *
+ * This function iterates over the `Notes` arrays from highest to lowest pitch.
+ * For the first N_voices (where velocity is not 0), it applies the ADSR envelope logic
+ * (simplified to AD-Release here) to update the 'env' level for that specific note.
+ *
+ * @param notes_system A pointer to the Notes struct holding the state of all MIDI pitches.
+ * @param attack_time_sec The duration of the attack phase in seconds.
+ * @param decay_k The exponential decay factor for the decay phase (0.0 to 1.0, typically < 1.0).
+ * @param release_k The exponential release factor for the release phase (0.0 to 1.0, typically < 1.0).
+ */
+void updateNoteEnvelope(Notes* notes_system, float attack_time_sec, float decay_k, float release_k) {
+    // Ensure notes_system is not NULL
+    if (notes_system == NULL) {
+        printf("Error: NULL Notes system pointer passed to updateNoteEnvelope.\r\n");
+        return;
+    }
+
+    // Calculate attack duration in ticks (common for all notes)
+    // Ensure FS is not zero to prevent division by zero in attack_increment_per_tick
+    float attack_duration_ticks = (FS > 0.0f) ? (attack_time_sec * FS) : 1.0f; // Prevent div by zero if FS is 0
+
+    int voices_processed = 0; // Counter for active voices processed
+
+    // Iterate over the arrays in descending pitch order
+    for (int pitch = MIDI_PITCHES_COUNT - 1; pitch >= 0; pitch--) {
+        // Only process notes that have velocity (are "on") and we haven't hit N_voices limit
+        if (notes_system->vel[pitch] != 0) {
+            // We only care about the first N_voices with non-zero velocity
+            if (voices_processed >= N_voices) {
+                // If this note is still active (not released and velocity > 0)
+                // but we've already hit our voice limit, we might want to
+                // consider stopping its envelope or giving it a very fast release.
+                // For this implementation, we'll just skip it for envelope processing
+                // if it's beyond N_voices and has velocity.
+                // However, if it's already in release phase, we *should* continue processing it
+                // until its envelope decays to 0. So, we adjust the condition here.
+//                if (notes_system->released[pitch] == 0) { // If it's a *pressed* note beyond N_voices
+//                    continue; // Skip processing its envelope as it's not a primary voice
+//                }
+                // If it's a released note (vel!=0, but released==1), we still process it
+                // to allow its envelope to decay, regardless of N_voices.
+                // The N_voices limit primarily applies to "active, pressed" notes.
+            }
+
+            // Check if the note is currently pressed (not released)
+            if (notes_system->released[pitch] == 0) {
+                notes_system->ticks_pressed[pitch]++; // Increment ticks since press
+
+                // Attack Phase: if ticks_pressed is within the attack duration
+                if (notes_system->ticks_pressed[pitch] <= attack_duration_ticks) {
+                    // Calculate the linear increment per tick
+                    if (attack_duration_ticks > 0.0f) {
+                        float attack_increment_per_tick = 1.0f / attack_duration_ticks;
+                        notes_system->env[pitch] += attack_increment_per_tick;
+                    } else { // Instant attack
+                        notes_system->env[pitch] = 1.0f;
+                    }
+                    // Clip the envelope level at 1.0 (maximum)
+                    notes_system->env[pitch] = fminf(notes_system->env[pitch], 1.0f);
+                }
+                // Decay Phase: if attack is finished and note is still pressed
+                else {
+                    notes_system->env[pitch] *= decay_k;
+                    // Ensure envelope doesn't go below 0 due to floating point inaccuracies
+                    notes_system->env[pitch] = fmaxf(notes_system->env[pitch], 0.0f);
+                }
+
+                // Only increment voices_processed for currently pressed notes
+                voices_processed++;
+
+            } else { // If the note has been released (notes_system->released[pitch] == 1)
+                notes_system->ticks_released[pitch]++; // Increment ticks since release
+                // Release Phase: apply release scalar
+                notes_system->env[pitch] *= release_k;
+                // Ensure envelope doesn't go below 0
+                notes_system->env[pitch] = fmaxf(notes_system->env[pitch], 0.0f);
+            }
+
+            // After envelope processing, if the envelope has decayed to near zero,
+            // and the note is released, we can "turn off" the note entirely
+            // by setting its velocity to 0 and clearing its state.
+            // This is crucial for managing polyphony and avoiding processing
+            // completely silent, released notes indefinitely.
+            if (notes_system->env[pitch] < 0.001f && notes_system->released[pitch] == 1) {
+                // Call your clear_note function here if you have one
+                // clear_note(notes_system, pitch); // Assuming clear_note sets vel to 0, released to 1, etc.
+                // If you don't have clear_note, you'd do:
+                notes_system->vel[pitch] = 0;
+                notes_system->ticks_pressed[pitch] = 0;
+                notes_system->ticks_released[pitch] = 0;
+                notes_system->env[pitch] = 0.0f; // Ensure it's exactly zero
+                notes_system->released[pitch] = 0.0f; // Set released to 0 so that the next instance is ready.
+            }
+        }
+    }
+}
+
+void ParseMIDI(uint8_t* data, uint16_t length) {
+	int did_something = 0;
+	uint8_t byte;
+	for (uint16_t i = 0; i < length; i++) {
+		byte = data[i];
+		if (byte != 254) {
+
+			did_something = 1;
+			// Status byte if MSB = 1
+			if ((byte >> 7) & 0x01) {
+				// if MS Nybble is 0x9, Note On command
+				currentLastRead = LAST_READ_STATUS;
+				if ((byte >> 4) == 0x9) {
+					inNoteEvent = 1;
+					printf("ON ");
+				}
+				else if ((byte >> 4) == 0x8) {
+					inNoteEvent = 0;
+					printf("OFF ");
+				}
+				else if ((byte >> 4) == 0x4) {
+					printf("PEDAL ");
+				}
+			}
+			// Data byte if MSB = 0
+			else {
+				if (inNoteEvent) {
+					if (currentLastRead == LAST_READ_STATUS) {
+						currentLastRead = LAST_READ_PITCH;
+						currentMIDIPitch = byte;
+						printf("note %02X ", byte);
+					}
+					else if (currentLastRead == LAST_READ_PITCH) {
+						currentLastRead = LAST_READ_VELOCITY;
+						if (byte == 0) {
+							inNoteEvent = 0;
+							clear_note(&my_midi_notes, currentMIDIPitch);
+						}
+						else {
+							add_note(&my_midi_notes, currentMIDIPitch, byte);
+						}
+						printf("vel %02X ", byte);
+					}
+					else if (currentLastRead == LAST_READ_VELOCITY) {
+						currentLastRead = LAST_READ_PITCH;
+						printf("note %02X ", byte);
+					}
+				}
+				else { //TODO bug: pedal logic doesn't work if E is being held.
+					if ((currentLastRead != LAST_READ_PEDAL) & ((byte>>4)== 0x4)) {
+						currentLastRead = LAST_READ_PEDAL;
+						printf("PEDAL %02X ", byte);
+					}
+					else {
+						currentLastRead = LAST_READ_VELOCITY;
+						printf("pel %02X ", byte);
+					}
+				}
+			}
+		}
+	}
+	if (did_something) {
+		HAL_GPIO_TogglePin(GPIOD, LD3_Pin);
+		printf("\r\n");
+	}
+
+}
 
 void ReadRxBuffer() {
 	uint16_t pos = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart2_rx);
@@ -102,22 +357,6 @@ void ReadRxBuffer() {
 		OldPos = pos;
 	}
 }
-
-void ParseMIDI(uint8_t* data, uint16_t length) {
-	int did_something = 0;
-	for (uint16_t i = 0; i < length; i++) {
-		if (data[i] != 254) {
-			printf("%02X ", data[i]);
-			HAL_GPIO_TogglePin(GPIOD, LD3_Pin);
-			did_something = 1;
-		}
-	}
-	if (did_something) {
-		printf("\r\n");
-	}
-}
-
-
 
 
 /* USER CODE END 0 */
@@ -161,6 +400,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   printf("Hello world!\r\n");
 
+  Notes_init(&my_midi_notes); // Initialize the entire system
+
   HAL_UART_Receive_DMA(&huart2, RxUART, RX_BUFFER_SIZE);
 
   /* USER CODE END 2 */
@@ -173,7 +414,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  HAL_Delay(500);
+	  HAL_Delay(2);
 	  HAL_GPIO_TogglePin(GPIOD, LD4_Pin);
 	  ReadRxBuffer();
 

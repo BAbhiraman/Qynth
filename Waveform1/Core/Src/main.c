@@ -293,37 +293,6 @@ float powe(float x) {
 	return pow2(LOG_E2 * x);
 }
 
-// Function to calculate the ADSR envelope value
-float adsr_envelope(float time_elapsed, int key_pressed) {
-	//TODO bugs in if statements. must modify to keep track of sample state. Becaus
-	float amplitude;
-
-	if (key_pressed) { // Key is currently pressed
-		if (time_elapsed < ATTACK_TIME) {
-			// Attack phase: Linear ramp-up
-			amplitude = time_elapsed / ATTACK_TIME;
-		} else if (time_elapsed < ATTACK_TIME + 3*DECAY_TIME) {
-			// Decay phase: Exponential decay to sustain level
-			float time_in_decay = time_elapsed - ATTACK_TIME;
-			amplitude = (1.0 - SUSTAIN_LEVEL) * powe(-time_in_decay / DECAY_TIME) + SUSTAIN_LEVEL;
-		} else {
-			// Sustain phase: Constant sustain level
-			amplitude = SUSTAIN_LEVEL;
-		}
-	} else { // Key is released
-		if (time_elapsed > 0) { // Ensure we've had some attack/decay/sustain
-			// Release phase: Exponential decay to zero
-			float time_in_release = time_elapsed; // Time since release started
-			amplitude = SUSTAIN_LEVEL * powe(-time_in_release / RELEASE_TIME);
-//			if (amplitude < 0.0001) { // Optional: Clamp to near zero to avoid tiny values
-//				amplitude = 0.0;
-//			}
-		}
-	}
-
-	return amplitude;
-}
-
 double min(double a, double b) {
 	  return (a < b) ? a : b;
 }
