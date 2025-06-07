@@ -49,6 +49,8 @@
 
 #define MIDI_PTR_HIST_SIZE 16
 
+#define N_VOICES 10
+
 // DAC PARAMS
 #define DACADDR 0x94
 #define CS43L22_REG_ID                              0x01
@@ -145,7 +147,11 @@ uint16_t MIDIptr = 253;
 uint16_t MIDIptrHist[MIDI_PTR_HIST_SIZE];
 uint8_t MIDIptrInd = 0;
 uint16_t lastMIDIPitch =    254;
-const int N_voices = 2;  // The number of voices to process
+
+volatile uint8_t debug_flag;
+
+volatile uint8_t active_notes[N_VOICES];
+volatile uint8_t num_active_notes;
 
 Notes my_midi_notes; // Declare an instance of the Notes struct
 
@@ -428,12 +434,12 @@ void updateNoteEnvelope(Notes* notes_system, float attack_time_sec, float decay_
     int voices_processed = 0; // Counter for active voices processed
     uint8_t pitch;
     // Iterate over the arrays in descending pitch order
-    for (uint8_t ind = 0; ind < MIDI_PTR_HIST_SIZE; ind++) {
-    	pitch = MIDIptrHist[ind];
+    for (int ind = 0; ind < num_active_notes; ind++) {
+    	pitch = active_notes[ind];
         // Only process notes that have velocity (are "on") and we haven't hit N_voices limit
         if (notes_system->vel[pitch] != 0) {
             // We only care about the first N_voices with non-zero velocity
-            if (voices_processed < N_voices) {
+            if (voices_processed < N_VOICES) {
 
 				// Check if the note is currently pressed (not released)
 				if (notes_system->released[pitch] == 0) {
@@ -563,7 +569,9 @@ void ReadRxBuffer() {
 	}
 }
 void processData() {
+	debug_flag = 0;
 	ReadRxBuffer();
+	debug_flag = 1;
 	//navflag
 	if (outBufPtr == &dacData[0]) {
 		HAL_GPIO_WritePin(GPIOD, LD6_Pin, GPIO_PIN_SET); //blue
@@ -589,16 +597,32 @@ void processData() {
 	uint8_t pitch;
 	//printf("%u\r\n",noteInd);
 	//printf("%d \r\n", odeToJoy[noteInd]);
+
+	//First figure out which notes are active
+	debug_flag = 2;
+	num_active_notes = 0;
+	for (int pitch = MIDI_PITCHES_COUNT-1; pitch >= 0; pitch--) {
+		if (num_active_notes < N_VOICES) {
+			if (my_midi_notes.vel[pitch] != 0) {
+				active_notes[num_active_notes] = pitch;
+				num_active_notes++;
+			}
+		}
+
+	}
+	debug_flag = 3;
+
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
 		//t = (ticks % (uint16_t)FS)/(float)FS;
-
+		debug_flag = 4;
 		//updateNoteEnvelope(&my_midi_notes, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
 //		updateNoteEnvelope(&my_midi_notes, attackTable[100], k_decayTable[100], k_releaseTable[100]);
 //		// Iterate over the arrays in descending pitch order
 		//for (int pitch = MIDI_PITCHES_COUNT - 1; pitch >= 0; pitch--) {
 		leftOut = 0.0; //can finish if this is like over 4 pitches. 15 works at 8 kHz FS. 60 works at 32 kHz FS.
-		for (uint8_t ind = 0; ind < MIDI_PTR_HIST_SIZE; ind++) {
-			pitch = MIDIptrHist[ind];
+		for (uint8_t ind = 0; ind < num_active_notes; ind++) {
+			pitch = active_notes[ind];
+			debug_flag = 5;
 			// Only process notes that have velocity (are "on") and we haven't hit N_voices limit
 			if (my_midi_notes.vel[pitch] != 0) {
 				//t = (ticks)/(float)FS;
@@ -613,10 +637,11 @@ void processData() {
 				leftOut += sineLookupTable[phase]*my_midi_notes.env[pitch];
 				// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
 				//updateNoteEnvelope(&myNote, attackTable[100], k_decayTable[100], k_releaseTable[100]);
-
+				debug_flag = 6;
 				//rightOut = leftOut;
 			}
 		}
+		debug_flag = 7;
 		updateNoteEnvelope(&my_midi_notes, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
 //		vibrato_amt = 255-AD_RES_COPY[1];
 //		if (vibrato_amt > 10) vibrato_amt -= 10;
@@ -624,6 +649,7 @@ void processData() {
 //		vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
 		//phase = ((uint16_t)(LOOKUPSIZE*fTable[currentMIDIPitch]*vibrato*t)) % LOOKUPSIZE;
 		//leftOut = sineLookupTable[phase];
+		debug_flag = 8;
 		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/5.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
 		outBufPtr[n + 1] = outBufPtr[n]; //(10000 * rightOut);
 		ticks++;
@@ -1492,6 +1518,8 @@ void Error_Handler(void)
 	__disable_irq();
 	while (1) {
 		//printf("Error\r\n");
+		HAL_GPIO_TogglePin(GPIOD, LD4_Pin);
+		HAL_Delay(500);
 	}
   /* USER CODE END Error_Handler_Debug */
 }
