@@ -47,6 +47,13 @@
 #define RX_BUFFER_SIZE 256
 #define MIDI_PITCHES_COUNT 128
 
+// For ftable. I know it's redundant with other variables.
+#define MIDI_PITCH_MIN 0
+#define MIDI_PITCH_MAX 127
+#define MIDI_PITCH_COUNT (MIDI_PITCH_MAX - MIDI_PITCH_MIN + 1) // 128 notes
+#define A4_FREQUENCY 440.0f // Frequency of A4 in Hz
+#define A4_MIDI_NOTE 69     // MIDI note number for A4
+
 #define MIDI_PTR_HIST_SIZE 16
 
 #define N_VOICES 10
@@ -142,11 +149,12 @@ typedef enum {
 } lastRead_t; // Using a typedef for easier use, and _t suffix is common for enums/structs
 lastRead_t currentLastRead = LAST_READ_NONE;
 uint8_t inNoteEvent = 0;
-uint16_t currentMIDIPitch = 255; //actual values are 0-127
-uint16_t MIDIptr = 253;
+volatile uint16_t currentMIDIPitch = 255; //actual values are 0-127
+volatile uint16_t MIDIptr = 253;
 uint16_t MIDIptrHist[MIDI_PTR_HIST_SIZE];
 uint8_t MIDIptrInd = 0;
 uint16_t lastMIDIPitch =    254;
+volatile uint8_t playing_note;
 
 volatile uint8_t debug_flag;
 
@@ -169,10 +177,6 @@ int8_t odeToJoy2[] = {0, -5, -3, -1, -5, -3, -4, -1, -3, -4, -5, -6, -10, -6, -5
 
 uint8_t lenJoy = sizeof(odeToJoy);
 
-float ATTACK_TIME = 0.2; //units: seconds
-float DECAY_TIME = 0.4; // time constant tau: seconds
-float RELEASE_TIME = 0.4; // time constant tau: seconds
-float SUSTAIN_LEVEL = 0.0;
 
 float input_scale;
 
@@ -213,12 +217,22 @@ const float releaseTable[] = {//256 elements
 		6.9106990358e+00, 7.1193066943e+00, 7.3342114228e+00, 7.5556033057e+00, 7.7836781656e+00, 8.0186377360e+00, 8.2606898401e+00, 8.5100485745e+00, 8.7669344984e+00, 9.0315748291e+00, 9.3042036424e+00, 9.5850620804e+00, 9.8743985638e+00, 1.0172469013e+01, 1.0479537072e+01, 1.0795874346e+01, 1.1121760635e+01, 1.1457484190e+01, 1.1803341959e+01, 1.2159639855e+01, 1.2526693027e+01, 1.2904826134e+01, 1.3294373638e+01, 1.3695680097e+01, 1.4109100468e+01, 1.4535000423e+01, 1.4973756675e+01, 1.5425757305e+01, 1.5891402111e+01, 1.6371102958e+01, 1.6865284146e+01, 1.7374382779e+01, 1.7898849160e+01, 1.8439147181e+01, 1.8995754739e+01, 1.9569164158e+01, 2.0159882621e+01, 2.0768432623e+01, 2.1395352429e+01, 2.2041196554e+01, 2.2706536252e+01, 2.3391960018e+01, 2.4098074115e+01, 2.4825503104e+01, 2.5574890401e+01, 2.6346898844e+01, 2.7142211279e+01, 2.7961531165e+01, 2.8805583194e+01, 2.9675113936e+01, 3.0570892497e+01, 3.1493711197e+01, 3.2444386276e+01, 3.3423758611e+01, 3.4432694463e+01, 3.5472086243e+01, 3.6542853298e+01, 3.7645942728e+01, 3.8782330223e+01, 3.9953020924e+01, 4.1159050314e+01, 4.2401485134e+01, 4.3681424325e+01, 4.5000000000e+0,
 };
 
-const float fTable[] = {
-		6.5410000000e+01,6.9299481002e+01,7.3420242580e+01,7.7786037392e+01,8.2411435874e+01,8.7311874861e+01,9.2503709115e+01,9.8004265899e+01,1.0383190281e+02,1.1000606904e+02,1.1654737031e+02,1.2347763759e+02,1.3082000000e+02,1.3859896200e+02,1.4684048516e+02,1.5557207478e+02,1.6482287175e+02,1.7462374972e+02,1.8500741823e+02,1.9600853180e+02,2.0766380562e+02,2.2001213809e+02,2.3309474061e+02,2.4695527517e+02,2.6164000000e+02,2.7719792401e+02,2.9368097032e+02,3.1114414957e+02,3.2964574349e+02,3.4924749945e+02,3.7001483646e+02,3.9201706359e+02,
-		4.1532761124e+02,4.4002427617e+02,4.6618948123e+02,4.9391055034e+02,5.2328000000e+02,5.5439584802e+02,5.8736194064e+02,6.2228829914e+02,6.5929148699e+02,6.9849499889e+02,7.4002967292e+02,7.8403412719e+02,8.3065522247e+02,8.8004855235e+02,9.3237896246e+02,9.8782110068e+02,1.0465600000e+03,1.1087916960e+03,1.1747238813e+03,1.2445765983e+03,1.3185829740e+03,1.3969899978e+03,1.4800593458e+03,1.5680682544e+03,1.6613104449e+03,1.7600971047e+03,1.8647579249e+03,1.9756422014e+03,2.0931200000e+03,2.2175833921e+03,2.3494477626e+03,2.4891531966e+03,
-		2.6371659480e+03,2.7939799956e+03,2.9601186917e+03,3.1361365088e+03,3.3226208899e+03,3.5201942094e+03,3.7295158498e+03,3.9512844027e+03,4.1862400000e+03,4.4351667841e+03,4.6988955251e+03,4.9783063931e+03,5.2743318959e+03,5.5879599911e+03,5.9202373833e+03,6.2722730175e+03,6.6452417798e+03,7.0403884188e+03,7.4590316997e+03,7.9025688054e+03,8.3724800000e+03,8.8703335683e+03,9.3977910502e+03,9.9566127862e+03,1.0548663792e+04,1.1175919982e+04,1.1840474767e+04,1.2544546035e+04,1.3290483560e+04,1.4080776838e+04,1.4918063399e+04,1.5805137611e+04,
-		1.6744960000e+04,1.7740667137e+04,1.8795582100e+04,1.9913225572e+04,2.1097327584e+04,2.2351839964e+04,2.3680949533e+04,2.5089092070e+04,2.6580967119e+04,2.8161553675e+04,2.9836126799e+04,3.1610275222e+04,3.3489920000e+04,3.5481334273e+04,3.7591164201e+04,3.9826451145e+04,4.2194655167e+04,4.4703679929e+04,4.7361899067e+04,5.0178184140e+04,5.3161934238e+04,5.6323107350e+04,5.9672253597e+04,6.3220550444e+04,6.6979840000e+04,7.0962668546e+04,7.5182328402e+04,7.9652902290e+04,8.4389310335e+04,8.9407359858e+04,9.4723798134e+04,1.0035636828e+05,
-};
+// Declare the array to hold frequencies globally or static
+// Using float for frequencies as they are not whole numbers
+float fTable[MIDI_PITCH_COUNT];
+
+void populateMidiFrequencies() {
+    for (uint8_t midi_note = MIDI_PITCH_MIN; midi_note <= MIDI_PITCH_MAX; midi_note++) {
+        // Calculate the exponent: (MIDI_note - 69) / 12.0
+        // Use 12.0 to ensure floating-point division
+        float exponent = (float)(midi_note - A4_MIDI_NOTE) / 12.0f;
+
+        // Calculate the frequency using the formula
+        fTable[midi_note] = A4_FREQUENCY * powf(2.0f, exponent);
+        // powf is the float version of pow (better for float arguments)
+    }
+}
+
 
 float k_attackTable[ADR_TABLE_SIZE]; //these are decay coefficients. Each time step, multiply envelope by these.
 float k_decayTable[ADR_TABLE_SIZE];
@@ -279,13 +293,6 @@ void populate_ADR_tables() {
 
 // from googoomuck https://github.com/deadsy/googoomuck/blob/23a4c42d906d39d54b2561419264b4d8862aaff6/ggm/pow.c#L59
 
-//Notes:
-//
-//math library powf(2.f, x) = 4.58uS
-//math library truncf() = 300nS
-//
-//pow2_frac() = 186nS
-//pow2() = 500nS
 
 static const uint16_t exp0_table[64] = {
 	0x8000, 0x8165, 0x82ce, 0x843a, 0x85ab, 0x871f, 0x8898, 0x8a15, 0x8b96, 0x8d1b, 0x8ea4, 0x9032, 0x91c4, 0x935a, 0x94f5, 0x9694,
@@ -300,38 +307,6 @@ static const uint16_t exp1_table[64] = {
 	0x80b2, 0x80b8, 0x80bd, 0x80c3, 0x80c8, 0x80ce, 0x80d3, 0x80d9, 0x80df, 0x80e4, 0x80ea, 0x80ef, 0x80f5, 0x80fa, 0x8100, 0x8106,
 	0x810b, 0x8111, 0x8116, 0x811c, 0x8122, 0x8127, 0x812d, 0x8132, 0x8138, 0x813e, 0x8143, 0x8149, 0x814e, 0x8154, 0x815a, 0x815f,
 };
-
-// return powf(2.f, x) where x is an integer [-126,127]
-float pow2_int(int x) {
-	float f;
-	// make a float32 per IEEE754
-	*(uint32_t *) & f = (127 + x) << 23;
-	return f;
-}
-
-// return powf(2.f, x) where x = [0,1)
-float pow2_frac(float x) {
-	int n = (int)(x * (float)(1U << 12));
-	uint16_t x0 = exp0_table[(n >> 6) & 0x3f];
-	uint16_t x1 = exp1_table[n & 0x3f];
-	return (float)(x0 * x1) * (1.f / (float)(1U << 30));
-}
-
-// return powf(2.f, x)
-float pow2(float x) {
-	float nf = truncf(x);
-	float ff = x - nf;
-	if (ff < 0) {
-		nf -= 1.f;
-		ff += 1.f;
-	}
-	return pow2_frac(ff) * pow2_int((int)nf);
-}
-
-// return powf(e, x)
-float powe(float x) {
-	return pow2(LOG_E2 * x);
-}
 
 double min(double a, double b) {
 	  return (a < b) ? a : b;
@@ -466,6 +441,7 @@ void updateNoteEnvelope(Notes* notes_system, float attack_time_sec, float decay_
 
 				} else { // If the note has been released (notes_system->released[pitch] == 1)
 					notes_system->ticks_released[pitch]++; // Increment ticks since release
+					notes_system->ticks_pressed[pitch]++; // Increment ticks since press
 					// Release Phase: apply release scalar
 					notes_system->env[pitch] *= release_k;
 					// Ensure envelope doesn't go below 0
@@ -620,12 +596,14 @@ void processData() {
 //		// Iterate over the arrays in descending pitch order
 		//for (int pitch = MIDI_PITCHES_COUNT - 1; pitch >= 0; pitch--) {
 		leftOut = 0.0; //can finish if this is like over 4 pitches. 15 works at 8 kHz FS. 60 works at 32 kHz FS.
+		playing_note = 255;
 		for (uint8_t ind = 0; ind < num_active_notes; ind++) {
 			pitch = active_notes[ind];
 			debug_flag = 5;
 			// Only process notes that have velocity (are "on") and we haven't hit N_voices limit
 			if (my_midi_notes.vel[pitch] != 0) {
 				//t = (ticks)/(float)FS;
+				playing_note = pitch;
 				tNote = (my_midi_notes.ticks_pressed[pitch])/(float)FS;
 													//vibrato 0.5 to 60 Hz or so
 				//vibrato_amt = 255-AD_RES_COPY[1];
@@ -650,7 +628,7 @@ void processData() {
 		//phase = ((uint16_t)(LOOKUPSIZE*fTable[currentMIDIPitch]*vibrato*t)) % LOOKUPSIZE;
 		//leftOut = sineLookupTable[phase];
 		debug_flag = 8;
-		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/5.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
+		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/10.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
 		outBufPtr[n + 1] = outBufPtr[n]; //(10000 * rightOut);
 		ticks++;
 
@@ -1018,6 +996,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   // Lookup table population
   populate_ADR_tables();
+  populateMidiFrequencies();
 
 	// EXT DAC INTIIALIZATION
 	struct cs4x_cfg cfgdac;
