@@ -37,15 +37,17 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 #define TAU (2.0 * PI)
-#define BUFFER_SIZE 256 //Phil's lab used 128
+#define BUFFER_SIZE 128 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
-#define FS 48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
+#define FS 32063.0f //48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
 #define LOOKUPSIZE 4096
 #define LOG_E2 (1.4426950408889634f)	// 1.0 / math.log(2.0)
 
 #define RX_BUFFER_SIZE 256
 #define MIDI_PITCHES_COUNT 128
+
+#define MIDI_PTR_HIST_SIZE 16
 
 // DAC PARAMS
 #define DACADDR 0x94
@@ -140,6 +142,8 @@ lastRead_t currentLastRead = LAST_READ_NONE;
 uint8_t inNoteEvent = 0;
 uint16_t currentMIDIPitch = 255; //actual values are 0-127
 uint16_t MIDIptr = 253;
+uint16_t MIDIptrHist[MIDI_PTR_HIST_SIZE];
+uint8_t MIDIptrInd = 0;
 uint16_t lastMIDIPitch =    254;
 const int N_voices = 2;  // The number of voices to process
 
@@ -343,6 +347,7 @@ void release_note(Notes* notes_system, uint8_t note_index) {
     // Basic validation to ensure the index is within bounds
     if (note_index < MIDI_PITCHES_COUNT) {
         notes_system->released[note_index] = 1;         //
+        //notes_system->vel[note_index] = 0; // get rid of this, velocity is supposed to be historic
     } else {
 
         // Optional: Add an error handling or logging mechanism if an invalid index is provided
@@ -421,9 +426,10 @@ void updateNoteEnvelope(Notes* notes_system, float attack_time_sec, float decay_
     float attack_duration_ticks = (FS > 0.0f) ? (attack_time_sec * FS) : 1.0f; // Prevent div by zero if FS is 0
 
     int voices_processed = 0; // Counter for active voices processed
-
+    uint8_t pitch;
     // Iterate over the arrays in descending pitch order
-    for (int pitch = MIDI_PITCHES_COUNT - 1; pitch >= 0; pitch--) {
+    for (uint8_t ind = 0; ind < MIDI_PTR_HIST_SIZE; ind++) {
+    	pitch = MIDIptrHist[ind];
         // Only process notes that have velocity (are "on") and we haven't hit N_voices limit
         if (notes_system->vel[pitch] != 0) {
             // We only care about the first N_voices with non-zero velocity
@@ -506,13 +512,16 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 				if ((currentLastRead == LAST_READ_STATUS)) {
 					currentLastRead = LAST_READ_PITCH;
 					MIDIptr = byte;
+					MIDIptrHist[MIDIptrInd] = MIDIptr;
+					MIDIptrInd++;
+					MIDIptrInd %= MIDI_PTR_HIST_SIZE;
 					//printf("note %02X ", byte);
 				}
 				else if (currentLastRead == LAST_READ_PITCH) {
 					currentLastRead = LAST_READ_VELOCITY;
 					if (byte == 0) {
 						inNoteEvent = 0;
-						release_note(&my_midi_notes, currentMIDIPitch);
+						release_note(&my_midi_notes, MIDIptr);
 					}
 					else {
 						currentMIDIPitch = MIDIptr;
@@ -523,6 +532,9 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 				else if (currentLastRead == LAST_READ_VELOCITY) {
 					currentLastRead = LAST_READ_PITCH;
 					MIDIptr = byte;
+					MIDIptrHist[MIDIptrInd] = MIDIptr;
+					MIDIptrInd++;
+					MIDIptrInd %= MIDI_PTR_HIST_SIZE;
 					//printf("note %02X ", byte);
 				}
 			}
@@ -574,44 +586,69 @@ void processData() {
 	uint16_t phase_vib = 0;
 	uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
 	uint8_t vibrato_amt;
+	uint8_t pitch;
 	//printf("%u\r\n",noteInd);
 	//printf("%d \r\n", odeToJoy[noteInd]);
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
-		t = (ticks % 440000)/(float)FS;
+		//t = (ticks % (uint16_t)FS)/(float)FS;
 
 		//updateNoteEnvelope(&my_midi_notes, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
 //		updateNoteEnvelope(&my_midi_notes, attackTable[100], k_decayTable[100], k_releaseTable[100]);
 //		// Iterate over the arrays in descending pitch order
-//		for (int pitch = MIDI_PITCHES_COUNT - 1; pitch >= 0; pitch--) {
-//			// Only process notes that have velocity (are "on") and we haven't hit N_voices limit
-//			if (my_midi_notes.vel[pitch] != 0) {
-//				// We only care about the first N_voices with non-zero velocity
-//				if (vox_processed < 2) {
-//					//t = (ticks)/(float)FS;
-//					tNote = (my_midi_notes.ticks_pressed[pitch])/(float)FS;
-//														//vibrato 0.5 to 60 Hz or so
-//					//vibrato_amt = 255-AD_RES_COPY[1];
-//					//if (vibrato_amt > 10) vibrato_amt -= 10;
-//					//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
-//					//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
-//
-//					phase = ((uint16_t)(LOOKUPSIZE *fTable[pitch]*vibrato*tNote)) % LOOKUPSIZE;
-//					leftOut += sineLookupTable[phase] * my_midi_notes.env[pitch];
-//					// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
-//					//updateNoteEnvelope(&myNote, attackTable[100], k_decayTable[100], k_releaseTable[100]);
-//
-//					//rightOut = leftOut;
-//					vox_processed++;
-//				}
-//			}
-//		}
-		phase = ((uint16_t)(LOOKUPSIZE*fTable[currentMIDIPitch]*vibrato*t)) % LOOKUPSIZE;
-		leftOut = sineLookupTable[phase];
-		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/2.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
+		//for (int pitch = MIDI_PITCHES_COUNT - 1; pitch >= 0; pitch--) {
+		leftOut = 0.0; //can finish if this is like over 4 pitches. 15 works at 8 kHz FS. 60 works at 32 kHz FS.
+		for (uint8_t ind = 0; ind < MIDI_PTR_HIST_SIZE; ind++) {
+			pitch = MIDIptrHist[ind];
+			// Only process notes that have velocity (are "on") and we haven't hit N_voices limit
+			if (my_midi_notes.vel[pitch] != 0) {
+				//t = (ticks)/(float)FS;
+				tNote = (my_midi_notes.ticks_pressed[pitch])/(float)FS;
+													//vibrato 0.5 to 60 Hz or so
+				//vibrato_amt = 255-AD_RES_COPY[1];
+				//if (vibrato_amt > 10) vibrato_amt -= 10;
+				//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
+				//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
+														//was pitch
+				phase = ((uint16_t)(LOOKUPSIZE *fTable[pitch]*vibrato*tNote)) % LOOKUPSIZE;
+				leftOut += sineLookupTable[phase]*my_midi_notes.env[pitch];
+				// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
+				//updateNoteEnvelope(&myNote, attackTable[100], k_decayTable[100], k_releaseTable[100]);
+
+				//rightOut = leftOut;
+			}
+		}
+		updateNoteEnvelope(&my_midi_notes, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+//		vibrato_amt = 255-AD_RES_COPY[1];
+//		if (vibrato_amt > 10) vibrato_amt -= 10;
+//		phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*t)) % LOOKUPSIZE;
+//		vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
+		//phase = ((uint16_t)(LOOKUPSIZE*fTable[currentMIDIPitch]*vibrato*t)) % LOOKUPSIZE;
+		//leftOut = sineLookupTable[phase];
+		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/5.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
 		outBufPtr[n + 1] = outBufPtr[n]; //(10000 * rightOut);
 		ticks++;
 
 	}
+
+	// Iterate over time, populating the output buffer
+//	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
+//		tNote = (my_midi_notes.ticks_pressed[pitch])/(float)FS;
+//	}
+//	// First iterate over notes data, looking for active voices.
+//	for (uint8_t pitch = 80 - 1; pitch >= 20; pitch--) {
+//		// Check if we surpassed the voice limit
+//		if (vox_processed > 1) {
+//			// Check if velocity is nonzero
+//			if (my_midi_notes.vel[pitch] != 0) {
+//
+//				// Increment voices
+//				vox_processed++;
+//			}
+//		}
+//	}
+
+
+
 	loops++;
 	//	printf("\r\n");
 	dataReadyFlag = 0;
@@ -970,6 +1007,8 @@ int main(void)
 
 	HAL_StatusTypeDef res;
 
+	Notes_init(&my_midi_notes); // Initialize the Notes state system
+
 	// Attempt to transmit audio data to DAC
 	processData();
 	outBufPtr = &dacData[BUFFER_SIZE/2];
@@ -983,7 +1022,6 @@ int main(void)
 	}
 	printf("loops after first two processes: %ld\r\n", (long)loops);
 
-	Notes_init(&my_midi_notes); // Initialize the Notes state system
 
 	HAL_UART_Receive_DMA(&huart2, RxUART, RX_BUFFER_SIZE); //start listening to MIDI
 
@@ -996,8 +1034,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		if (dataReadyFlag) {
-			if (! (loops % 2000)) { //was 2000
-				//TODO move this to within the processData call
+			if (! (loops % 200)) { //was 2000
 				HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, 3);
 			}
 			processData();
@@ -1095,7 +1132,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -1178,7 +1215,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
   hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
-  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_32K;
   hi2s3.Init.CPOL = I2S_CPOL_LOW;
   hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
