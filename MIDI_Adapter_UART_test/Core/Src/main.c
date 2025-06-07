@@ -80,6 +80,7 @@ typedef enum {
 lastRead_t currentLastRead = LAST_READ_NONE;
 uint8_t inNoteEvent = 0;
 uint16_t currentMIDIPitch = 255; //actual values are 0-127
+uint16_t MIDIptr = 253;
 const int N_voices = 8;  // The number of voices to process
 
 Notes my_midi_notes; // Declare an instance of the Notes struct
@@ -287,50 +288,37 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 				// if MS Nybble is 0x9, Note On command
 				currentLastRead = LAST_READ_STATUS;
 				if ((byte >> 4) == 0x9) {
-					inNoteEvent = 1;
+					//inNoteEvent = 1;
 					printf("ON ");
 				}
 				else if ((byte >> 4) == 0x8) {
-					inNoteEvent = 0;
+					//inNoteEvent = 0;
 					printf("OFF ");
-				}
-				else if ((byte >> 4) == 0x4) {
-					printf("PEDAL ");
 				}
 			}
 			// Data byte if MSB = 0
 			else {
-				if (inNoteEvent) {
-					if (currentLastRead == LAST_READ_STATUS) {
-						currentLastRead = LAST_READ_PITCH;
-						currentMIDIPitch = byte;
-						printf("note %02X ", byte);
-					}
-					else if (currentLastRead == LAST_READ_PITCH) {
-						currentLastRead = LAST_READ_VELOCITY;
-						if (byte == 0) {
-							inNoteEvent = 0;
-							clear_note(&my_midi_notes, currentMIDIPitch);
-						}
-						else {
-							add_note(&my_midi_notes, currentMIDIPitch, byte);
-						}
-						printf("vel %02X ", byte);
-					}
-					else if (currentLastRead == LAST_READ_VELOCITY) {
-						currentLastRead = LAST_READ_PITCH;
-						printf("note %02X ", byte);
-					}
+				if ((currentLastRead == LAST_READ_STATUS)) {
+					currentLastRead = LAST_READ_PITCH;
+					MIDIptr = byte;
+					printf("note %02X ", byte);
 				}
-				else { //TODO bug: pedal logic doesn't work if E is being held.
-					if ((currentLastRead != LAST_READ_PEDAL) & ((byte>>4)== 0x4)) {
-						currentLastRead = LAST_READ_PEDAL;
-						printf("PEDAL %02X ", byte);
+				else if (currentLastRead == LAST_READ_PITCH) {
+					currentLastRead = LAST_READ_VELOCITY;
+					if (byte == 0) {
+						inNoteEvent = 0;
+						clear_note(&my_midi_notes, currentMIDIPitch);
 					}
 					else {
-						currentLastRead = LAST_READ_VELOCITY;
-						printf("pel %02X ", byte);
+						currentMIDIPitch = MIDIptr;
+						add_note(&my_midi_notes, currentMIDIPitch, byte);
 					}
+					printf("vel %02X ", byte);
+				}
+				else if (currentLastRead == LAST_READ_VELOCITY) {
+					currentLastRead = LAST_READ_PITCH;
+					MIDIptr = byte;
+					printf("note %02X ", byte);
 				}
 			}
 		}

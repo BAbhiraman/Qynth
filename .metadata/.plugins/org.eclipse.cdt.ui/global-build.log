@@ -973,3 +973,768 @@ Finished building: default.size.stdout
  
 Finished building: Waves_From_MIDI.list
  
+20:17:19 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:586:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  586 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:585:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  585 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:584:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  584 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:583:18: warning: unused variable 'phase2' [-Wunused-variable]
+  583 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:579:15: warning: unused variable 'tNote' [-Wunused-variable]
+  579 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:578:15: warning: unused variable 'f2' [-Wunused-variable]
+  578 |         float f2;
+      |               ^~
+../Core/Src/main.c:577:15: warning: unused variable 'f' [-Wunused-variable]
+  577 |         float f;
+      |               ^
+../Core/Src/main.c:574:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:574:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:572:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  572 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:835:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  835 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:835:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  835 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:835:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:951:17: warning: unused variable 'buf' [-Wunused-variable]
+  951 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61392	    116	  10024	  71532	  1176c	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:18:04 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:586:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  586 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:585:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  585 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:584:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  584 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:583:18: warning: unused variable 'phase2' [-Wunused-variable]
+  583 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:579:15: warning: unused variable 'tNote' [-Wunused-variable]
+  579 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:578:15: warning: unused variable 'f2' [-Wunused-variable]
+  578 |         float f2;
+      |               ^~
+../Core/Src/main.c:577:15: warning: unused variable 'f' [-Wunused-variable]
+  577 |         float f;
+      |               ^
+../Core/Src/main.c:574:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:574:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:572:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  572 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:835:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  835 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:835:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  835 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:835:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:951:17: warning: unused variable 'buf' [-Wunused-variable]
+  951 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61404	    116	  10024	  71544	  11778	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:20:05 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:586:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  586 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:585:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  585 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:584:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  584 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:583:18: warning: unused variable 'phase2' [-Wunused-variable]
+  583 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:579:15: warning: unused variable 'tNote' [-Wunused-variable]
+  579 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:578:15: warning: unused variable 'f2' [-Wunused-variable]
+  578 |         float f2;
+      |               ^~
+../Core/Src/main.c:577:15: warning: unused variable 'f' [-Wunused-variable]
+  577 |         float f;
+      |               ^
+../Core/Src/main.c:574:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:574:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:572:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  572 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:835:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  835 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:835:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  835 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:835:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:951:17: warning: unused variable 'buf' [-Wunused-variable]
+  951 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61408	    116	  11048	  72572	  11b7c	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:22:03 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:586:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  586 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:585:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  585 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:584:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  584 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:583:18: warning: unused variable 'phase2' [-Wunused-variable]
+  583 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:580:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  580 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:579:15: warning: unused variable 'tNote' [-Wunused-variable]
+  579 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:578:15: warning: unused variable 'f2' [-Wunused-variable]
+  578 |         float f2;
+      |               ^~
+../Core/Src/main.c:577:15: warning: unused variable 'f' [-Wunused-variable]
+  577 |         float f;
+      |               ^
+../Core/Src/main.c:574:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:574:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:572:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  572 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:829:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  829 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:829:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  829 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:829:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:945:17: warning: unused variable 'buf' [-Wunused-variable]
+  945 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61348	    116	  10024	  71488	  11740	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:23:12 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:586:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  586 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:585:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  585 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:584:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  584 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:583:18: warning: unused variable 'phase2' [-Wunused-variable]
+  583 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:580:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  580 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:579:15: warning: unused variable 'tNote' [-Wunused-variable]
+  579 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:578:15: warning: unused variable 'f2' [-Wunused-variable]
+  578 |         float f2;
+      |               ^~
+../Core/Src/main.c:577:15: warning: unused variable 'f' [-Wunused-variable]
+  577 |         float f;
+      |               ^
+../Core/Src/main.c:574:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:574:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  574 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:572:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  572 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:829:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  829 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:829:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  829 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:829:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:945:17: warning: unused variable 'buf' [-Wunused-variable]
+  945 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61348	    116	   9128	  70592	  113c0	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:26:59 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:588:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  588 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:587:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  587 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:586:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  586 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:585:18: warning: unused variable 'phase2' [-Wunused-variable]
+  585 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:582:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  582 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:581:15: warning: unused variable 'tNote' [-Wunused-variable]
+  581 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:580:15: warning: unused variable 'f2' [-Wunused-variable]
+  580 |         float f2;
+      |               ^~
+../Core/Src/main.c:579:15: warning: unused variable 'f' [-Wunused-variable]
+  579 |         float f;
+      |               ^
+../Core/Src/main.c:576:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:576:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:574:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  574 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:831:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:831:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:831:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:947:17: warning: unused variable 'buf' [-Wunused-variable]
+  947 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61364	    120	   9128	  70612	  113d4	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:27:36 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:588:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  588 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:587:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  587 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:586:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  586 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:585:18: warning: unused variable 'phase2' [-Wunused-variable]
+  585 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:582:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  582 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:581:15: warning: unused variable 'tNote' [-Wunused-variable]
+  581 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:580:15: warning: unused variable 'f2' [-Wunused-variable]
+  580 |         float f2;
+      |               ^~
+../Core/Src/main.c:579:15: warning: unused variable 'f' [-Wunused-variable]
+  579 |         float f;
+      |               ^
+../Core/Src/main.c:576:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:576:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:574:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  574 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:831:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:831:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:831:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:947:17: warning: unused variable 'buf' [-Wunused-variable]
+  947 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61364	    120	   9512	  70996	  11554	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:29:15 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:588:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  588 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:587:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  587 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:586:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  586 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:585:18: warning: unused variable 'phase2' [-Wunused-variable]
+  585 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:582:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  582 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:581:15: warning: unused variable 'tNote' [-Wunused-variable]
+  581 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:580:15: warning: unused variable 'f2' [-Wunused-variable]
+  580 |         float f2;
+      |               ^~
+../Core/Src/main.c:579:15: warning: unused variable 'f' [-Wunused-variable]
+  579 |         float f;
+      |               ^
+../Core/Src/main.c:576:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:576:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:574:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  574 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:831:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:831:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:831:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:947:17: warning: unused variable 'buf' [-Wunused-variable]
+  947 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  61364	    120	   9256	  70740	  11454	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:31:02 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:588:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  588 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:587:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  587 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:586:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  586 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:585:18: warning: unused variable 'phase2' [-Wunused-variable]
+  585 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:582:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  582 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:581:15: warning: unused variable 'tNote' [-Wunused-variable]
+  581 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:580:15: warning: unused variable 'f2' [-Wunused-variable]
+  580 |         float f2;
+      |               ^~
+../Core/Src/main.c:579:15: warning: unused variable 'f' [-Wunused-variable]
+  579 |         float f;
+      |               ^
+../Core/Src/main.c:576:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:576:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:574:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  574 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:831:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:831:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:831:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:947:17: warning: unused variable 'buf' [-Wunused-variable]
+  947 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  62228	    120	   9256	  71604	  117b4	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:32:20 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:588:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  588 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:587:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  587 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:586:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  586 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:585:18: warning: unused variable 'phase2' [-Wunused-variable]
+  585 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:582:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  582 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:581:15: warning: unused variable 'tNote' [-Wunused-variable]
+  581 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:580:15: warning: unused variable 'f2' [-Wunused-variable]
+  580 |         float f2;
+      |               ^~
+../Core/Src/main.c:579:15: warning: unused variable 'f' [-Wunused-variable]
+  579 |         float f;
+      |               ^
+../Core/Src/main.c:576:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:576:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  576 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:574:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  574 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:831:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:831:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  831 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:831:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:947:17: warning: unused variable 'buf' [-Wunused-variable]
+  947 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  62228	    120	   9512	  71860	  118b4	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:35:03 **** Incremental Build of configuration Debug for project MIDI_Adapter_UART_test ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'clear_note':
+../Core/Src/main.c:129:16: warning: passing argument 1 of 'printf' from incompatible pointer type [-Wincompatible-pointer-types]
+  129 |         printf(stderr, "Error: clear_note called with invalid note_index: %u\n", note_index);
+      |                ^~~~~~
+      |                |
+      |                __FILE *
+In file included from ../Core/Src/main.c:24:
+C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/stdio.h:206:17: note: expected 'const char * restrict' but argument is of type '__FILE *'
+  206 | int     printf (const char *__restrict, ...)
+      |                 ^
+../Core/Src/main.c: In function '_write':
+../Core/Src/main.c:854:1: warning: control reaches end of non-void function [-Wreturn-type]
+  854 | }
+      | ^
+arm-none-eabi-gcc -o "MIDI_Adapter_UART_test.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\MIDI_Adapter_UART_test\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIDI_Adapter_UART_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIDI_Adapter_UART_test.elf
+ 
+arm-none-eabi-size  MIDI_Adapter_UART_test.elf 
+arm-none-eabi-objdump -h -S MIDI_Adapter_UART_test.elf  > "MIDI_Adapter_UART_test.list"
+   text	   data	    bss	    dec	    hex	filename
+  32364	    108	   5884	  38356	   95d4	MIDI_Adapter_UART_test.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIDI_Adapter_UART_test.list
+ 
+20:44:51 **** Incremental Build of configuration Debug for project MIDI_Adapter_UART_test ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'clear_note':
+../Core/Src/main.c:130:16: warning: passing argument 1 of 'printf' from incompatible pointer type [-Wincompatible-pointer-types]
+  130 |         printf(stderr, "Error: clear_note called with invalid note_index: %u\n", note_index);
+      |                ^~~~~~
+      |                |
+      |                __FILE *
+In file included from ../Core/Src/main.c:24:
+C:\ST\STM32CubeIDE_1.18.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/stdio.h:206:17: note: expected 'const char * restrict' but argument is of type '__FILE *'
+  206 | int     printf (const char *__restrict, ...)
+      |                 ^
+../Core/Src/main.c: In function '_write':
+../Core/Src/main.c:842:1: warning: control reaches end of non-void function [-Wreturn-type]
+  842 | }
+      | ^
+arm-none-eabi-gcc -o "MIDI_Adapter_UART_test.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\MIDI_Adapter_UART_test\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIDI_Adapter_UART_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIDI_Adapter_UART_test.elf
+ 
+arm-none-eabi-size  MIDI_Adapter_UART_test.elf 
+arm-none-eabi-objdump -h -S MIDI_Adapter_UART_test.elf  > "MIDI_Adapter_UART_test.list"
+   text	   data	    bss	    dec	    hex	filename
+  32224	    112	   5888	  38224	   9550	MIDI_Adapter_UART_test.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIDI_Adapter_UART_test.list
+ 
+20:49:37 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'processData':
+../Core/Src/main.c:576:17: warning: unused variable 'vibrato_amt' [-Wunused-variable]
+  576 |         uint8_t vibrato_amt;
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:575:17: warning: unused variable 'noteInd' [-Wunused-variable]
+  575 |         uint8_t noteInd = ((uint8_t)(loops/1600)) % lenJoy;
+      |                 ^~~~~~~
+../Core/Src/main.c:574:18: warning: unused variable 'phase_vib' [-Wunused-variable]
+  574 |         uint16_t phase_vib = 0;
+      |                  ^~~~~~~~~
+../Core/Src/main.c:573:18: warning: unused variable 'phase2' [-Wunused-variable]
+  573 |         uint16_t phase2 = 0;
+      |                  ^~~~~~
+../Core/Src/main.c:570:17: warning: unused variable 'vox_processed' [-Wunused-variable]
+  570 |         uint8_t vox_processed = 0;
+      |                 ^~~~~~~~~~~~~
+../Core/Src/main.c:569:15: warning: unused variable 'tNote' [-Wunused-variable]
+  569 |         float tNote;
+      |               ^~~~~
+../Core/Src/main.c:568:15: warning: unused variable 'f2' [-Wunused-variable]
+  568 |         float f2;
+      |               ^~
+../Core/Src/main.c:567:15: warning: unused variable 'f' [-Wunused-variable]
+  567 |         float f;
+      |               ^
+../Core/Src/main.c:564:36: warning: unused variable 'rightOutInt' [-Wunused-variable]
+  564 |         static int16_t leftOutInt, rightOutInt;
+      |                                    ^~~~~~~~~~~
+../Core/Src/main.c:564:24: warning: unused variable 'leftOutInt' [-Wunused-variable]
+  564 |         static int16_t leftOutInt, rightOutInt;
+      |                        ^~~~~~~~~~
+../Core/Src/main.c:562:31: warning: unused variable 'rightOut' [-Wunused-variable]
+  562 |         static float leftOut, rightOut;
+      |                               ^~~~~~~~
+../Core/Src/main.c: In function 'cs4x_init':
+../Core/Src/main.c:819:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  819 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:28:1: note: include '<string.h>' or provide a declaration of 'memset'
+   27 | #include <stdio.h>
+  +++ |+#include <string.h>
+   28 | 
+../Core/Src/main.c:819:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  819 |         memset(dac, 0, sizeof(struct cs4x_drv));
+      |         ^~~~~~
+../Core/Src/main.c:819:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:935:17: warning: unused variable 'buf' [-Wunused-variable]
+  935 |         uint8_t buf[12];
+      |                 ^~~
+arm-none-eabi-gcc -o "Waves_From_MIDI.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Qynth\Waves_From_MIDI\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Waves_From_MIDI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Waves_From_MIDI.elf
+ 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+arm-none-eabi-objdump -h -S Waves_From_MIDI.elf  > "Waves_From_MIDI.list"
+   text	   data	    bss	    dec	    hex	filename
+  62144	    120	   9512	  71776	  11860	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+Finished building: Waves_From_MIDI.list
+ 
+20:49:49 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+   text	   data	    bss	    dec	    hex	filename
+  62144	    120	   9512	  71776	  11860	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 
+20:50:16 **** Incremental Build of configuration Debug for project Waves_From_MIDI ****
+make -j12 all 
+arm-none-eabi-size  Waves_From_MIDI.elf 
+   text	   data	    bss	    dec	    hex	filename
+  62144	    120	   9512	  71776	  11860	Waves_From_MIDI.elf
+Finished building: default.size.stdout
+ 

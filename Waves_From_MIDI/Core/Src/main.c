@@ -37,7 +37,7 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 #define TAU (2.0 * PI)
-#define BUFFER_SIZE 512 //Phil's lab used 128
+#define BUFFER_SIZE 256 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
@@ -139,6 +139,7 @@ typedef enum {
 lastRead_t currentLastRead = LAST_READ_NONE;
 uint8_t inNoteEvent = 0;
 uint16_t currentMIDIPitch = 255; //actual values are 0-127
+uint16_t MIDIptr = 253;
 uint16_t lastMIDIPitch =    254;
 const int N_voices = 2;  // The number of voices to process
 
@@ -486,57 +487,43 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 	for (uint16_t i = 0; i < length; i++) {
 		byte = data[i];
 		if (byte != 254) {
-
 			did_something = 1;
 			// Status byte if MSB = 1
 			if ((byte >> 7) & 0x01) {
 				// if MS Nybble is 0x9, Note On command
 				currentLastRead = LAST_READ_STATUS;
 				if ((byte >> 4) == 0x9) {
-					inNoteEvent = 1;
+					//inNoteEvent = 1;
 					//printf("ON ");
 				}
 				else if ((byte >> 4) == 0x8) {
-					inNoteEvent = 0;
+					//inNoteEvent = 0;
 					//printf("OFF ");
-				}
-				else if ((byte >> 4) == 0x4) {
-					//printf("PEDAL ");
 				}
 			}
 			// Data byte if MSB = 0
 			else {
-				if (inNoteEvent) {
-					if (currentLastRead == LAST_READ_STATUS) {
-						currentLastRead = LAST_READ_PITCH;
-						currentMIDIPitch = byte;
-						//printf("note %02X ", byte);
-					}
-					else if (currentLastRead == LAST_READ_PITCH) {
-						currentLastRead = LAST_READ_VELOCITY;
-						if (byte == 0) {
-							inNoteEvent = 0;
-							release_note(&my_midi_notes, currentMIDIPitch);
-						}
-						else {
-							add_note(&my_midi_notes, currentMIDIPitch, byte);
-						}
-						//printf("vel %02X ", byte);
-					}
-					else if (currentLastRead == LAST_READ_VELOCITY) {
-						currentLastRead = LAST_READ_PITCH;
-						//printf("note %02X ", byte);
-					}
+				if ((currentLastRead == LAST_READ_STATUS)) {
+					currentLastRead = LAST_READ_PITCH;
+					MIDIptr = byte;
+					//printf("note %02X ", byte);
 				}
-				else { //TODO bug: pedal logic doesn't work if E is being held.
-					if ((currentLastRead != LAST_READ_PEDAL) & ((byte>>4)== 0x4)) {
-						currentLastRead = LAST_READ_PEDAL;
-						//printf("PEDAL %02X ", byte);
+				else if (currentLastRead == LAST_READ_PITCH) {
+					currentLastRead = LAST_READ_VELOCITY;
+					if (byte == 0) {
+						inNoteEvent = 0;
+						release_note(&my_midi_notes, currentMIDIPitch);
 					}
 					else {
-						currentLastRead = LAST_READ_VELOCITY;
-						//printf("pel %02X ", byte);
+						currentMIDIPitch = MIDIptr;
+						add_note(&my_midi_notes, currentMIDIPitch, byte);
 					}
+					//printf("vel %02X ", byte);
+				}
+				else if (currentLastRead == LAST_READ_VELOCITY) {
+					currentLastRead = LAST_READ_PITCH;
+					MIDIptr = byte;
+					//printf("note %02X ", byte);
 				}
 			}
 		}
@@ -590,6 +577,8 @@ void processData() {
 	//printf("%u\r\n",noteInd);
 	//printf("%d \r\n", odeToJoy[noteInd]);
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
+		t = (ticks % 440000)/(float)FS;
+
 		//updateNoteEnvelope(&my_midi_notes, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
 //		updateNoteEnvelope(&my_midi_notes, attackTable[100], k_decayTable[100], k_releaseTable[100]);
 //		// Iterate over the arrays in descending pitch order
@@ -616,7 +605,6 @@ void processData() {
 //				}
 //			}
 //		}
-		t = (ticks % 440000)/(float)FS;
 		phase = ((uint16_t)(LOOKUPSIZE*fTable[currentMIDIPitch]*vibrato*t)) % LOOKUPSIZE;
 		leftOut = sineLookupTable[phase];
 		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/2.0); //(10000 * leftOut); //15k worked, 25k worked, 30k worked, 32767 worked, 32768 OVERFLOWs andcr
@@ -1008,10 +996,10 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		if (dataReadyFlag) {
-//			if (! (loops % 2000)) { //was 2000
-//				//TODO move this to within the processData call
-//				HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, 3);
-//			}
+			if (! (loops % 2000)) { //was 2000
+				//TODO move this to within the processData call
+				HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, 3);
+			}
 			processData();
 		}
 
