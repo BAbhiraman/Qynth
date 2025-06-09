@@ -42,12 +42,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
-#define TAU (2.0 * PI)
+#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679f
+#define TAU (2.0f * PI)
 #define BUFFER_SIZE 128 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 32063.0f //48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
+#define TS 1.0f/(float)FS // sample time
 #define LOOKUPSIZE 4096
 
 #define RX_BUFFER_SIZE 256
@@ -180,7 +181,7 @@ volatile uint64_t loops = 0;
 volatile uint8_t button_flag = 0;
 // Waveform mode
 uint8_t wave_mode = 0;
-uint8_t num_wave_modes = 2;
+uint8_t num_wave_modes = 4;
 
 // Can use this nice ode to joy with bassline if you don't have keyboard input yet
 int8_t odeToJoy[] =  {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2,4,4,5,7,7,5,4,2,0,0,2,4,2,2,0,0};
@@ -228,6 +229,70 @@ const float bSquareTable[] = { //128 entries
 		0.64520038,  0.26825349,  0.1306856
 };
 
+const float kStepsTable[] = { //128 entries
+		0.0,  2.38186764e-01,  2.00082674e-01,  1.79868920e-01,
+		1.67554793e-01,  1.67554793e-01,  1.63837321e-01,  1.63837321e-01,
+		1.69413529e-01,  2.01476726e-01,  4.93298288e-01,  4.61235091e-01,
+		4.53800147e-01,  4.45203492e-01,  4.31959998e-01,  4.27777842e-01,
+		4.27777842e-01,  4.27777842e-01,  4.27777842e-01,  4.37768548e-01,
+		4.42647730e-01,  4.57517619e-01,  4.75175611e-01,  7.80705351e-01,
+		7.41904236e-01,  7.13790853e-01,  7.06588251e-01,  6.99153306e-01,
+		6.95435834e-01,  6.95435834e-01,  6.95435834e-01,  7.02870779e-01,
+		7.10305723e-01,  7.23549217e-01,  7.84655165e-01,  5.25593827e-01,
+		4.98409812e-01,  4.87257396e-01,  4.87257396e-01,  4.87257396e-01,
+		4.87257396e-01,  4.94924682e-01,  5.21644013e-01,  2.59097544e-01,
+		2.16811299e-01,  2.01012042e-01,  1.97294570e-01,  1.93577098e-01,
+		1.93577098e-01,  1.93577098e-01,  1.97759254e-01,  2.18437693e-01,
+		2.40045500e-01,  4.58075815e-02, -3.45827531e-02, -4.78262475e-02,
+		-5.54935337e-02, -5.92110059e-02, -5.92110059e-02, -5.92110059e-02,
+		-5.27054297e-02, -3.08652810e-02,  2.68548037e-04, -2.11627363e-01,
+		-1.93040002e-01, -1.81887586e-01, -1.81887586e-01, -1.81887586e-01,
+		-1.81887586e-01, -1.81887586e-01, -1.90716582e-01, -2.07677549e-01,
+		-2.28355987e-01, -4.90205430e-01, -4.76961935e-01, -4.71850411e-01,
+		-4.68132939e-01, -4.68132939e-01, -4.68132939e-01, -4.68132939e-01,
+		-4.68132939e-01, -4.81376433e-01, -5.01590188e-01, -5.22733311e-01,
+		-7.57166396e-01, -7.46943348e-01, -7.43225876e-01, -7.39508404e-01,
+		-7.35790932e-01, -7.35790932e-01, -7.35790932e-01, -7.43225876e-01,
+		-7.50660820e-01, -7.69248181e-01, -7.79935913e-01, -5.26450783e-01,
+		-4.97872716e-01, -4.77194277e-01, -4.71850411e-01, -4.68132939e-01,
+		-4.68132939e-01, -4.68132939e-01, -4.69526991e-01, -4.89973088e-01,
+		-5.09025132e-01, -2.26497251e-01, -2.00474946e-01, -1.85605058e-01,
+		-1.79099482e-01, -1.70735169e-01, -1.70735169e-01, -1.67017697e-01,
+		-1.67017697e-01, -1.67017697e-01, -1.67017697e-01, -1.67017697e-01,
+		-1.79099482e-01, -1.39368998e-01,  4.25547934e-02,  6.32332321e-02,
+		7.83354625e-02,  8.57704068e-02,  8.57704068e-02,  8.57704068e-02,
+		8.57704068e-02,  6.97388083e-02,  4.58075815e-02,  1.72295146e-02
+};
+
+const float kSawTable[] = { //128 entries
+				0.        ,  0.01709453,  0.03358925,  0.04798464,  0.06357965,
+		        0.0815739 ,  0.09776871,  0.11486324,  0.12955854,  0.14425384,
+		        0.16134837,  0.17754319,  0.19193858,  0.20783349,  0.22492802,
+		        0.23992322,  0.25431862,  0.27351248,  0.28790787,  0.30560221,
+		        0.32149712,  0.33589251,  0.35208733,  0.36918186,  0.38387716,
+		        0.39857246,  0.41566699,  0.4318618 ,  0.4462572 ,  0.46215211,
+		        0.47984645,  0.49424184,  0.5134357 ,  0.52783109,  0.5428263 ,
+		        0.55992083,  0.57581574,  0.59021113,  0.60640595,  0.62350048,
+		        0.63819578,  0.65289107,  0.6699856 ,  0.68618042,  0.70417466,
+		        0.71976967,  0.73416507,  0.75065979,  0.76775432,  0.78214971,
+		        0.79714491,  0.81423944,  0.83013436,  0.84452975,  0.86072457,
+		        0.878119  ,  0.8925144 ,  0.91170825,  0.92910269,  0.93090211,
+		        0.92610365,  0.9006118 ,  0.8409309 ,  0.74616123,  0.49424184,
+		        0.27711132,  0.09476967, -0.06118042, -0.17634357, -0.29960413,
+		       -0.44385797, -0.55602207, -0.63099808, -0.65259117, -0.64779271,
+		       -0.64209453, -0.62380038, -0.61420345, -0.60040787, -0.59021113,
+		       -0.57581574, -0.56621881, -0.55182342, -0.54222649, -0.52783109,
+		       -0.51823417, -0.50683781, -0.49424184, -0.48224568, -0.47024952,
+		       -0.45765355, -0.4462572 , -0.43306142, -0.42226488, -0.40846929,
+		       -0.39827255, -0.38387716, -0.37428023, -0.35988484, -0.35028791,
+		       -0.33949136, -0.32629559, -0.31489923, -0.30230326, -0.2903071 ,
+		       -0.27831094, -0.26571497, -0.25431862, -0.24112284, -0.2303263 ,
+		       -0.21653071, -0.20633397, -0.19193858, -0.18234165, -0.17214491,
+		       -0.15834933, -0.14755278, -0.13435701, -0.12296065, -0.11036468,
+		       -0.09836852, -0.08637236, -0.07377639, -0.06238004, -0.04918426,
+		       -0.03838772, -0.02459213, -0.01439539
+};
+
 // Attack, decay, and release times stolen from Nord Stage 3.
 const float attackTable[] = { //256 elements
 		5.0000000000e-04, 5.3083844279e-04, 5.6357890469e-04, 5.9833869632e-04, 6.3524236363e-04, 6.7442213421e-04, 7.1601839102e-04, 7.6018017540e-04, 8.0706572111e-04, 8.5684302125e-04, 9.0969043023e-04, 9.6579730282e-04, 1.0253646726e-03, 1.0886059722e-03, 1.1557477982e-03, 1.2270307229e-03, 1.3027101564e-03, 1.3830572616e-03, 1.4683599261e-03, 1.5589237933e-03, 1.6550733577e-03, 1.7571531278e-03, 1.8655288603e-03, 1.9805888703e-03, 2.1027454235e-03, 2.2324362124e-03, 2.3701259252e-03, 2.5163079108e-03, 2.6715059459e-03, 2.8362761124e-03, 3.0112087897e-03, 3.1969307697e-03, 3.3941075030e-03, 3.6034454832e-03, 3.8256947779e-03, 4.0616517170e-03, 4.3121617453e-03, 4.5781224519e-03, 4.8604867865e-03, 5.1602664740e-03, 5.4785356389e-03, 5.8164346547e-03, 6.1751742294e-03, 6.5560397438e-03, 6.9603958570e-03, 7.3896913959e-03, 7.8454645466e-03, 8.3293483658e-03, 8.8430766320e-03, 9.3884900577e-03, 9.9675428848e-03, 1.0582309887e-02, 1.1234993803e-02, 1.1927933230e-02, 1.2663611003e-02, 1.3444663090e-02, 1.4273888038e-02, 1.5154256997e-02, 1.6088924372e-02, 1.7081239120e-02, 1.8134756750e-02, 1.9253252068e-02, 2.0440732693e-02, 2.1701453424e-02,
@@ -267,13 +332,14 @@ void populateMidiFrequencies() {
 }
 
 void populateVelTable() {
-	float amp_min = 0.3;
+	float amp_min = 0.18;
 	for (uint8_t i = 0; i < 128; i++) {
 		velTable[i] = amp_min + (i/127.0)*(i/127.0)*(1.0 - amp_min);
 	}
 }
 
 //these are decay coefficients. Each time step, multiply envelope by these.
+float inv_attackDurTicksTable[ADR_TABLE_SIZE];
 float k_decayTable[ADR_TABLE_SIZE];
 float k_releaseTable[ADR_TABLE_SIZE];
 
@@ -342,13 +408,17 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 
 void populate_ADR_tables() {
     // Populate resultArray based on attackTable and FS
+	float attack_duration_ticks;
     for (int i = 0; i < ADR_TABLE_SIZE; i++) {
+    	attack_duration_ticks = (FS > 0.0f) ? (attackTable[i] * FS) : 1.0f; // Prevent div by zero if FS is 0
+    	inv_attackDurTicksTable[i] = 1.0f/attack_duration_ticks;
     	k_decayTable[i] = expf(-1.0f / (decayTable[i] * FS));
     	k_releaseTable[i] = expf(-1.0f / (releaseTable[i] * FS));
     }
     // Max decay should yield NO decay, so just hardcode that
     k_decayTable[ADR_TABLE_SIZE - 1] = 1.0f;
     k_releaseTable[ADR_TABLE_SIZE - 1] = 1.0f;
+
 }
 
 double min(double a, double b) {
@@ -430,17 +500,16 @@ void add_note(Notes* notes_system, uint8_t pitch, uint8_t velocity) {
  * @param decay_k The exponential decay factor for the decay phase (0.0 to 1.0, typically < 1.0).
  * @param release_k The exponential release factor for the release phase (0.0 to 1.0, typically < 1.0).
  */
-void updateNoteEnvelope(Notes* notes_system, float attack_time_sec, float decay_k, float release_k) {
+void updateNoteEnvelope(Notes* notes_system, uint8_t attack_ind, float decay_k, float release_k) {
     // Ensure notes_system is not NULL
     if (notes_system == NULL) {
         //printf("Error: NULL Notes system pointer passed to updateNoteEnvelope.\r\n");
         return;
     }
+    float attack_duration_ticks = (FS > 0.0f) ? (attackTable[attack_ind] * FS) : 1.0f;
 
     // Calculate attack duration in ticks (common for all notes)
     // Ensure FS is not zero to prevent division by zero in attack_increment_per_tick
-    float attack_duration_ticks = (FS > 0.0f) ? (attack_time_sec * FS) : 1.0f; // Prevent div by zero if FS is 0
-
     uint8_t pitch;
     // Iterate over active notes
     for (int ind = 0; ind < num_active_notes; ind++) {
@@ -456,7 +525,7 @@ void updateNoteEnvelope(Notes* notes_system, float attack_time_sec, float decay_
 					// Calculate the linear increment per tick
 					if (attack_duration_ticks > 0.0f) {
 						//TODO: add velocity function here. //was 1.0f/
-						float attack_increment_per_tick = velTable[notes_system->vel[pitch]] / attack_duration_ticks;
+						float attack_increment_per_tick = velTable[notes_system->vel[pitch]] * inv_attackDurTicksTable[attack_ind];
 						notes_system->env[pitch] += attack_increment_per_tick;
 					} else { // Instant attack
 						notes_system->env[pitch] = 1.0f;
@@ -630,23 +699,23 @@ void CalcWave() {
 	// Iterate over time, populating the buffer
 	for (uint16_t n = 0; n < (BUFFER_SIZE / 2) - 1; n += 2) {
 		//t = (ticks % (uint16_t)FS)/(float)FS;
-		debug_flag = 4;
+		//debug_flag = 4;
 		leftOut = 0.0;
-		playing_note = 255; // 255 means no note waveform is being calculated.
+		//playing_note = 255; // 255 means no note waveform is being calculated.
 		// Iterate over all active notes as calculated above.
 		for (uint8_t ind = 0; ind < num_active_notes; ind++) {
 			pitch = active_notes[ind];
-			debug_flag = 5;
+			//debug_flag = 5;
 			// Only process notes that have velocity (are "on"). Not redundant; they may be turned off by updateNoteEnvelope within here.
 			if (my_midi_notes.vel[pitch] != 0) {
-				playing_note = pitch;
+				//playing_note = pitch;
 				// Convert note duration in ticks to time in seconds
-				tNote = (my_midi_notes.ticks_pressed[pitch])/(float)FS;
+				tNote = (my_midi_notes.ticks_pressed[pitch])*TS;
 													//vibrato 0.5 to 60 Hz or so
 				//vibrato_amt = 255-AD_RES_COPY[1];
 				//if (vibrato_amt > 10) vibrato_amt -= 10;
 				//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
-				//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
+				//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //1.06 is approximately 12th root of 2. Idk why this fraction is so small
 
 				// Calculate phase with lookuptable. Phase is out of LOOKUPSIZE, not 2pi.
 				if (wave_mode == 0) {
@@ -654,18 +723,26 @@ void CalcWave() {
 					// Accumulate the sample from all the voices.
 					leftOut += sineLookupTable[phase]*my_midi_notes.env[pitch];
 				}
-				else if (wave_mode == 1) {
+				else {
 					phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
-					leftOut += bSquareTable[phase]*my_midi_notes.env[pitch];
+					if (wave_mode == 1) {
+						leftOut += bSquareTable[phase]*my_midi_notes.env[pitch];
+					}
+					else if (wave_mode == 2) {
+						leftOut += kStepsTable[phase]*my_midi_notes.env[pitch];
+					}
+					else if (wave_mode == 3) {
+						leftOut += kSawTable[phase]*my_midi_notes.env[pitch];
+					}
 				}
-				debug_flag = 6;
+				//debug_flag = 6;
 			}
 		}
-		debug_flag = 7;
+		//debug_flag = 7;
 							// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
-		updateNoteEnvelope(&my_midi_notes, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+		updateNoteEnvelope(&my_midi_notes, 255-AD_RES_COPY[2], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
 		debug_flag = 8;
-		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut/10.0); //32768 OVERFLOWs
+		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOut*0.10f); //32768 OVERFLOWs
 		outBufPtr[n + 1] = outBufPtr[n]; //TODO: do something with stereo.
 		ticks++;
 
@@ -1027,7 +1104,7 @@ int main(void)
 	printf("CS4X init returned %d\r\n", rc);
 	rc = cs4x_start(&dac);
 	printf("CS4X start returned %d\r\n", rc);
-	cs4x_master_volume(&dac, 225); //255 max
+	cs4x_master_volume(&dac, 225); //255 max, 169 default, 225 is nice and loud.
 
 	HAL_Delay(1);
 
