@@ -45,7 +45,7 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679f
 #define TAU (2.0f * PI)
-#define BUFFER_SIZE 256 //Phil's lab used 128
+#define BUFFER_SIZE 128 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 32063.0f //48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
@@ -209,7 +209,7 @@ volatile uint64_t loops = 0;
 volatile uint8_t button_flag = 0;
 // Waveform mode
 uint8_t wave_mode = 0;
-uint8_t num_wave_modes = 6;
+uint8_t num_wave_modes = 4;
 // Legato mode
 uint8_t legato_mode = 1;
 
@@ -902,7 +902,7 @@ void add_legato_note(LegatoNote* legato_note, uint8_t pitch, uint8_t velocity) {
     legato_note->target_pitch = pitch;
     legato_note->freq = fTable[pitch];
     legato_note->target_freq = fTable[pitch];
-    legato_note->current_phase = 0.0f;
+    //legato_note->current_phase = 0.0f;
     //legato_note->freq;
 }
 
@@ -1014,7 +1014,7 @@ void updateNoteEnvelope(Notes* notes_system, uint8_t attack_ind, float decay_k, 
         if (notes_system->vel[pitch] != 0) {
 			// Check if the note is currently pressed (not released)
 			if (notes_system->released[pitch] == 0) {
-				notes_system->ticks_pressed[pitch]++; // Increment ticks since press
+				notes_system->ticks_pressed[pitch]+=1; // Increment ticks since press
 
 				// Attack Phase: if ticks_pressed is within the attack duration
 				if (notes_system->ticks_pressed[pitch] <= attack_duration_ticks) {
@@ -1036,8 +1036,8 @@ void updateNoteEnvelope(Notes* notes_system, uint8_t attack_ind, float decay_k, 
 				}
 
 			} else { // If the note has been released (notes_system->released[pitch] == 1)
-				notes_system->ticks_released[pitch]++; // Increment ticks since release
-				notes_system->ticks_pressed[pitch]++; // Increment ticks since press
+				notes_system->ticks_released[pitch]+=1; // Increment ticks since release
+				notes_system->ticks_pressed[pitch]+=1; // Increment ticks since press
 				// Release Phase: apply release scalar
 				notes_system->env[pitch] *= release_k;
 				// Ensure envelope doesn't go below 0
@@ -1235,7 +1235,6 @@ void CalcWave() {
 		//t = (ticks % (uint16_t)FS)/(float)FS;
 		//debug_flag = 4;
 		leftOut = 0.0;
-		//playing_note = 255; // 255 means no note waveform is being calculated.
 		// Iterate over all active notes as calculated above.
 		if (!legato_mode) {
 			for (uint8_t ind = 0; ind < num_active_notes; ind++) {
@@ -1273,16 +1272,10 @@ void CalcWave() {
 							leftOut += bSquareTable[phase]*my_midi_notes.env[pitch];
 						}
 						else if (wave_mode == 2) {
-							leftOut += kStepsTable[phase]*my_midi_notes.env[pitch];
-						}
-						else if (wave_mode == 3) {
 							leftOut += kSawTable[phase]*my_midi_notes.env[pitch]; //gorgeous with LPF at 12 o'clock.
 						}
-						else if (wave_mode == 4) {
+						else if (wave_mode == 3) {
 							leftOut += kOctoTable[phase]*my_midi_notes.env[pitch];
-						}
-						else if (wave_mode == 5) {
-							leftOut += rOctoTable[phase]*my_midi_notes.env[pitch];
 						}
 					}
 					//debug_flag = 6;
@@ -1293,35 +1286,29 @@ void CalcWave() {
 		else {
 			tNote = (my_legato_note.ticks_pressed)*TS;
 			leftOut = my_legato_note.env;
+			float phase_increment = (my_legato_note.freq * vibrato * TS) * LOOKUPSIZE;
+			my_legato_note.current_phase += phase_increment;
+			my_legato_note.current_phase = fmodf(my_legato_note.current_phase, (float)LOOKUPSIZE);
+			// Ensure phase is always positive after fmodf (fmodf can return negative if dividend is negative)
+			if (my_legato_note.current_phase < 0) {
+			    my_legato_note.current_phase += (float)LOOKUPSIZE;
+			}
+			uint16_t phase_index = (uint16_t)my_legato_note.current_phase;
 			if (wave_mode == 0) {
-				float phase_increment = (my_legato_note.freq * vibrato * TS) * LOOKUPSIZE;
-				my_legato_note.current_phase += phase_increment;
-				my_legato_note.current_phase = fmodf(my_legato_note.current_phase, (float)LOOKUPSIZE);
-				phase = ((uint16_t)(LOOKUPSIZE *my_legato_note.freq*vibrato*tNote)) % LOOKUPSIZE;
-				// Ensure phase is always positive after fmodf (fmodf can return negative if dividend is negative)
-				if (my_legato_note.current_phase < 0) {
-				    my_legato_note.current_phase += (float)LOOKUPSIZE;
-				}
-				uint16_t phase_index = (uint16_t)my_legato_note.current_phase;
+
 				// Accumulate the sample from all the voices.
 				leftOut *= sineLookupTable[phase_index];
 			}
 			else {
-				phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
+				uint16_t phase_128 = (uint16_t)(0.03125 * phase_index); // 128/4096 = 0.03125
 				if (wave_mode == 1) {
-					leftOut *= bSquareTable[phase];
+					leftOut *= bSquareTable[phase_128];
 				}
 				else if (wave_mode == 2) {
-					leftOut *= kStepsTable[phase];
+					leftOut *= kSawTable[phase_128]; //gorgeous with LPF at 12 o'clock.
 				}
 				else if (wave_mode == 3) {
-					leftOut *= kSawTable[phase]; //gorgeous with LPF at 12 o'clock.
-				}
-				else if (wave_mode == 4) {
-					leftOut *= kOctoTable[phase];
-				}
-				else if (wave_mode == 5) {
-					leftOut *= rOctoTable[phase];
+					leftOut *= kOctoTable[phase_128];
 				}
 			}
 		}
@@ -1336,9 +1323,9 @@ void CalcWave() {
 		else {
 			leftOutFilt = leftOut;
 		}
-		if (leftOutFilt > samp_max) {
-			samp_max = leftOutFilt;
-		}
+//		if (leftOutFilt > samp_max) {
+//			samp_max = leftOutFilt;
+//		}
 		// Post compressor
 		// Not enough compute for compressor compressed = compressor(leftOutFilt);
 		//compressed = leftOutFilt;
@@ -1754,6 +1741,9 @@ int main(void)
 					HAL_GPIO_TogglePin(GPIOD, LD3_Pin);
 					button_flag = 0;
 					wave_mode = (wave_mode+1) % num_wave_modes;
+					if (wave_mode == 0) {
+						legato_mode ^= 1;
+					}
 				}
 			}
 			// Calculate the waveform, fill the buffer.
