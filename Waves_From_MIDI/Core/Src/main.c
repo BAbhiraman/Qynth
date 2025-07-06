@@ -45,12 +45,21 @@
 /* USER CODE BEGIN PD */
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679f
 #define TAU (2.0f * PI)
-#define BUFFER_SIZE 128 //Phil's lab used 128
+#define BUFFER_SIZE 256 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 32063.0f //48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
 #define TS 1.0f/(float)FS // sample time
 #define LOOKUPSIZE 4096
+
+
+//compressor
+// These ratios are more like a limiter
+#define thresh -6.0f
+#define ratio  0.33f //s.t. thresh + (3-thresh)*ratio = 1. 3 is a realistic max sample.
+#define COMP_TABLE_SIZE 1024
+//#define thresh 0.5f
+//#define ratio  0.5f //s.t. thresh + (3-thresh)*ratio = 1. 3 is a realistic max sample.
 
 #define N_ADC 4
 
@@ -119,6 +128,18 @@ typedef struct {
     float    env[MIDI_PITCH_COUNT];            // Current envelope level (e.g., 0.0 to 1.0) for each pitch
 } Notes; // Renamed to Notes (plural) as it now holds data for multiple notes
 
+typedef struct {
+    uint8_t  vel;            // MIDI standard velocity (0-127) for each pitch
+    uint8_t  released;       // True if the note has been released, false if pressed for each pitch
+    uint32_t ticks_pressed;  // Ticks elapsed since the note was pressed for each pitch
+    uint32_t ticks_released; // Ticks elapsed since the note was released for each pitch
+    float    freq;							   // freq (Hz)
+    float    target_freq;                      // target freq (Hz)
+    uint8_t  target_pitch;					   // target pitch (MIDI 0-127)
+    float    env;            // Current envelope level (e.g., 0.0 to 1.0) for each pitch
+    float 	 current_phase;  // Phase w.r.t lookuptable.
+} LegatoNote; // Renamed to Notes (plural) as it now holds data for multiple notes
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -127,6 +148,8 @@ typedef struct {
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+// TEMP
+
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
@@ -138,6 +161,7 @@ DMA_HandleTypeDef hdma_spi3_tx;
 SPI_HandleTypeDef hspi1;
 
 UART_HandleTypeDef huart2;
+DMA_HandleTypeDef hdma_usart2_rx;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
@@ -170,6 +194,8 @@ volatile uint8_t active_notes[N_VOICES];
 volatile uint8_t num_active_notes;
 
 Notes my_midi_notes; // Declare an instance of the Notes struct
+LegatoNote my_legato_note; // declare an instance of legato note
+float glide_rate_hz_per_sec = 1000.0f;
 
 // Audio output double buffering state variables. 'Volatile' tells the compiler
 // not to optimize away, because compiler is confused by interrupt variables.
@@ -183,12 +209,20 @@ volatile uint64_t loops = 0;
 volatile uint8_t button_flag = 0;
 // Waveform mode
 uint8_t wave_mode = 0;
-uint8_t num_wave_modes = 3;
+uint8_t num_wave_modes = 6;
+// Legato mode
+uint8_t legato_mode = 1;
 
 // Can use this nice ode to joy with bassline if you don't have keyboard input yet
 int8_t odeToJoy[] =  {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2,4,4,5,7,7,5,4,2,0,0,2,4,2,2,0,0};
 int8_t odeToJoy2[] = {0, -5, -3, -1, -5, -3, -4, -1, -3, -4, -5, -6, -10, -6, -5, -1, 0, -5, -3, -1, -5, -3, -4, -1, -3, -4, -10, -6, -7, -5, -8, -12};
 uint8_t lenJoy = sizeof(odeToJoy);
+
+// Studying max samples for compression
+float samp_max = 0.0f;
+float attack_coeff = exp(-1.0 / (10.0 * FS / 1000.0));
+float release_coeff = exp(-1.0 / (100.0 * FS / 1000.0));
+float envelope_gain = 1.0;
 
 // Filtering
 float a_coeffs[5] = {1.0f         ,-3.25488493f,  4.02988597f, -2.24299626f,  0.47269615f}; // b0, b1, b2, b3, b4
@@ -461,6 +495,9 @@ const float releaseTable[] = {//256 elements
 		6.9106990358e+00, 7.1193066943e+00, 7.3342114228e+00, 7.5556033057e+00, 7.7836781656e+00, 8.0186377360e+00, 8.2606898401e+00, 8.5100485745e+00, 8.7669344984e+00, 9.0315748291e+00, 9.3042036424e+00, 9.5850620804e+00, 9.8743985638e+00, 1.0172469013e+01, 1.0479537072e+01, 1.0795874346e+01, 1.1121760635e+01, 1.1457484190e+01, 1.1803341959e+01, 1.2159639855e+01, 1.2526693027e+01, 1.2904826134e+01, 1.3294373638e+01, 1.3695680097e+01, 1.4109100468e+01, 1.4535000423e+01, 1.4973756675e+01, 1.5425757305e+01, 1.5891402111e+01, 1.6371102958e+01, 1.6865284146e+01, 1.7374382779e+01, 1.7898849160e+01, 1.8439147181e+01, 1.8995754739e+01, 1.9569164158e+01, 2.0159882621e+01, 2.0768432623e+01, 2.1395352429e+01, 2.2041196554e+01, 2.2706536252e+01, 2.3391960018e+01, 2.4098074115e+01, 2.4825503104e+01, 2.5574890401e+01, 2.6346898844e+01, 2.7142211279e+01, 2.7961531165e+01, 2.8805583194e+01, 2.9675113936e+01, 3.0570892497e+01, 3.1493711197e+01, 3.2444386276e+01, 3.3423758611e+01, 3.4432694463e+01, 3.5472086243e+01, 3.6542853298e+01, 3.7645942728e+01, 3.8782330223e+01, 3.9953020924e+01, 4.1159050314e+01, 4.2401485134e+01, 4.3681424325e+01, 4.5000000000e+0,
 };
 
+double gains[COMP_TABLE_SIZE]; // To store the pre-calculated gains
+
+
 float velTable[128];
 
 // Declare the array to hold frequencies globally
@@ -483,10 +520,70 @@ float process_filter(float input_sample) {
     w_states[2] = b_coeffs[3] * input_sample - a_coeffs[3] * output_sample + w_states[3];
     w_states[3] = b_coeffs[4] * input_sample - a_coeffs[4] * output_sample; // No next state to add
 
-    // Clamp between -1.0 and 10
-    output_sample = fmaxf(-1.0f, fminf(1.0f, output_sample));
-    return output_sample;
+
+    return fmax(-10.0, fmin(output_sample, 10.0));;
 }
+
+// Define the size of the lookup table
+#define COMP_TABLE_SIZE 1024
+
+// Define the range of linear values used to generate the table
+#define LIN_MIN_INPUT 0.000000000001 // A very small number instead of 0 to avoid log(0)
+#define LIN_MAX_INPUT 10.0
+
+// Convert linear amplitude to decibels
+double dB(double lin) {
+    if (lin <= 0) {
+        return -200.0; // Effectively -infinity for practical audio purposes
+    }
+    return 20.0 * log10(lin);
+}
+
+// Convert decibels to linear amplitude
+double lin(double dB_val) {
+    return pow(10.0, dB_val / 20.0);
+}
+
+// Function to initialize the lookup tables
+void initializeCompressorLookupTable() {
+    // Compressor parameters
+	// Global arrays for lookup tables (or pass them as arguments)
+	double lvl_ins[COMP_TABLE_SIZE];
+	double lvl_outs[COMP_TABLE_SIZE];
+    double W = 10.0; // Knee width
+
+    // Populate lvl_ins with linear values, then convert to dB
+    for (int i = 0; i < COMP_TABLE_SIZE; i++) {
+        // Calculate the linear value that corresponds to this table index
+        // This is crucial for direct indexing later
+        double linear_val_for_index = LIN_MIN_INPUT + (double)i / (COMP_TABLE_SIZE - 1) * (LIN_MAX_INPUT - LIN_MIN_INPUT);
+        lvl_ins[i] = dB(linear_val_for_index);
+    }
+
+    // Calculate lvl_outs and gains based on soft knee compression
+    for (int i = 0; i < COMP_TABLE_SIZE; i++) {
+        double lvl = lvl_ins[i];
+        // No compression regime
+        if (lvl < thresh - W / 2.0) {
+            lvl_outs[i] = lvl;
+        // Soft knee regime
+        } else if (lvl < thresh + W / 2.0) {
+            lvl_outs[i] = lvl + (ratio - 1.0) * pow(lvl - thresh + 0.5 * W, 2.0) / (2.0 * W);
+        // Linear in log units regime
+        } else {
+            lvl_outs[i] = thresh + ratio * (lvl - thresh);
+        }
+
+        // Calculate the gain for each entry
+        double linear_lvl_in = lin(lvl_ins[i]);
+        if (linear_lvl_in > 1e-10) { // A small threshold to prevent division by near zero
+            gains[i] = lin(lvl_outs[i]) / linear_lvl_in;
+        } else {
+            gains[i] = 1.0; // Default for very low input
+        }
+    }
+}
+
 
 void populateMidiFrequencies() {
     for (uint8_t midi_note = MIDI_PITCH_MIN; midi_note <= MIDI_PITCH_MAX; midi_note++) {
@@ -589,6 +686,86 @@ void populate_ADR_tables() {
 
 }
 
+// Function to get the compressed output for a given linear audio sample
+// using direct index calculation and linear interpolation.
+// 'sample' is assumed to be a linear amplitude (e.g., -1.0 to 1.0 or 0.0 to 1.0).
+float getGainOfSample(float sample) {
+    // 1. Get the absolute amplitude of the input sample
+    float abs_sample = fabs(sample);
+
+    // Handle very small or zero samples separately to avoid issues with log/indexing
+    if (abs_sample < LIN_MIN_INPUT) {
+        return sample; // No compression for silence or extremely low levels
+    }
+    // Clip high values to prevent out-of-bounds access if the input exceeds our table generation range
+    if (abs_sample > LIN_MAX_INPUT) {
+        abs_sample = LIN_MAX_INPUT;
+    }
+
+    // 2. Map the linear input amplitude to an approximate table index.
+    // This is the core of "jumping to the index".
+    // We normalize the input linear value to the range [0, 1] based on LIN_MIN_INPUT and LIN_MAX_INPUT,
+    // then scale it by (TABLE_SIZE - 1) to get the floating-point index.
+    float normalized_linear_input = (abs_sample - LIN_MIN_INPUT) / (LIN_MAX_INPUT - LIN_MIN_INPUT);
+    float float_index = normalized_linear_input * (COMP_TABLE_SIZE - 1);
+
+    // 3. Get the two surrounding integer indices for interpolation
+    int index1 = (int)floor(float_index);
+    int index2 = (int)ceil(float_index);
+
+    // Clamp indices to prevent out-of-bounds access
+    if (index1 < 0) index1 = 0;
+    if (index2 >= COMP_TABLE_SIZE) index2 = COMP_TABLE_SIZE - 1;
+
+    // Handle edge case where index1 and index2 are the same (e.g., float_index is an integer)
+    if (index1 == index2) {
+        return sample * gains[index1];
+    }
+
+    // 4. Calculate the interpolation factor (fractional part of the float_index)
+    float frac = float_index - index1;
+
+    // 5. Perform linear interpolation on the gain values
+    float gain1 = gains[index1];
+    float gain2 = gains[index2];
+    float interpolated_gain = gain1 + frac * (gain2 - gain1);
+
+    // 6. Apply the interpolated gain to the original sample
+    // Maintain the sign of the original sample.
+    return interpolated_gain;
+}
+
+// Function to process a single audio sample
+float compressor(float input_sample){
+	// TODO replace with LUT logic.
+	float target_gain = getGainOfSample(input_sample);
+
+	// 4. Apply envelope follower (Attack and Release)
+	// Calculate attack and release coefficients based on sample rate
+	// These are simplified one-pole filter coefficients
+
+	if (target_gain < envelope_gain) {
+		// Attack phase: reduce gain quickly
+		envelope_gain = (target_gain * (1.0 - attack_coeff)) + (envelope_gain * attack_coeff);
+	} else {
+		// Release phase: increase gain slowly
+		envelope_gain = (target_gain * (1.0 - release_coeff)) + (envelope_gain * release_coeff);
+	}
+
+	// Ensure gain doesn't go above 1.0 (no boosting)
+//	if (envelope_gain > 1.0) {
+//		envelope_gain = 1.0;
+//	}
+
+
+	// 5. Apply the calculated gain to the input sample
+	float output_sample = fmax(-1.0, fmin(input_sample * envelope_gain, 1.0));
+
+	return output_sample;
+}
+
+
+
 double min(double a, double b) {
 	  return (a < b) ? a : b;
 }
@@ -631,6 +808,25 @@ void clear_note(Notes* notes_system, uint8_t note_index) {
     }
 }
 
+void release_legato_note(LegatoNote* legato_note) {
+	legato_note->released = 1;
+}
+
+void clear_legato_note(LegatoNote* legato_note) {
+    // Basic validation to ensure the index is within bounds
+	legato_note->vel = 0;              // No velocity (note off)
+	legato_note->released = 1;         //
+	legato_note->ticks_pressed = 0;    // No ticks yet
+	legato_note->ticks_released = 0;   // No ticks yet
+	legato_note->env = 0.0f;           // Envelope at zero
+	legato_note->freq = 0.0f;
+	legato_note->target_freq = 0.0f;
+	legato_note->target_pitch = 0.0f;
+	legato_note->current_phase = 0.0f;
+
+}
+
+
 /**
  * @brief Adds (activates) a note in the Notes tracking system with a given pitch and velocity.
  *
@@ -671,6 +867,123 @@ void add_note(Notes* notes_system, uint8_t pitch, uint8_t velocity) {
     notes_system->env[pitch] = 0.0f;
 }
 
+void add_legato_note(LegatoNote* legato_note, uint8_t pitch, uint8_t velocity) {
+    // Basic validation for the pitch
+    if (legato_note == NULL) {
+        //printf("Error: NULL Notes system pointer passed to add_note.\r\n");
+        return;
+    }
+    if (pitch >= MIDI_PITCH_COUNT) {
+        //printf("Error: add_note called with invalid pitch: %u (max %u)\r\n", pitch, MIDI_PITCH_COUNT - 1);
+        return;
+    }
+    // A velocity of 0 is typically interpreted as a "Note Off" event.
+    // While this function is named "add_note", it's good practice to handle
+    // velocity 0 either by calling clear_note or just returning.
+//    if (velocity == 0) {
+//        // If velocity is 0, treat it as a note off (set released flag)
+//        // or clear the note entirely. For simplicity here, we'll mark it released
+//        // and let updateNoteEnvelope handle the decay.
+//        legato_note->released = 1;
+//        // Don't actually set the vel[pitch] to 0! That variable tracks what was :')
+//        return;
+//    }
+
+    // Set the velocity for the specified pitch
+    legato_note->vel = velocity;
+    // Mark the note as pressed (not released)
+    legato_note->released = 0;
+    // Reset ticks related to pressing/releasing for a new press
+    legato_note->ticks_pressed = 0;
+    legato_note->ticks_released = 0; // Not applicable for a pressed note
+    // Reset envelope to 0.0f, as it will start its attack phase
+    legato_note->env = 0.0f;
+    // Frequencies
+    legato_note->target_pitch = pitch;
+    legato_note->freq = fTable[pitch];
+    legato_note->target_freq = fTable[pitch];
+    legato_note->current_phase = 0.0f;
+    //legato_note->freq;
+}
+
+void updateLegatoNote(LegatoNote* legato_note, uint8_t attack_ind, float decay_k, float release_k) {
+    // Ensure notes_system is not NULL
+    if (legato_note == NULL) {
+        //printf("Error: NULL Notes system pointer passed to updateNoteEnvelope.\r\n");
+        return;
+    }
+    float attack_duration_ticks = (FS > 0.0f) ? (attackTable[attack_ind] * FS) : 1.0f;
+
+    // Calculate attack duration in ticks (common for all notes)
+    // Ensure FS is not zero to prevent division by zero in attack_increment_per_tick
+    // Handle frequency sliding
+
+    // Calculate the maximum change allowed in this time step
+    float max_change = glide_rate_hz_per_sec * TS;
+
+    // Calculate the difference between the current and target frequency
+    float freq_diff = legato_note->target_freq - legato_note->freq;
+
+    // Determine the direction of the glide
+    if (fabsf(freq_diff) <= max_change) {
+        // If the remaining difference is less than or equal to max_change,
+        // we can just snap to the target frequency to avoid overshooting and oscillation.
+        legato_note->freq = legato_note->target_freq;
+    } else {
+        // Otherwise, move freq towards target_freq by max_change
+        if (freq_diff > 0) {
+            // Target is higher, so increase freq
+            legato_note->freq += max_change;
+        } else {
+            // Target is lower, so decrease freq
+            legato_note->freq -= max_change;
+        }
+    }
+
+	// Only process notes that have velocity (are "on") and we haven't hit N_voices limit
+	if (legato_note->vel != 0) {
+		// Check if the note is currently pressed (not released)
+		if (legato_note->released == 0) {
+			legato_note->ticks_pressed++; // Increment ticks since press
+
+			// Attack Phase: if ticks_pressed is within the attack duration
+			if (legato_note->ticks_pressed <= attack_duration_ticks) {
+				// Calculate the linear increment per tick
+				if (attack_duration_ticks > 0.0f) {
+					float attack_increment_per_tick = velTable[legato_note->vel] * inv_attackDurTicksTable[attack_ind];
+					legato_note->env += attack_increment_per_tick;
+				} else { // Instant attack
+					legato_note->env = 1.0f;
+				}
+				// Clip the envelope level at 1.0 (maximum)
+				legato_note->env = fminf(legato_note->env, 1.0f);
+			}
+			// Decay Phase: if attack is finished and note is still pressed
+			else {
+				legato_note->env *= decay_k;
+				// Ensure envelope doesn't go below 0 due to floating point inaccuracies
+				legato_note->env = fmaxf(legato_note->env, 0.0f);
+			}
+
+		} else { // If the note has been released (notes_system->released[pitch] == 1)
+			legato_note->ticks_released++; // Increment ticks since release
+			legato_note->ticks_pressed++; // Increment ticks since press
+			// Release Phase: apply release scalar
+			legato_note->env *= release_k;
+			// Ensure envelope doesn't go below 0
+			legato_note->env = fmaxf(legato_note->env, 0.0f);
+		}
+
+		// After envelope processing, if the envelope has decayed to near zero,
+		// and the note is released, we can "turn off" the note entirely
+		if (legato_note->env < 0.001f && legato_note->released == 1) {
+			// Call your clear_note function here if you have one
+			// clear_note(notes_system, pitch); // Assuming clear_note sets vel to 0, released to 1, etc.
+			// If you don't have clear_note, you'd do:
+			clear_legato_note(legato_note);
+		}
+	}
+}
 /**
  * @brief Updates the envelope level for active notes within the Notes tracking system.
  *
@@ -707,7 +1020,6 @@ void updateNoteEnvelope(Notes* notes_system, uint8_t attack_ind, float decay_k, 
 				if (notes_system->ticks_pressed[pitch] <= attack_duration_ticks) {
 					// Calculate the linear increment per tick
 					if (attack_duration_ticks > 0.0f) {
-						//TODO: add velocity function here. //was 1.0f/
 						float attack_increment_per_tick = velTable[notes_system->vel[pitch]] * inv_attackDurTicksTable[attack_ind];
 						notes_system->env[pitch] += attack_increment_per_tick;
 					} else { // Instant attack
@@ -784,11 +1096,32 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 					currentLastRead = LAST_READ_VELOCITY;
 					if (byte == 0) {
 						inNoteEvent = 0;
-						release_note(&my_midi_notes, MIDIptr);
+						if (legato_mode) {
+							// Only release the legato note if the released note is the currentMIDIpitch
+							if (MIDIptr == currentMIDIPitch) {
+								release_legato_note(&my_legato_note);
+							}
+						}
+						else {
+							release_note(&my_midi_notes, MIDIptr);
+						}
 					}
 					else {
 						currentMIDIPitch = MIDIptr;
-						add_note(&my_midi_notes, currentMIDIPitch, byte);
+						if (legato_mode) {
+							// If a fresh note is required, instantiate it!
+							if (my_legato_note.released) {
+								add_legato_note(&my_legato_note, currentMIDIPitch, byte);
+							}
+							else {
+								// If there is an existing note being played, update the target pitch
+								my_legato_note.target_pitch = currentMIDIPitch;
+								my_legato_note.target_freq = fTable[currentMIDIPitch];
+							}
+						}
+						else {
+							add_note(&my_midi_notes, currentMIDIPitch, byte);
+						}
 					}
 					//printf("vel %02X ", byte);
 				}
@@ -836,14 +1169,14 @@ void CalcWave() {
 	else {
 		HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_SET); //red
 	}
-	static float leftOut, rightOut, leftOutFilt;
+	static float leftOut, leftOutFilt; //, compressed;
 	leftOut = 0.0;
 	float vibrato = 1;
 	float tNote;
 	//double phase;
 	uint16_t phase = 0;
-	uint16_t phase_vib = 0;
-	uint8_t vibrato_amt;
+	//uint16_t phase_vib = 0;
+	//uint8_t vibrato_amt;
 	uint8_t pitch;
 	uint8_t do_filt;
 
@@ -879,20 +1212,6 @@ void CalcWave() {
 	}
 
 	// Second pass: Add released notes if there are still voices available
-//	for (int pitch = MIDI_PITCH_COUNT - 1; pitch >= 0; pitch--) {
-//	    if (num_active_notes < N_VOICES) {
-//	        // Only add if it's a released note AND it hasn't been added yet (i.e., not an unreleased note)
-//	        if (my_midi_notes.vel[pitch] != 0 && my_midi_notes.released[pitch] != 0) {
-//	            // You might want to add a check here to ensure this pitch wasn't already added in the first pass,
-//	            // though given the separate conditions (released == 0 vs released != 0), it shouldn't be.
-//	            active_notes[num_active_notes] = pitch;
-//	            num_active_notes++;
-//	        }
-//	    } else {
-//	        // All voices are filled
-//	        break;
-//	    }
-//	}
 	for (int pitch = MIDI_PITCH_COUNT - 1; pitch >= 0; pitch--) {
 
 		// Only add if it's a released note AND it hasn't been added yet (i.e., not an unreleased note)
@@ -918,69 +1237,121 @@ void CalcWave() {
 		leftOut = 0.0;
 		//playing_note = 255; // 255 means no note waveform is being calculated.
 		// Iterate over all active notes as calculated above.
-		for (uint8_t ind = 0; ind < num_active_notes; ind++) {
-			pitch = active_notes[ind];
-			//debug_flag = 5;
-			// Only process notes that have velocity (are "on"). Not redundant; they may be turned off by updateNoteEnvelope within here.
-			if (my_midi_notes.vel[pitch] != 0) {
-				//playing_note = pitch;
-				// Convert note duration in ticks to time in seconds
-				tNote = (my_midi_notes.ticks_pressed[pitch])*TS;
-													//vibrato 0.5 to 60 Hz or so
-				//vibrato_amt = 255-AD_RES_COPY[1];
-				//if (vibrato_amt > 10) vibrato_amt -= 10;
-				//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
-				//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //1.06 is approximately 12th root of 2. Idk why this fraction is so small
+		if (!legato_mode) {
+			for (uint8_t ind = 0; ind < num_active_notes; ind++) {
+				pitch = active_notes[ind];
+				//debug_flag = 5;
+				// Only process notes that have velocity (are "on"). Not redundant; they may be turned off by updateNoteEnvelope within here.
+				if (my_midi_notes.vel[pitch] != 0) {
+					//playing_note = pitch;
+					// Convert note duration in ticks to time in seconds
+					tNote = (my_midi_notes.ticks_pressed[pitch])*TS;
+														//vibrato 0.5 to 60 Hz or so
+					//vibrato_amt = 255-AD_RES_COPY[1];
+					//if (vibrato_amt > 10) vibrato_amt -= 10;
+					//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
+					//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //1.06 is approximately 12th root of 2. Idk why this fraction is so small
 
-				// Calculate phase with lookuptable. Phase is out of LOOKUPSIZE, not 2pi.
-				if (wave_mode == 0) {
-					phase = ((uint16_t)(LOOKUPSIZE *fTable[pitch]*vibrato*tNote)) % LOOKUPSIZE;
-					// Accumulate the sample from all the voices.
-					leftOut += sineLookupTable[phase]*my_midi_notes.env[pitch];
-				}
-				else {
-					phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
-					if (wave_mode == 1) {
-						leftOut += squareTable[phase]*my_midi_notes.env[pitch];
+					// Calculate phase with lookuptable. Phase is out of LOOKUPSIZE, not 2pi.
+					if (wave_mode == 0) {
+						phase = ((uint16_t)(LOOKUPSIZE *fTable[pitch]*vibrato*tNote)) % LOOKUPSIZE;
+						// Accumulate the sample from all the voices.
+						leftOut += sineLookupTable[phase]*my_midi_notes.env[pitch];
 					}
-					else if (wave_mode == 2) {
-						leftOut += sawTable[phase]*my_midi_notes.env[pitch];
+	//				else {
+	//					phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
+	//					if (wave_mode == 1) {
+	//						leftOut += squareTable[phase]*my_midi_notes.env[pitch];
+	//					}
+	//					else if (wave_mode == 2) {
+	//						leftOut += sawTable[phase]*my_midi_notes.env[pitch];
+	//					}
+	//				}
+					else {
+						phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
+						if (wave_mode == 1) {
+							leftOut += bSquareTable[phase]*my_midi_notes.env[pitch];
+						}
+						else if (wave_mode == 2) {
+							leftOut += kStepsTable[phase]*my_midi_notes.env[pitch];
+						}
+						else if (wave_mode == 3) {
+							leftOut += kSawTable[phase]*my_midi_notes.env[pitch]; //gorgeous with LPF at 12 o'clock.
+						}
+						else if (wave_mode == 4) {
+							leftOut += kOctoTable[phase]*my_midi_notes.env[pitch];
+						}
+						else if (wave_mode == 5) {
+							leftOut += rOctoTable[phase]*my_midi_notes.env[pitch];
+						}
 					}
+					//debug_flag = 6;
 				}
-//				else {
-//					phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
-//					if (wave_mode == 1) {
-//						leftOut += bSquareTable[phase]*my_midi_notes.env[pitch];
-//					}
-//					else if (wave_mode == 2) {
-//						leftOut += kStepsTable[phase]*my_midi_notes.env[pitch];
-//					}
-//					else if (wave_mode == 3) {
-//						leftOut += kSawTable[phase]*my_midi_notes.env[pitch];
-//					}
-//					else if (wave_mode == 4) {
-//						leftOut += kOctoTable[phase]*my_midi_notes.env[pitch];
-//					}
-//					else if (wave_mode == 5) {
-//						leftOut += rOctoTable[phase]*my_midi_notes.env[pitch];
-//					}
-//				}
-				//debug_flag = 6;
+			}
+		}
+		//legato mode
+		else {
+			tNote = (my_legato_note.ticks_pressed)*TS;
+			leftOut = my_legato_note.env;
+			if (wave_mode == 0) {
+				float phase_increment = (my_legato_note.freq * vibrato * TS) * LOOKUPSIZE;
+				my_legato_note.current_phase += phase_increment;
+				my_legato_note.current_phase = fmodf(my_legato_note.current_phase, (float)LOOKUPSIZE);
+				phase = ((uint16_t)(LOOKUPSIZE *my_legato_note.freq*vibrato*tNote)) % LOOKUPSIZE;
+				// Ensure phase is always positive after fmodf (fmodf can return negative if dividend is negative)
+				if (my_legato_note.current_phase < 0) {
+				    my_legato_note.current_phase += (float)LOOKUPSIZE;
+				}
+				uint16_t phase_index = (uint16_t)my_legato_note.current_phase;
+				// Accumulate the sample from all the voices.
+				leftOut *= sineLookupTable[phase_index];
+			}
+			else {
+				phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
+				if (wave_mode == 1) {
+					leftOut *= bSquareTable[phase];
+				}
+				else if (wave_mode == 2) {
+					leftOut *= kStepsTable[phase];
+				}
+				else if (wave_mode == 3) {
+					leftOut *= kSawTable[phase]; //gorgeous with LPF at 12 o'clock.
+				}
+				else if (wave_mode == 4) {
+					leftOut *= kOctoTable[phase];
+				}
+				else if (wave_mode == 5) {
+					leftOut *= rOctoTable[phase];
+				}
 			}
 		}
 		//debug_flag = 7;
 		// Filter processing
+		// Pre compressor
+		//leftOut = compressor(leftOut);
+		// EQ
 		if (do_filt) {
 			leftOutFilt = process_filter(leftOut);
 		}
 		else {
 			leftOutFilt = leftOut;
 		}
+		if (leftOutFilt > samp_max) {
+			samp_max = leftOutFilt;
+		}
+		// Post compressor
+		// Not enough compute for compressor compressed = compressor(leftOutFilt);
+		//compressed = leftOutFilt;
 
 							// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
-		updateNoteEnvelope(&my_midi_notes, 255-AD_RES_COPY[2], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+		if (legato_mode) {
+			updateLegatoNote(&my_legato_note, 255-AD_RES_COPY[2], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+		}
+		else {
+			updateNoteEnvelope(&my_midi_notes, 255-AD_RES_COPY[2], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+		}
 		debug_flag = 8;
-		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOutFilt*0.10f); //32768 OVERFLOWs
+		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOutFilt * 0.1f); //32768 OVERFLOWs
 		outBufPtr[n + 1] = outBufPtr[n]; //TODO: do something with stereo.
 		ticks++;
 
@@ -1332,6 +1703,10 @@ int main(void)
 	populate_ADR_tables();
 	populateMidiFrequencies();
 	populateVelTable();
+	initializeCompressorLookupTable();
+
+	// Legato Note state
+	my_legato_note.released = 1;
 
 	// EXT DAC INTIIALIZATION
 	struct cs4x_cfg cfgdac;
@@ -1635,7 +2010,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 31250;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -1698,6 +2073,9 @@ static void MX_DMA_Init(void)
   __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* DMA interrupt init */
+  /* DMA1_Stream5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
   /* DMA1_Stream7_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream7_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream7_IRQn);
