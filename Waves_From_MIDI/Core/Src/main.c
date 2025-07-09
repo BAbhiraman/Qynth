@@ -22,6 +22,34 @@
  * MIDI UART: https://learn.sparkfun.com/tutorials/midi-tutorial/all
  *
  * Double Buffering for I2S sound drive: https://www.youtube.com/watch?v=zlGSxZGwj-E
+ *
+ADCs
+IN1 LPQF
+IN3 Decay
+IN8 Fx Amt
+IN9 Attack
+IN11 Release
+IN12 Waveform
+IN14 Leg/Arp Rt
+
+Buttons
+PB4 PLA button
+PE5 Preset button
+PD0 Fx button
+PE4 Doodle button
+
+LEDs
+PB5 Poly
+PB7 Legato
+PD7 Arp
+PE2 Pre 1
+PE0 Pre 2
+PB8 Pre 3
+PC8 Vib
+PA15 Trem
+PC11 X FX
+PC13 LED
+ *
  ******************************************************************************
  */
 /* USER CODE END Header */
@@ -50,7 +78,7 @@
 #define FLOAT_TO_INT16 32767.0f
 #define FS 32063.0f //48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
 #define TS 1.0f/(float)FS // sample time
-#define LOOKUPSIZE 4096
+#define SINE_LOOKUP_SIZE 4096
 
 
 //compressor
@@ -61,7 +89,7 @@
 //#define thresh 0.5f
 //#define ratio  0.5f //s.t. thresh + (3-thresh)*ratio = 1. 3 is a realistic max sample.
 
-#define N_ADC 4
+#define N_ADC 7
 
 #define RX_BUFFER_SIZE 256
 
@@ -148,8 +176,6 @@ typedef struct {
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-// TEMP
-
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
@@ -170,6 +196,33 @@ int16_t dacData[BUFFER_SIZE];
 // ADC Variables
 uint16_t AD_RES_BUFFER[N_ADC];
 uint16_t AD_RES_COPY[N_ADC];
+uint8_t AD_LPF;
+uint8_t AD_decay;
+uint8_t AD_FX;
+uint8_t AD_attack;
+uint8_t AD_release;
+uint8_t AD_waveform;
+uint8_t AD_LA_rate;
+
+// Button variables
+uint8_t PLA_press;
+uint8_t preset_press;
+uint8_t FX_press;
+uint8_t doodle_press;
+
+// Button states
+uint8_t doodle_bool;
+uint64_t loops_doodle_press = 0;
+uint64_t loops_preset_press = 0;
+uint64_t loops_PLA_press = 0;
+uint64_t loops_FX_press = 0;
+
+uint8_t preset_ind;
+uint8_t preset_disp_map[] = {0, 0b001, 0b010, 0b100, 0b011, 0b110, 0b101, 0b111};
+
+uint8_t FX_ind = 0;
+uint8_t FX_disp_map[] = {0, 0b001, 0b010, 0b100};
+
 
 // MIDI and UART handling
 uint8_t RxUART[RX_BUFFER_SIZE];
@@ -524,6 +577,9 @@ float process_filter(float input_sample) {
     return fmax(-10.0, fmin(output_sample, 10.0));;
 }
 
+// Button stuff
+#define NUM_PRESETS 8
+
 // Define the size of the lookup table
 #define COMP_TABLE_SIZE 1024
 
@@ -633,6 +689,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 		AD_RES_COPY[i] = AD_RES_BUFFER[i];
 		//printf("%d\r\n",AD_RES_COPY[i]);
 	}
+	AD_LPF = AD_RES_COPY[0];
+	AD_decay = AD_RES_COPY[1];
+	AD_FX = AD_RES_COPY[2];
+	AD_attack = AD_RES_COPY[3];
+	AD_release = AD_RES_COPY[4];
+	AD_waveform = AD_RES_COPY[5];
+	AD_LA_rate = AD_RES_COPY[6];
 	//printf("\r\n");
 }
 
@@ -1181,13 +1244,12 @@ void CalcWave() {
 	uint8_t do_filt;
 
 	//Update filter coefficients based on knob 4
-	uint8_t filt_knob = 255 - AD_RES_COPY[3];
 	// If trying to filter (not turning cut-off freq to the extreme)
-	if (filt_knob <= 245) {
+	if (AD_LPF <= 245) {
 		do_filt = 1;
 		for (int i = 0; i<5; i++) {
-			a_coeffs[i] = a_table[5*filt_knob + i];
-			b_coeffs[i] = b_table[5*filt_knob + i];
+			a_coeffs[i] = a_table[5*AD_LPF + i];
+			b_coeffs[i] = b_table[5*AD_LPF + i];
 		}
 	}
 	// If user turns knob almost all the way to the high end, just don't filter.
@@ -1253,7 +1315,8 @@ void CalcWave() {
 
 					// Calculate phase with lookuptable. Phase is out of LOOKUPSIZE, not 2pi.
 					if (wave_mode == 0) {
-						phase = ((uint16_t)(LOOKUPSIZE *fTable[pitch]*vibrato*tNote)) % LOOKUPSIZE;
+						phase = ((uint16_t)(SINE_LOOKUP_SIZE *fTable[pitch]*vibrato*tNote));
+						phase &= (SINE_LOOKUP_SIZE - 1);
 						// Accumulate the sample from all the voices.
 						leftOut += sineLookupTable[phase]*my_midi_notes.env[pitch];
 					}
@@ -1267,7 +1330,8 @@ void CalcWave() {
 	//					}
 	//				}
 					else {
-						phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote)) % 128;
+						phase = ((uint16_t)(128 *fTable[pitch]*vibrato*tNote));
+						phase &= (127);
 						if (wave_mode == 1) {
 							leftOut += bSquareTable[phase]*my_midi_notes.env[pitch];
 						}
@@ -1286,12 +1350,12 @@ void CalcWave() {
 		else {
 			tNote = (my_legato_note.ticks_pressed)*TS;
 			leftOut = my_legato_note.env;
-			float phase_increment = (my_legato_note.freq * vibrato * TS) * LOOKUPSIZE;
+			float phase_increment = (my_legato_note.freq * vibrato * TS) * SINE_LOOKUP_SIZE;
 			my_legato_note.current_phase += phase_increment;
-			my_legato_note.current_phase = fmodf(my_legato_note.current_phase, (float)LOOKUPSIZE);
+			my_legato_note.current_phase = fmodf(my_legato_note.current_phase, (float)SINE_LOOKUP_SIZE);
 			// Ensure phase is always positive after fmodf (fmodf can return negative if dividend is negative)
 			if (my_legato_note.current_phase < 0) {
-			    my_legato_note.current_phase += (float)LOOKUPSIZE;
+			    my_legato_note.current_phase += (float)SINE_LOOKUP_SIZE;
 			}
 			uint16_t phase_index = (uint16_t)my_legato_note.current_phase;
 			if (wave_mode == 0) {
@@ -1332,10 +1396,10 @@ void CalcWave() {
 
 							// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
 		if (legato_mode) {
-			updateLegatoNote(&my_legato_note, 255-AD_RES_COPY[2], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+			updateLegatoNote(&my_legato_note, AD_attack, k_decayTable[AD_decay], k_releaseTable[AD_release]);
 		}
 		else {
-			updateNoteEnvelope(&my_midi_notes, 255-AD_RES_COPY[2], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
+			updateNoteEnvelope(&my_midi_notes, AD_attack, k_decayTable[AD_decay], k_releaseTable[AD_release]);
 		}
 		debug_flag = 8;
 		outBufPtr[n] = (int16_t)(FLOAT_TO_INT16 * leftOutFilt * 0.1f); //32768 OVERFLOWs
@@ -1686,6 +1750,15 @@ int main(void)
   MX_ADC1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(pre0_GPIO_Port, pre0_Pin, 0);
+  HAL_GPIO_WritePin(pre1_GPIO_Port, pre1_Pin, 0);
+  HAL_GPIO_WritePin(pre2_GPIO_Port, pre2_Pin, 0);
+  HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, 0);
+  HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin, 0);
+  HAL_GPIO_WritePin(legato_GPIO_Port, legato_Pin, 0);
+  HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin, 0);
+
+
 	// Lookup table population
 	populate_ADR_tables();
 	populateMidiFrequencies();
@@ -1735,7 +1808,7 @@ int main(void)
 		// Populate half of the DAC buffer if it just sent off that half.
 		if (dataReadyFlag) {
 			// Every __ loops through the half DAC buffer, read the ADC knobs.
-			if (! (loops % 200)) { //was 2000
+			if (! (loops % 200)) { //was 2000 //TODO replace with bitwise & and multiple of 2.
 				HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, N_ADC);
 				if (button_flag) {
 					HAL_GPIO_TogglePin(GPIOD, LD3_Pin);
@@ -1746,6 +1819,35 @@ int main(void)
 					}
 				}
 			}
+			// Poll buttons
+			FX_press = !HAL_GPIO_ReadPin(FX_button_GPIO_Port, FX_button_Pin);
+			PLA_press = !HAL_GPIO_ReadPin(PLA_button_GPIO_Port, PLA_button_Pin);
+			doodle_press = !HAL_GPIO_ReadPin(doodle_button_GPIO_Port, doodle_button_Pin);
+			preset_press = !HAL_GPIO_ReadPin(preset_button_GPIO_Port, preset_button_Pin);
+			if (doodle_press && (loops - loops_doodle_press > 350)) {
+				loops_doodle_press = loops;
+				doodle_bool ^= 1;
+				HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_bool);
+			}
+			if (preset_press && (loops - loops_preset_press > 350)) {
+				loops_preset_press = loops;
+				preset_ind += 1;
+				preset_ind %= NUM_PRESETS;
+				uint8_t preset_disp = preset_disp_map[preset_ind];
+				HAL_GPIO_WritePin(pre0_GPIO_Port, pre0_Pin, preset_disp & 0b1);
+				HAL_GPIO_WritePin(pre1_GPIO_Port, pre1_Pin, preset_disp & 0b10);
+				HAL_GPIO_WritePin(pre2_GPIO_Port, pre2_Pin, preset_disp & 0b100);
+			}
+			if (FX_press && (loops - loops_FX_press > 350)) {
+				loops_FX_press = loops;
+				FX_ind += 1;
+				FX_ind %= 4;
+				HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1);
+				HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);
+				HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);
+
+			}
+
 			// Calculate the waveform, fill the buffer.
 			CalcWave();
 		}
@@ -1828,7 +1930,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 4;
+  hadc1.Init.NbrOfConversion = 7;
   hadc1.Init.DMAContinuousRequests = DISABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
@@ -1857,7 +1959,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_11;
+  sConfig.Channel = ADC_CHANNEL_8;
   sConfig.Rank = 3;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -1866,8 +1968,35 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_15;
+  sConfig.Channel = ADC_CHANNEL_9;
   sConfig.Rank = 4;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_11;
+  sConfig.Rank = 5;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_12;
+  sConfig.Rank = 6;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_14;
+  sConfig.Rank = 7;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -2096,14 +2225,33 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, pre0_Pin|pre1_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(CS_I2C_SPI_GPIO_Port, CS_I2C_SPI_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, doodle_Pin|OTG_FS_PowerSwitchOn_Pin|vibrato_Pin|fxx_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
                           |Audio_RST_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(trem_GPIO_Port, trem_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, poly_Pin|legato_Pin|pre2_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pins : pre0_Pin pre1_Pin */
+  GPIO_InitStruct.Pin = pre0_Pin|pre1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pin : CS_I2C_SPI_Pin */
   GPIO_InitStruct.Pin = CS_I2C_SPI_Pin;
@@ -2112,12 +2260,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(CS_I2C_SPI_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : OTG_FS_PowerSwitchOn_Pin */
-  GPIO_InitStruct.Pin = OTG_FS_PowerSwitchOn_Pin;
+  /*Configure GPIO pins : doodle_button_Pin preset_button_Pin */
+  GPIO_InitStruct.Pin = doodle_button_Pin|preset_button_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : doodle_Pin OTG_FS_PowerSwitchOn_Pin */
+  GPIO_InitStruct.Pin = doodle_Pin|OTG_FS_PowerSwitchOn_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(OTG_FS_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PDM_OUT_Pin */
   GPIO_InitStruct.Pin = PDM_OUT_Pin;
@@ -2133,11 +2287,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : BOOT1_Pin */
-  GPIO_InitStruct.Pin = BOOT1_Pin;
+  /*Configure GPIO pins : BOOT1_Pin PLA_button_Pin */
+  GPIO_InitStruct.Pin = BOOT1_Pin|PLA_button_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(BOOT1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : CLK_IN_Pin */
   GPIO_InitStruct.Pin = CLK_IN_Pin;
@@ -2154,18 +2308,39 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Audio_RST_Pin */
-  GPIO_InitStruct.Pin = Audio_RST_Pin;
+  /*Configure GPIO pins : vibrato_Pin fxx_Pin */
+  GPIO_InitStruct.Pin = vibrato_Pin|fxx_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Audio_RST_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : OTG_FS_OverCurrent_Pin */
-  GPIO_InitStruct.Pin = OTG_FS_OverCurrent_Pin;
+  /*Configure GPIO pin : trem_Pin */
+  GPIO_InitStruct.Pin = trem_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(trem_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : FX_button_Pin OTG_FS_OverCurrent_Pin */
+  GPIO_InitStruct.Pin = FX_button_Pin|OTG_FS_OverCurrent_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(OTG_FS_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : Audio_RST_Pin arpeggio_Pin */
+  GPIO_InitStruct.Pin = Audio_RST_Pin|arpeggio_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : poly_Pin legato_Pin pre2_Pin */
+  GPIO_InitStruct.Pin = poly_Pin|legato_Pin|pre2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : MEMS_INT2_Pin */
   GPIO_InitStruct.Pin = MEMS_INT2_Pin;
