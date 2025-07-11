@@ -41,7 +41,7 @@
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
 #define FS 48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
-#define LOOKUPSIZE 4096
+#define SINE_LOOKUP_SIZE 4096
 #define LOG_E2 (1.4426950408889634f)	// 1.0 / math.log(2.0)
 
 
@@ -398,11 +398,11 @@ void processData() {
 											//vibrato 0.5 to 60 Hz or so
 		vibrato_amt = 255-AD_RES_COPY[1];
 		if (vibrato_amt > 10) vibrato_amt -= 10;
-		phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
+		phase_vib = ((uint16_t)(SINE_LOOKUP_SIZE *((vibrato_amt)/15.0)*tNote)) % SINE_LOOKUP_SIZE;
 		vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //6% is approximately 12th root of 2. Idk why this fraction is so small
 
-		phase = ((uint16_t)(LOOKUPSIZE *f*vibrato*tNote)) % LOOKUPSIZE;
-		phase2 = ((uint16_t)(LOOKUPSIZE *f2*vibrato*tNote)) % LOOKUPSIZE; //todo change tNote
+		phase = ((uint16_t)(SINE_LOOKUP_SIZE *f*vibrato*tNote)) % SINE_LOOKUP_SIZE;
+		phase2 = ((uint16_t)(SINE_LOOKUP_SIZE *f2*vibrato*tNote)) % SINE_LOOKUP_SIZE; //todo change tNote
 		leftOut = (sineLookupTable[phase] * myNote.env + sineLookupTable[phase2] * myNote2.env);
 		// Potentiometers connected to PC1 (attack), PA1 (decay), PA3 (release)
 		updateNoteEnvelope(&myNote, attackTable[255-AD_RES_COPY[2]], k_decayTable[255-AD_RES_COPY[0]], k_releaseTable[255-AD_RES_COPY[1]]);
