@@ -167,7 +167,18 @@ typedef struct {
     uint8_t  target_pitch;					   // target pitch (MIDI 0-127)
     float    env;            // Current envelope level (e.g., 0.0 to 1.0) for each pitch
     float 	 current_phase;  // Phase w.r.t lookuptable.
-} LegatoNote; // Renamed to Notes (plural) as it now holds data for multiple notes
+} LegatoNote;
+
+typedef struct {
+	uint8_t bools[MIDI_PITCH_COUNT];
+	uint8_t notes[MIDI_PITCH_COUNT];
+	uint8_t num_notes;
+	uint32_t ticks_played;
+	uint8_t cycle_num;
+	uint8_t cycle_map[16];
+} ArpeggioState;
+
+
 
 /* USER CODE END PD */
 
@@ -212,7 +223,7 @@ uint8_t FX_press;
 uint8_t doodle_press;
 
 // Button states
-uint8_t doodle_bool;
+uint8_t doodle_mode;
 uint64_t loops_doodle_press = 0;
 uint64_t loops_preset_press = 0;
 volatile uint64_t loops_PLA_press = 0;
@@ -226,7 +237,7 @@ uint8_t FX_disp_map[] = {0, 0b001, 0b010, 0b100};
 
 uint8_t PLA_ind = 0;
 uint8_t PLA_disp_map[] = {0b001, 0b010, 0b100};
-
+uint8_t arp_cycle_map[16] = {0,6,3,2,8,1,9,4,5,15,11,12,14,10,13,7};
 
 // MIDI and UART handling
 uint8_t RxUART[RX_BUFFER_SIZE];
@@ -252,6 +263,8 @@ volatile uint8_t num_active_notes;
 
 Notes my_midi_notes; // Declare an instance of the Notes struct
 LegatoNote my_legato_note; // declare an instance of legato note
+ArpeggioState arp_state;
+
 float glide_rate_hz_per_sec = 1000.0f;
 
 // Audio output double buffering state variables. 'Volatile' tells the compiler
@@ -271,6 +284,8 @@ const float *pWaveTable;
 
 // Legato mode
 uint8_t legato_mode = 0;
+// Arpeggio mode
+uint8_t arpeggio_mode = 0;
 
 // Can use this nice ode to joy with bassline if you don't have keyboard input yet
 int8_t odeToJoy[] =  {4,4,5,7,7,5,4,2,0,0,2,4,4,4,2,2,4,4,5,7,7,5,4,2,0,0,2,4,2,2,0,0};
@@ -940,6 +955,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		  else {
 			  legato_mode = 0;
 		  }
+		  if (PLA_ind == 2) {
+			  arpeggio_mode = 1;
+		  }
+		  else {
+			  arpeggio_mode = 0;
+		  }
+
 	  }
 
   }
@@ -1116,6 +1138,17 @@ void clear_legato_note(LegatoNote* legato_note) {
 	legato_note->target_pitch = 0.0f;
 	legato_note->current_phase = 0.0f;
 
+}
+
+void ArpeggioState_init(ArpeggioState* arp) {
+    // Loop through all possible MIDI pitches and set their initial state
+    for (int i = 0; i < MIDI_PITCH_COUNT; i++) {
+        arp->bools[i] = 0;
+        arp->notes[i] = 0;
+    }
+    arp->num_notes = 0;
+    arp->ticks_played = 4294967295; //max uint32_t
+    arp->cycle_num = 0;
 }
 
 
@@ -1394,6 +1427,9 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 								release_legato_note(&my_legato_note);
 							}
 						}
+						else if (arpeggio_mode) {
+							arp_state.bools[MIDIptr] = 0;
+						}
 						else {
 							release_note(&my_midi_notes, MIDIptr);
 						}
@@ -1410,6 +1446,9 @@ void ParseMIDI(uint8_t* data, uint16_t length) {
 								my_legato_note.target_pitch = currentMIDIPitch;
 								my_legato_note.target_freq = fTable[currentMIDIPitch];
 							}
+						}
+						else if (arpeggio_mode) {
+							arp_state.bools[currentMIDIPitch] = 1;
 						}
 						else {
 							add_note(&my_midi_notes, currentMIDIPitch, byte);
@@ -1485,6 +1524,34 @@ void CalcWave() {
 	else {
 		do_filt = 0;
 	}
+
+	// Arpeggio mode data population
+	if (arpeggio_mode) {
+		// Calculate arpeggio note duration
+		// 0 --> 0.5 seconds, 255 --> 0.016 seconds (1/64th)
+		uint32_t ticks_arpeggio = (1.0f/(2.0f + 0.25f*AD_LA_rate))*FS; //TODO division is evil!
+
+		// Arpeggio mode requires notes be added to my_midi_notes here. Store list of chord tones in diff
+		// data structure, since active_notes below has a different definition including released notes.
+		arp_state.num_notes = 0;
+		while (arp_state.num_notes < N_VOICES) {
+			for (int pitch = 0; pitch < MIDI_PITCH_COUNT; pitch++) {
+				if (arp_state.bools[pitch]) {
+					arp_state.notes[arp_state.num_notes] = pitch;
+					arp_state.num_notes++;
+				}
+			}
+		}
+		// If it's time for a new arpeggio note:
+		if (arp_state.ticks_played > ticks_arpeggio) {
+			add_note(&my_midi_notes, arp_state.notes[arp_cycle_map[arp_state.cycle_num % arp_state.num_notes]], 100); //default velocity to 100.
+			arp_state.cycle_num++;
+		}
+
+		arp_state.ticks_played++;
+
+	}
+
 
 	//First figure out which notes are active
 	debug_flag = 2;
@@ -1992,6 +2059,7 @@ int main(void)
 	HAL_StatusTypeDef res;
 
 	Notes_init(&my_midi_notes); // Initialize the Notes state system
+	ArpeggioState_init(&arp_state);
 
 	// Attempt to transmit audio data to DAC
 	CalcWave();
@@ -2030,7 +2098,7 @@ int main(void)
 //			X 235
 //			Y 255
 			// Set wavemode
-			if (doodle_bool) {
+			if (doodle_mode) {
 				if (AD_waveform < 7) {
 					pWaveTable = dCelloTable;
 				}
@@ -2077,11 +2145,7 @@ int main(void)
 				}
 			}
 
-//			sin < 58
-//			3sn < 97
-//			tri < 155
-//			squ < 185
-//			saw < 255
+
 			// Poll buttons
 			FX_press = !HAL_GPIO_ReadPin(FX_button_GPIO_Port, FX_button_Pin);
 			//TODO comment this back in if button works on different PCB
@@ -2090,8 +2154,8 @@ int main(void)
 			preset_press = !HAL_GPIO_ReadPin(preset_button_GPIO_Port, preset_button_Pin);
 			if (doodle_press && (loops - loops_doodle_press > 350)) {
 				loops_doodle_press = loops;
-				doodle_bool ^= 1;
-				HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_bool);
+				doodle_mode ^= 1;
+				HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
 			}
 			if (preset_press && (loops - loops_preset_press > 350)) {
 				loops_preset_press = loops;
