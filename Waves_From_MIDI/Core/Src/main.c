@@ -171,6 +171,7 @@ typedef struct {
 
 typedef struct {
 	uint8_t bools[MIDI_PITCH_COUNT];
+	uint8_t vels[MIDI_PITCH_COUNT];
 	uint8_t notes[MIDI_PITCH_COUNT];
 	uint8_t num_notes;
 	uint32_t ticks_played;
@@ -215,12 +216,18 @@ uint8_t AD_attack;
 uint8_t AD_release;
 uint8_t AD_waveform;
 uint8_t AD_LA_rate;
+uint8_t wave_knob_edges[] = {7,26,56,99,151,194,222,245};
 
 // Button variables
 uint8_t PLA_press;
 uint8_t preset_press;
 uint8_t FX_press;
 uint8_t doodle_press;
+
+// TEMPORARY ARPEGG VARIABLES TODO get rid of
+volatile uint8_t arp_ind;
+volatile uint8_t arp_pitch;
+volatile uint8_t arp_vel;
 
 // Button states
 uint8_t doodle_mode;
@@ -238,6 +245,26 @@ uint8_t FX_disp_map[] = {0, 0b001, 0b010, 0b100};
 uint8_t PLA_ind = 0;
 uint8_t PLA_disp_map[] = {0b001, 0b010, 0b100};
 uint8_t arp_cycle_map[16] = {0,6,3,2,8,1,9,4,5,15,11,12,14,10,13,7};
+uint8_t arp_cycle_matrix[10][10] = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Row 0 (1 note).  Only up to index 0 matters.
+        {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},  // Row 1 (2 notes). Only up to index 1 matters.
+		{0, 2, 1, 0, 0, 0, 0, 0, 0, 0}, // 2 (3 notes)
+		{0, 2, 1, 3, 0, 0, 0, 0, 0, 0},
+		{0, 3, 1, 2, 4, 0, 0, 0, 0, 0}, // 4 (5 notes)
+		{0, 3, 1, 2, 5, 4, 0, 0, 0, 0}, // 5 (6 notes)
+		{0, 3, 1, 6, 5, 4, 2, 0, 0, 0}, // 6 (7 notes)
+		{0, 3, 1, 6, 5, 4, 7, 2, 0, 0}, // 7 (8 notes)
+		{0, 6, 1, 3, 4, 8, 2, 7, 5, 0}, // 8 (9 notes)
+		{0, 6, 1, 9, 4, 8, 2, 7, 5, 3}, // 9 (10 notes)
+    };
+
+
+
+volatile uint32_t ticks_arpeggio;
+
+// Effects states
+float    trem_phase;
+uint16_t trem_phase_int;
 
 // MIDI and UART handling
 uint8_t RX_UART[RX_BUFFER_SIZE];
@@ -1352,11 +1379,11 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 								Release_Legato_Note(&my_legato_note);
 							}
 						}
-						else if (arpeggio_mode) {
-							arp_state.bools[MIDI_ptr] = 0;
-						}
 						else {
 							Release_Note(&my_midi_notes, MIDI_ptr);
+							if (arpeggio_mode) {
+								arp_state.bools[MIDI_ptr] = 0;
+							}
 						}
 					}
 					else {
@@ -1374,7 +1401,9 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 						}
 						else if (arpeggio_mode) {
 							arp_state.bools[curr_MIDI_pitch] = 1;
+							arp_state.vels[curr_MIDI_pitch] = byte;
 						}
+						// Poly mode
 						else {
 							Add_Note(&my_midi_notes, curr_MIDI_pitch, byte);
 						}
@@ -1428,6 +1457,7 @@ void Calc_Wave() {
 	static float leftOut, leftOutFilt; //, compressed;
 	leftOut = 0.0;
 	float vibrato = 1;
+	float tremolo = 1.0;
 	float tNote;
 	//double phase;
 	uint16_t phase = 0;
@@ -1435,8 +1465,11 @@ void Calc_Wave() {
 	//uint8_t vibrato_amt;
 	uint8_t pitch;
 	uint8_t do_filt;
+	float trem_freq;
+	float trem_dph;
 
-	//Update filter coefficients based on knob 4
+
+	//Update filter coefficients based on knob
 	// If trying to filter (not turning cut-off freq to the extreme)
 	if (AD_LPF <= 245) {
 		do_filt = 1;
@@ -1450,30 +1483,56 @@ void Calc_Wave() {
 		do_filt = 0;
 	}
 
+	//Tremolo
+	if (FX_ind == 2) {
+		// 1-25 Hz are reasonable tremolo values
+		trem_freq = (1.0 + 0.0941*AD_FX);
+		trem_dph = (trem_freq * TS) * SINE_LOOKUP_SIZE;
+	}
+	// Was in the loop
+	ticks_arpeggio = (uint32_t)((4.0f/(2.0f + 0.25f*AD_LA_rate))*FS);
+
 	// Arpeggio mode data population
 	if (arpeggio_mode) {
 		// Calculate arpeggio note duration
 		// 0 --> 0.5 seconds, 255 --> 0.016 seconds (1/64th)
-		uint32_t ticks_arpeggio = (1.0f/(2.0f + 0.25f*AD_LA_rate))*FS; //TODO division is evil!
+		debug_flag = 11;
+		//TODO division is evil!
 
 		// Arpeggio mode requires notes be added to my_midi_notes here. Store list of chord tones in diff
 		// data structure, since active_notes below has a different definition including released notes.
 		arp_state.num_notes = 0;
-		while (arp_state.num_notes < N_VOICES) {
-			for (int pitch = 0; pitch < MIDI_PITCH_COUNT; pitch++) {
-				if (arp_state.bools[pitch]) {
-					arp_state.notes[arp_state.num_notes] = pitch;
-					arp_state.num_notes++;
-				}
+		debug_flag = 12;
+		for (int pitch = 0; pitch < MIDI_PITCH_COUNT; pitch++) {
+			if (arp_state.bools[pitch]) {
+				arp_state.notes[arp_state.num_notes] = pitch;
+				arp_state.num_notes++;
+			}
+			if (arp_state.num_notes >= N_VOICES) {
+				break;
 			}
 		}
+		debug_flag = 13;
 		// If it's time for a new arpeggio note:
 		if (arp_state.ticks_played > ticks_arpeggio) {
-			Add_Note(&my_midi_notes, arp_state.notes[arp_cycle_map[arp_state.cycle_num % arp_state.num_notes]], 100); //default velocity to 100.
-			arp_state.cycle_num++;
-		}
+			// If a note is being played at all
+			if (arp_state.num_notes > 0) {
+				HAL_GPIO_TogglePin(GPIOD, LD3_Pin); //orange toggle every arp note
+				//Add_Note(&my_midi_notes, arp_state.notes[arp_state.cycle_num % arp_state.num_notes], 10); //default velocity to 100.
+									//column of matrix: how many notes
+				arp_ind = arp_cycle_matrix[arp_state.num_notes][arp_state.cycle_num % arp_state.num_notes];
+				arp_pitch = arp_state.notes[arp_ind];
+				arp_vel = arp_state.vels[arp_pitch];
+				Add_Note(&my_midi_notes, arp_pitch,arp_vel);
 
-		arp_state.ticks_played++;
+			}
+			arp_state.cycle_num++;
+			arp_state.ticks_played = 0;
+
+		}
+		debug_flag = 14;
+
+		arp_state.ticks_played+= BUFFER_SIZE;
 
 	}
 
@@ -1530,6 +1589,7 @@ void Calc_Wave() {
 					// Convert note duration in ticks to time in seconds
 					tNote = (my_midi_notes.ticks_pressed[pitch])*TS;
 														//vibrato 0.5 to 60 Hz or so
+
 					//vibrato_amt = 255-AD_RES_COPY[1];
 					//if (vibrato_amt > 10) vibrato_amt -= 10;
 					//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
@@ -1572,6 +1632,17 @@ void Calc_Wave() {
 			    leftOut *= p_wave_table[phase_128];
 			}
 
+		}
+		// Tremolo effect
+		if (FX_ind == 2) {
+			trem_phase += trem_dph;
+			if (trem_phase > SINE_LOOKUP_SIZE) {
+				trem_phase -= SINE_LOOKUP_SIZE; //instead of modulo.
+			}
+			trem_phase_int = (uint16_t) trem_phase;
+			trem_phase_int &= (SINE_LOOKUP_SIZE-1);
+			tremolo = 1.0 + 0.2*sine_table[trem_phase_int];
+			leftOut *= tremolo;
 		}
 		//debug_flag = 7;
 		// Filter processing
@@ -2025,28 +2096,28 @@ int main(void)
 //			Y 255
 			// Set wavemode
 			if (doodle_mode) {
-				if (AD_waveform < 7) {
+				if (AD_waveform < wave_knob_edges[0]) {
 					p_wave_table = d_cello_table;
 				}
-				else if (AD_waveform < 26) {
+				else if (AD_waveform < wave_knob_edges[1]) {
 					p_wave_table = d_hills_table;
 				}
-				else if (AD_waveform < 56) {
+				else if (AD_waveform < wave_knob_edges[2]) {
 					p_wave_table = d_sine_table;
 				}
-				else if (AD_waveform <99) {
+				else if (AD_waveform <wave_knob_edges[3]) {
 					p_wave_table = d_sn3_table;
 				}
-				else if (AD_waveform <151) {
+				else if (AD_waveform <wave_knob_edges[4]) {
 					p_wave_table = d_tri_table;
 				}
-				else if (AD_waveform< 194) {
+				else if (AD_waveform< wave_knob_edges[5]) {
 					p_wave_table = d_square_table;
 				}
-				else if (AD_waveform< 222) {
+				else if (AD_waveform< wave_knob_edges[6]) {
 					p_wave_table = d_saw_table;
 				}
-				else if (AD_waveform< 245) {
+				else if (AD_waveform< wave_knob_edges[7]) {
 					p_wave_table = d_clar_table;
 				}
 				else {
@@ -2054,23 +2125,22 @@ int main(void)
 				}
 			}
 			else {
-				if (AD_waveform < 56) {
+				if (AD_waveform < wave_knob_edges[2]) {
 					p_wave_table = sine_table;
 				}
-				else if (AD_waveform <99) {
+				else if (AD_waveform <wave_knob_edges[3]) {
 					p_wave_table = sn3_table;
 				}
-				else if (AD_waveform <151) {
+				else if (AD_waveform <wave_knob_edges[4]) {
 					p_wave_table = tri_table;
 				}
-				else if (AD_waveform< 194) {
+				else if (AD_waveform< wave_knob_edges[5]) {
 					p_wave_table = square_table;
 				}
 				else {
 					p_wave_table = saw_table;
 				}
 			}
-
 
 			// Poll buttons
 			FX_press = !HAL_GPIO_ReadPin(FX_button_GPIO_Port, FX_button_Pin);
@@ -2096,9 +2166,9 @@ int main(void)
 				loops_FX_press = loops;
 				FX_ind += 1;
 				FX_ind %= 4;
-				HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1);
-				HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);
-				HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);
+				HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1); //1
+				HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
+				HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
 			}
 			// MOVED TO EXTI because mapping to blue mcu button instead (broken connection on my PCB).
 //			if (PLA_press && (loops - loops_PLA_press > 350)) {
