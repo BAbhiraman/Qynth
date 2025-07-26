@@ -80,6 +80,7 @@ PC13 LED
 #define FS 32063.0f //48095.0f //see .ioc see for 48 kHz inaccuracy WAS 48000
 #define TS 1.0f/(float)FS // sample time
 #define SINE_LOOKUP_SIZE 4096
+#define WAVE_TABLE_SIZE 128
 
 
 //compressor
@@ -155,6 +156,8 @@ typedef struct {
     uint32_t ticks_pressed[MIDI_PITCH_COUNT];  // Ticks elapsed since the note was pressed for each pitch
     uint32_t ticks_released[MIDI_PITCH_COUNT]; // Ticks elapsed since the note was released for each pitch
     float    env[MIDI_PITCH_COUNT];            // Current envelope level (e.g., 0.0 to 1.0) for each pitch
+    float    phase_decimal[MIDI_PITCH_COUNT]; // fractional part of phase (LUT
+    uint16_t phase_integer[MIDI_PITCH_COUNT]; // integer part of phase.
 } Notes; // Renamed to Notes (plural) as it now holds data for multiple notes
 
 typedef struct {
@@ -1059,6 +1062,8 @@ void Notes_Init(Notes* notes_system) {
         notes_system->ticks_pressed[i] = 0;    // No ticks yet
         notes_system->ticks_released[i] = 0;   // No ticks yet
         notes_system->env[i] = 0.0f;           // Envelope at zero
+        notes_system->phase_decimal[i] = 0.0f;
+        notes_system->phase_integer[i] = 0;
     }
 }
 
@@ -1081,11 +1086,32 @@ void Clear_Note(Notes* notes_system, uint8_t note_index) {
         notes_system->ticks_pressed[note_index] = 0;    // No ticks yet
         notes_system->ticks_released[note_index] = 0;   // No ticks yet
         notes_system->env[note_index] = 0.0f;           // Envelope at zero
+        notes_system->phase_decimal[note_index] = 0.0f;
+        notes_system->phase_integer[note_index] = 0;
         //notes_system->vel[note_index] = 0; // get rid of this, velocity is supposed to be historic
     } else {
         // Optional: Add an error handling or logging mechanism if an invalid index is provided
     	Error_Handler();
     }
+}
+
+uint16_t Incr_Note_Phase(Notes* notes_system, uint8_t note_index, float dph, uint16_t LUT_size) {
+	notes_system->phase_decimal[note_index] += dph;
+	// Calculate how many full increments have occurred
+	// This ensures correctness even if dph is much larger than 1.0f
+	int full_increments = (int)notes_system->phase_decimal[note_index];
+	// Update the integer part
+	notes_system->phase_integer[note_index] += full_increments;
+	// Keep the decimal part within [0.0f, 1.0f)
+	notes_system->phase_decimal[note_index] -= (float)full_increments;
+	// Handle integer part wrap-around for the lookup table
+	notes_system->phase_integer[note_index] &= LUT_size - 1;
+	// Ensure phase_integer is always positive after modulo, especially if negative increments were possible
+//	if (phase_integer < 0) {
+//	    phase_integer += LOOKUP_SIZE;
+//	}
+	// Use the integer part for direct lookup
+	return notes_system->phase_integer[note_index];
 }
 
 void Release_Legato_Note(LegatoNote* legato_note) {
@@ -1459,7 +1485,7 @@ void Calc_Wave() {
 	}
 	static float leftOut, leftOutFilt; //, compressed;
 	leftOut = 0.0;
-	float vibrato = 1;
+	float vibrato = 1.0;
 	float tremolo = 1.0;
 	float tNote;
 	//double phase;
@@ -1472,6 +1498,7 @@ void Calc_Wave() {
 	float trem_dph;
 	float vib_freq;
 	float vib_dph;
+	uint16_t LUT_size = 128;
 
 
 	//Update filter coefficients based on knob
@@ -1490,15 +1517,15 @@ void Calc_Wave() {
 
 	//Vibrato knob rate set
 	if (FX_ind == 1) {
-		// 1-25 Hz are reasonable tremolo values
-		vib_freq = (1.0 + 0.0941*AD_FX);
+		// 1-25 Hz are reasonable vibrato values
+		vib_freq = (1.0f + 0.0941f*AD_FX);
 		vib_dph = (vib_freq * TS) * SINE_LOOKUP_SIZE;
 	}
 
 	//Tremolo knob rate set
 	if (FX_ind == 2) {
 		// 1-25 Hz are reasonable tremolo values
-		trem_freq = (1.0 + 0.0941*AD_FX);
+		trem_freq = (1.0f + 0.0941f*AD_FX);
 		trem_dph = (trem_freq * TS) * SINE_LOOKUP_SIZE;
 	}
 	// Was in the loop
@@ -1591,14 +1618,16 @@ void Calc_Wave() {
 		leftOut = 0.0;
 
 		// Vibrato evolution handler
-
-		vib_phase += vib_dph;
-		if (vib_phase > SINE_LOOKUP_SIZE) {
-			vib_phase -= SINE_LOOKUP_SIZE; //instead of modulo.
+		if (FX_ind == 1) {
+			vib_phase += vib_dph;
+			if (vib_phase > SINE_LOOKUP_SIZE) {
+				vib_phase -= SINE_LOOKUP_SIZE; //instead of modulo.
+			}
+			vib_phase_int = (uint16_t) vib_phase;
+			vib_phase_int &= (SINE_LOOKUP_SIZE-1);
+			vibrato = 1.0f + 0.015f*sine_table[vib_phase_int];
 		}
-		vib_phase_int = (uint16_t) vib_phase;
-		vib_phase_int &= (SINE_LOOKUP_SIZE-1);
-		vibrato = 1.0 + 0.015*sine_table[vib_phase_int];
+
 		// Iterate over all active notes as calculated above.
 		// For poly or arpeggio mode:
 		if (!legato_mode) {
@@ -1612,23 +1641,30 @@ void Calc_Wave() {
 					tNote = (my_midi_notes.ticks_pressed[pitch])*TS;
 														//vibrato 0.5 to 60 Hz or so
 
-					//vibrato_amt = 255-AD_RES_COPY[1];
-					//if (vibrato_amt > 10) vibrato_amt -= 10;
-					//phase_vib = ((uint16_t)(LOOKUPSIZE *((vibrato_amt)/15.0)*tNote)) % LOOKUPSIZE;
-					//vibrato = 1.0 + 0.0025*sineLookupTable[phase_vib]; //1.06 is approximately 12th root of 2. Idk why this fraction is so small
-
 					// Calculate phase with lookuptable. Phase is out of LOOKUPSIZE, not 2pi.
+//					if (p_wave_table == sine_table) {
+//						phase = ((uint16_t)(SINE_LOOKUP_SIZE *f_table[pitch]*vibrato*tNote));
+//						phase &= (SINE_LOOKUP_SIZE - 1);
+//						// Accumulate the sample from all the voices.
+//						leftOut += sine_table[phase]*my_midi_notes.env[pitch];
+//					}
+//					else {
+//						phase = ((uint16_t)(128 *f_table[pitch]*vibrato*tNote));
+//						phase &= (127);
+//						leftOut += p_wave_table[phase]*my_midi_notes.env[pitch];
+//					}
 					if (p_wave_table == sine_table) {
-						phase = ((uint16_t)(SINE_LOOKUP_SIZE *f_table[pitch]*vibrato*tNote));
-						phase &= (SINE_LOOKUP_SIZE - 1);
-						// Accumulate the sample from all the voices.
-						leftOut += sine_table[phase]*my_midi_notes.env[pitch];
+						LUT_size = SINE_LOOKUP_SIZE;
 					}
 					else {
-						phase = ((uint16_t)(128 *f_table[pitch]*vibrato*tNote));
-						phase &= (127);
-						leftOut += p_wave_table[phase]*my_midi_notes.env[pitch];
+						LUT_size = WAVE_TABLE_SIZE;
 					}
+
+					float phase_increment = (f_table[pitch] * vibrato * TS) * LUT_size;
+					phase = Incr_Note_Phase(&my_midi_notes, pitch, phase_increment, LUT_size);
+					// Accumulate the sample from all the voices.
+					leftOut += p_wave_table[phase]*my_midi_notes.env[pitch];
+
 					//debug_flag = 6;
 				}
 			}
@@ -2166,7 +2202,6 @@ int main(void)
 
 			// Poll buttons
 			FX_press = !HAL_GPIO_ReadPin(FX_button_GPIO_Port, FX_button_Pin);
-			//TODO comment this back in if button works on different PCB
 			//PLA_press = !HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);//!HAL_GPIO_ReadPin(PLA_button_GPIO_Port, PLA_button_Pin);
 			doodle_press = !HAL_GPIO_ReadPin(doodle_button_GPIO_Port, doodle_button_Pin);
 			preset_press = !HAL_GPIO_ReadPin(preset_button_GPIO_Port, preset_button_Pin);
@@ -2192,6 +2227,7 @@ int main(void)
 				HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
 				HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
 			}
+			//TODO comment this back in if button works on different PCB
 			// MOVED TO EXTI because mapping to blue mcu button instead (broken connection on my PCB).
 //			if (PLA_press && (loops - loops_PLA_press > 350)) {
 //				loops_PLA_press = loops;
