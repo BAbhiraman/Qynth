@@ -205,6 +205,7 @@ DMA_HandleTypeDef hdma_usart2_rx;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
+uint16_t rc = 999;
 int16_t dac_data[BUFFER_SIZE];
 // ADC Variables
 uint16_t AD_RES_BUFFER[N_ADC];
@@ -265,6 +266,8 @@ volatile uint32_t ticks_arpeggio;
 // Effects states
 float    trem_phase;
 uint16_t trem_phase_int;
+float    vib_phase;
+uint16_t vib_phase_int;
 
 // MIDI and UART handling
 uint8_t RX_UART[RX_BUFFER_SIZE];
@@ -288,7 +291,7 @@ volatile uint8_t debug_flag;
 volatile uint8_t active_notes[N_VOICES];
 volatile uint8_t num_active_notes;
 
-Notes my_midi_notes; // Declare an instance of the Notes struct
+volatile Notes my_midi_notes; // Declare an instance of the Notes struct
 LegatoNote my_legato_note; // declare an instance of legato note
 ArpeggioState arp_state;
 
@@ -1467,6 +1470,8 @@ void Calc_Wave() {
 	uint8_t do_filt;
 	float trem_freq;
 	float trem_dph;
+	float vib_freq;
+	float vib_dph;
 
 
 	//Update filter coefficients based on knob
@@ -1483,7 +1488,14 @@ void Calc_Wave() {
 		do_filt = 0;
 	}
 
-	//Tremolo
+	//Vibrato knob rate set
+	if (FX_ind == 1) {
+		// 1-25 Hz are reasonable tremolo values
+		vib_freq = (1.0 + 0.0941*AD_FX);
+		vib_dph = (vib_freq * TS) * SINE_LOOKUP_SIZE;
+	}
+
+	//Tremolo knob rate set
 	if (FX_ind == 2) {
 		// 1-25 Hz are reasonable tremolo values
 		trem_freq = (1.0 + 0.0941*AD_FX);
@@ -1577,6 +1589,16 @@ void Calc_Wave() {
 		//t = (ticks % (uint16_t)FS)/(float)FS;
 		//debug_flag = 4;
 		leftOut = 0.0;
+
+		// Vibrato evolution handler
+
+		vib_phase += vib_dph;
+		if (vib_phase > SINE_LOOKUP_SIZE) {
+			vib_phase -= SINE_LOOKUP_SIZE; //instead of modulo.
+		}
+		vib_phase_int = (uint16_t) vib_phase;
+		vib_phase_int &= (SINE_LOOKUP_SIZE-1);
+		vibrato = 1.0 + 0.015*sine_table[vib_phase_int];
 		// Iterate over all active notes as calculated above.
 		// For poly or arpeggio mode:
 		if (!legato_mode) {
@@ -2045,7 +2067,7 @@ int main(void)
 	cfgdac.adr = DACADDR;
 	cfgdac.out = DAC_OUTPUT_HEADPHONE;
 	struct cs4x_drv dac;
-	int rc = cs4x_init(&dac, &cfgdac);
+	rc = cs4x_init(&dac, &cfgdac);
 	printf("CS4X init returned %d\r\n", rc);
 	rc = cs4x_start(&dac);
 	printf("CS4X start returned %d\r\n", rc);
