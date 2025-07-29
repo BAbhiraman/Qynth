@@ -262,6 +262,19 @@ uint8_t arp_cycle_matrix[10][10] = {
 		{0, 6, 1, 9, 4, 8, 2, 7, 5, 3}, // 9 (10 notes)
     };
 
+uint8_t preset_matrix[8][10] = {
+// AD_LPF, AD_decay, AD_FX, AD_attack, AD_release, AD_waveform, AD_LA_rate, doodle_mode, PLA_ind, FX_ind
+		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1}, //preset 1: choir
+		{129, 174, 55, 103, 64, 198, 130, 0, 1, 1}, //2: searing saw lead
+		{94, 129, 54, 92, 72, 0, 130, 1, 0, 1}, //3 : cello suite
+		{33, 129, 53, 20, 69, 255, 130, 1, 0, 1},//4: little piano
+		{52, 73, 56, 45, 82, 125, 87, 0, 0, 0},//5: harp dreams
+		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1},
+		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1},
+		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1},
+
+};
+
 
 
 volatile uint32_t ticks_arpeggio;
@@ -297,8 +310,6 @@ volatile uint8_t num_active_notes;
 volatile Notes my_midi_notes; // Declare an instance of the Notes struct
 LegatoNote my_legato_note; // declare an instance of legato note
 ArpeggioState arp_state;
-
-float glide_rate_hz_per_sec = 1000.0f;
 
 // Audio output double buffering state variables. 'Volatile' tells the compiler
 // not to optimize away, because compiler is confused by interrupt variables.
@@ -885,17 +896,51 @@ static void MX_USART2_UART_Init(void);
 
 // When ADC conversion is complete, copy the results into another buffer.
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+	uint8_t changed = 0;
+
 	for (int i = 0; i < N_ADC; i++) {
+		// Check if the new value is more than 5 away from the old value
+		if (abs(AD_RES_BUFFER[i] - AD_RES_COPY[i]) > 5) {
+			changed |= (1 << i);
+		}
 		AD_RES_COPY[i] = AD_RES_BUFFER[i];
+
 		//printf("%d\r\n",AD_RES_COPY[i]);
 	}
-	AD_LPF = AD_RES_COPY[0];
-	AD_decay = AD_RES_COPY[1];
-	AD_FX = AD_RES_COPY[2];
-	AD_attack = AD_RES_COPY[3];
-	AD_release = AD_RES_COPY[4];
-	AD_waveform = AD_RES_COPY[5];
-	AD_LA_rate = AD_RES_COPY[6];
+	// Update knob values unless you're using a preset
+	if (!preset_ind) {
+		AD_LPF = AD_RES_COPY[0];
+		AD_decay = AD_RES_COPY[1];
+		AD_FX = AD_RES_COPY[2];
+		AD_attack = AD_RES_COPY[3];
+		AD_release = AD_RES_COPY[4];
+		AD_waveform = AD_RES_COPY[5];
+		AD_LA_rate = AD_RES_COPY[6];
+	}
+	//Else, update preset status only if knob changed by more than 5
+	else {
+		if (changed & (1 << 0)) {
+			AD_LPF = AD_RES_COPY[0];
+		}
+		if (changed & (1 << 1)) {
+			AD_decay = AD_RES_COPY[1];
+		}
+		if (changed & (1 << 2)) {
+			AD_FX = AD_RES_COPY[2];
+		}
+		if (changed & (1 << 3)) {
+			AD_attack = AD_RES_COPY[3];
+		}
+		if (changed & (1 << 4)) {
+			AD_release = AD_RES_COPY[4];
+		}
+		if (changed & (1 << 5)) {
+			AD_waveform = AD_RES_COPY[5];
+		}
+		if (changed & (1 << 6)) {
+			AD_LA_rate = AD_RES_COPY[6];
+		}
+	}
 	//printf("\r\n");
 }
 
@@ -907,9 +952,11 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   /* USER CODE BEGIN HAL_GPIO_EXTI_Callback 0 */
-	  if (GPIO_Pin == B1_Pin)
+	// Only listen to the button if not in a preset
+	  if ((GPIO_Pin == B1_Pin) & !preset_ind)
 	  {
-	    // Set the flag when the interrupt for PA0 (EXTI Line0) occurs
+		  Notes_Init(&my_midi_notes);
+		  // Set the flag when the interrupt for PA0 (EXTI Line0) occurs
 		  //button_flag = 1;
 		  if (loops - loops_PLA_press > 175) {
 			  loops_PLA_press = loops;
@@ -918,18 +965,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			  HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
 			  HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
 			  HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
-			  if (PLA_ind == 1) {
-				  legato_mode = 1;
-			  }
-			  else {
-				  legato_mode = 0;
-			  }
-			  if (PLA_ind == 2) {
-				  arpeggio_mode = 1;
-			  }
-			  else {
-				  arpeggio_mode = 0;
-			  }
+			  legato_mode = (PLA_ind == 1);
+			  arpeggio_mode = (PLA_ind == 2);
 		  }
 	  }
   /* USER CODE END HAL_GPIO_EXTI_Callback 0 */
@@ -2197,11 +2234,6 @@ int main(void)
 			//PLA_press = !HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);//!HAL_GPIO_ReadPin(PLA_button_GPIO_Port, PLA_button_Pin);
 			doodle_press = !HAL_GPIO_ReadPin(doodle_button_GPIO_Port, doodle_button_Pin);
 			preset_press = !HAL_GPIO_ReadPin(preset_button_GPIO_Port, preset_button_Pin);
-			if (doodle_press && (loops - loops_doodle_press > 350)) {
-				loops_doodle_press = loops;
-				doodle_mode ^= 1;
-				HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
-			}
 			if (preset_press && (loops - loops_preset_press > 350)) {
 				loops_preset_press = loops;
 				preset_ind += 1;
@@ -2210,14 +2242,49 @@ int main(void)
 				HAL_GPIO_WritePin(pre0_GPIO_Port, pre0_Pin, preset_disp & 0b1);
 				HAL_GPIO_WritePin(pre1_GPIO_Port, pre1_Pin, preset_disp & 0b10);
 				HAL_GPIO_WritePin(pre2_GPIO_Port, pre2_Pin, preset_disp & 0b100);
+
+			// If we're using a preset, don't query the buttons:
+				if (preset_ind) {
+					AD_LPF = preset_matrix[preset_ind-1][0];
+					AD_decay = preset_matrix[preset_ind-1][1];
+					AD_FX = preset_matrix[preset_ind-1][2];
+					AD_attack = preset_matrix[preset_ind-1][3];
+					AD_release = preset_matrix[preset_ind-1][4];
+					AD_waveform = preset_matrix[preset_ind-1][5];
+					AD_LA_rate = preset_matrix[preset_ind-1][6];
+					doodle_mode = preset_matrix[preset_ind-1][7];
+					PLA_ind = preset_matrix[preset_ind-1][8];
+					FX_ind = preset_matrix[preset_ind-1][9];
+
+					legato_mode = (PLA_ind == 1);
+					arpeggio_mode = (PLA_ind == 2);
+
+					HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
+					HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
+					HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
+					HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
+					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1); //1
+					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
+					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
+
+				}
 			}
-			if (FX_press && (loops - loops_FX_press > 350)) {
-				loops_FX_press = loops;
-				FX_ind += 1;
-				FX_ind %= 4;
-				HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1); //1
-				HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
-				HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
+			// Query buttons if not in a preset"
+			if (!preset_ind) {
+				if (doodle_press && (loops - loops_doodle_press > 350)) {
+					loops_doodle_press = loops;
+					doodle_mode ^= 1;
+					HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
+				}
+
+				if (FX_press && (loops - loops_FX_press > 350)) {
+					loops_FX_press = loops;
+					FX_ind += 1;
+					FX_ind %= 4;
+					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1); //1
+					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
+					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
+				}
 			}
 			//TODO comment this back in if button works on different PCB
 			// MOVED TO EXTI because mapping to blue mcu button instead (broken connection on my PCB).
