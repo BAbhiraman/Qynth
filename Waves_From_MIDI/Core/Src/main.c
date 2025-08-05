@@ -82,6 +82,8 @@ PC13 LED
 #define SINE_LOOKUP_SIZE 4096
 #define WAVE_TABLE_SIZE 128
 
+#define max(a,b) ((a) > (b) ? (a) : (b))
+#define min(a,b) ((a) < (b) ? (a) : (b))
 
 //compressor
 // These ratios are more like a limiter
@@ -148,6 +150,11 @@ PC13 LED
 #endif
 
 #define ADR_TABLE_SIZE 256
+
+// Some macros for effects
+#define VIB_MASK 0b001
+#define TREM_MASK 0b010
+#define LPM_MASK 0b100
 
 // Note state data structure
 typedef struct {
@@ -228,7 +235,7 @@ uint8_t preset_press;
 uint8_t FX_press;
 uint8_t doodle_press;
 
-// TEMPORARY ARPEGG VARIABLES TODO get rid of
+// ARPEGG VARIABLES
 volatile uint8_t arp_ind;
 volatile uint8_t arp_pitch;
 volatile uint8_t arp_vel;
@@ -248,7 +255,7 @@ uint8_t preset_ind;
 uint8_t preset_disp_map[] = {0, 0b001, 0b010, 0b100, 0b011, 0b110, 0b101, 0b111};
 
 uint8_t FX_ind = 0;
-uint8_t FX_disp_map[] = {0, 0b001, 0b010, 0b100};
+uint8_t FX_bool_map[] = {0, 0b001, 0b010, 0b100, 0b101, 0b110};
 
 uint8_t PLA_ind = 0;
 uint8_t PLA_disp_map[] = {0b001, 0b010, 0b100};
@@ -268,13 +275,13 @@ uint8_t arp_cycle_matrix[10][10] = {
 
 uint8_t preset_matrix[7][10] = {
 // AD_LPF, AD_decay, AD_FX, AD_attack, AD_release, AD_waveform, AD_LA_rate, doodle_mode, PLA_ind, FX_ind
-		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1}, //preset 1: choir
+		{2, 128, 162, 53, 59, 206, 195, 0, 0, 3}, //1: funky wah saw
 		{129, 174, 55, 103, 64, 198, 130, 0, 1, 1}, //2: searing saw lead
 		{141, 129, 54, 92, 72, 0, 130, 1, 0, 1}, //3 : cello suite
 		{91, 129, 53, 20, 69, 255, 130, 1, 0, 1},//4: little piano
 		{102, 73, 56, 45, 82, 125, 87, 0, 0, 0},//5: harp dreams
 		{88, 255, 50, 23, 38, 86, 87, 0, 0, 1},//6: pocket hammond
-		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1},
+		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1},//7: clarinet choir
 
 };
 
@@ -287,6 +294,7 @@ float    trem_phase;
 uint16_t trem_phase_int;
 float    vib_phase;
 uint16_t vib_phase_int;
+float    total_env;
 
 // MIDI and UART handling
 uint8_t RX_UART[RX_BUFFER_SIZE];
@@ -737,33 +745,6 @@ const float d_piano_table[] = {
 		        0.1509328 ,  0.15819387,  0.15459534,  0.14421003,  0.12565168,
 		        0.09718258,  0.06696016,  0.04447172,  0.02985379,  0.01800302,
 		        0.00762166,  0.00093961, -0.00233918
-
-//		0.        ,  0.013        ,  0.02795802,  0.08697519,  0.1394084 ,
-//		        0.16384781,  0.17707538,  0.19847328,  0.21269084,  0.22442748,
-//		        0.2259542 ,  0.23206107,  0.23206107,  0.23206107,  0.2209208 ,
-//		        0.19847328,  0.17824427,  0.15331584,  0.13900286,  0.11450382,
-//		        0.14895038,  0.19372615,  0.23392176,  0.27022901,  0.31259542,
-//		        0.35664361,  0.38819179,  0.42268607,  0.45128817,  0.47062261,
-//		        0.49911737,  0.52761212,  0.55801527,  0.58905057,  0.61004294,
-//		        0.6259542 ,  0.6456584 ,  0.66499284,  0.68890744,  0.70671517,
-//		        0.73062977,  0.74691078,  0.76471851,  0.77641937,  0.78778626,
-//		        0.79847328,  0.80999523,  0.82169609,  0.83206107,  0.83899094,
-//		        0.84916508,  0.86412214,  0.87328244,  0.88244275,  0.89312977,
-//		        0.89923664,  0.90868321,  0.9129771 ,  0.91450382,  0.91450382,
-//		        0.91450382,  0.9129771 ,  0.89897424,  0.89007634,  0.87633588,
-//		        0.84377385,  0.81121183,  0.77329437,  0.73258588,  0.69645754,
-//		        0.64200859,  0.60107347,  0.55019084,  0.49174618,  0.44384542,
-//		        0.29890267,  0.19928435,  0.1415792 ,  0.07206584, -0.01667462,
-//		       -0.07824427, -0.14254532, -0.18306298, -0.22783874, -0.27752863,
-//		       -0.32027672, -0.36843989, -0.41492128, -0.44122137, -0.48733302,
-//		       -0.52635973, -0.57448712, -0.61388359, -0.63474475, -0.66541031,
-//		       -0.69160305, -0.7019084 , -0.71450382, -0.72836355, -0.74198473,
-//		       -0.74198473, -0.74503817, -0.74503817, -0.74503817, -0.73740458,
-//		       -0.72102815, -0.70016698, -0.68549618, -0.67175573, -0.65743082,
-//		       -0.62588263, -0.60305344, -0.56278626, -0.53875239, -0.5180105 ,
-//		       -0.5032562 , -0.47323473, -0.44978531, -0.42845897, -0.40454437,
-//		       -0.37604962, -0.34396469, -0.3052958 , -0.27377147, -0.24322519,
-//		       -0.16028149, -0.1048187 , -0.05032395
 };
 
 const float d_cello_table[] = {
@@ -1119,11 +1100,6 @@ float Compressor(float input_sample){
 	return output_sample;
 }
 
-
-
-double min(double a, double b) {
-	  return (a < b) ? a : b;
-}
 
 // Note management functions
 void Notes_Init(Notes* notes_system) {
@@ -1578,11 +1554,10 @@ void Calc_Wave() {
 	else {
 		HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_SET); //red
 	}
-	static float leftOut, leftOutFilt; //, compressed;
-	leftOut = 0.0;
+	static float left_out, left_out_filt; //, compressed;
+	left_out = 0.0;
 	float vibrato = 1.0;
 	float tremolo = 1.0;
-	float tNote;
 	//double phase;
 	uint16_t phase = 0;
 	//uint16_t phase_vib = 0;
@@ -1595,26 +1570,27 @@ void Calc_Wave() {
 	uint16_t LUT_size = 128;
 
 
+
 	// Filter updating was up here
 
 	//Vibrato knob rate set
-	if (FX_ind == 1) {
+	if (FX_bool_map[FX_ind] & VIB_MASK) {
 		// 1-25 Hz are reasonable vibrato values
 		// If not organ preset
-		if (preset_ind != 6) { //TODO make these enums like a civilized person
+		if (preset_ind != 6) { //TODO make these presets enums like a civilized person
 			vib_freq = (1.0f + 0.0941f*AD_FX);
 			vib_amp = 0.01;
 		}
 		else {
 			// target is 6 or 0.75 Hz depending on rotor toggle
 			vib_freq = 0.000666666667*(5.25*rotor+0.75) + (1-0.000666666667)*vib_freq;
-			vib_amp = 1.2*0.00166666667*vib_freq; //6 maps to 0.012 or 1.2% vibrato
+			vib_amp = 1.125*0.00166666667*vib_freq; //6 maps to 0.012 or 1.2% vibrato
 		}
 		vib_dph = (vib_freq * TS) * SINE_LOOKUP_SIZE;
 	}
 
 	//Tremolo knob rate set
-	if (FX_ind == 2) {
+	if (FX_bool_map[FX_ind] & TREM_MASK) {
 		// 1-25 Hz are reasonable tremolo values
 		trem_freq = (1.0f + 0.0941f*AD_FX);
 		trem_dph = (trem_freq * TS) * SINE_LOOKUP_SIZE;
@@ -1708,10 +1684,29 @@ void Calc_Wave() {
 		//Update filter coefficients based on knob
 		// If trying to filter (not turning cut-off freq to the extreme)
 		if ((n & 3) == 0) {
-			if (AD_LPF <= 245) {
+			if (FX_bool_map[FX_ind] & LPM_MASK) {
+				do_filt = 1;			//was 50.0f
+				int new_lpf_value;
+				// if only using LPMod, use the AD_FX knob, else reserve it for vib/trem
+				if (FX_bool_map[FX_ind] == LPM_MASK) {
+					new_lpf_value = (int)(0.4f*AD_FX * total_env);
+				}
+				else {
+					new_lpf_value = (int)(50.0f * total_env);
+				}
+							//was 180, 190, 200// was max(0
+				//TODO: why so vulnerable to popping in legato mode??
+				new_lpf_value = min(190, max(AD_LPF, new_lpf_value));
+				for (int i = 0; i<5; i++) {
+					a_coeffs[i] = 0.2f*a_table[5*new_lpf_value + i] + 0.8f*a_coeffs[i];
+					b_coeffs[i] = 0.2f*b_table[5*new_lpf_value + i] + 0.8f*b_coeffs[i];
+				}
+			}
+			else if (AD_LPF <= 245) {
 				do_filt = 1;
 				for (int i = 0; i<5; i++) {
-					a_coeffs[i] = 0.2*a_table[5*AD_LPF + i] + 0.8*a_coeffs[i];					b_coeffs[i] = 0.2*b_table[5*AD_LPF + i] + 0.8*b_coeffs[i];
+					a_coeffs[i] = 0.2f*a_table[5*AD_LPF + i] + 0.8f*a_coeffs[i];
+					b_coeffs[i] = 0.2f*b_table[5*AD_LPF + i] + 0.8f*b_coeffs[i];
 				}
 			}
 			// If user turns knob almost all the way to the high end, just don't filter.
@@ -1723,10 +1718,11 @@ void Calc_Wave() {
 
 		//t = (ticks % (uint16_t)FS)/(float)FS;
 		//debug_flag = 4;
-		leftOut = 0.0;
+		left_out = 0.0f;
+		total_env = 0.0f;
 
 		// Vibrato evolution handler
-		if (FX_ind == 1) {
+		if (FX_bool_map[FX_ind] & VIB_MASK) {
 			vib_phase += vib_dph;
 			if (vib_phase > SINE_LOOKUP_SIZE) {
 				vib_phase -= SINE_LOOKUP_SIZE; //instead of modulo.
@@ -1755,7 +1751,8 @@ void Calc_Wave() {
 					float phase_increment = (f_table[pitch] * vibrato * TS) * LUT_size;
 					phase = Incr_Note_Phase(&my_midi_notes, pitch, phase_increment, LUT_size);
 					// Accumulate the sample from all the voices.
-					leftOut += p_wave_table[phase]*my_midi_notes.env[pitch];
+					left_out += p_wave_table[phase]*my_midi_notes.env[pitch];
+					total_env += (1.0f + 4.0f*arpeggio_mode)*my_midi_notes.env[pitch];
 
 					//debug_flag = 6;
 				}
@@ -1763,8 +1760,8 @@ void Calc_Wave() {
 		}
 		//legato mode
 		else {
-			tNote = (my_legato_note.ticks_pressed)*TS;
-			leftOut = my_legato_note.env;
+			left_out = my_legato_note.env;
+			total_env = 3.0f*my_legato_note.env;
 			float phase_increment = (my_legato_note.freq * vibrato * TS) * SINE_LOOKUP_SIZE;
 			my_legato_note.current_phase += phase_increment;
 			my_legato_note.current_phase = fmodf(my_legato_note.current_phase, (float)SINE_LOOKUP_SIZE);
@@ -1776,23 +1773,23 @@ void Calc_Wave() {
 
 			// Accumulate the sample from all the voices using the pointer.
 			if (p_wave_table == sine_table) {
-			    leftOut *= p_wave_table[phase_index];
+			    left_out *= p_wave_table[phase_index];
 			} else {
-			    uint16_t phase_128 = (uint16_t)(0.03125 * phase_index);
-			    leftOut *= p_wave_table[phase_128];
+			    uint16_t phase_128 = (uint16_t)(0.03125f * phase_index);
+			    left_out *= p_wave_table[phase_128];
 			}
 
 		}
 		// Tremolo effect
-		if (FX_ind == 2) {
+		if (FX_bool_map[FX_ind] & TREM_MASK) {
 			trem_phase += trem_dph;
 			if (trem_phase > SINE_LOOKUP_SIZE) {
 				trem_phase -= SINE_LOOKUP_SIZE; //instead of modulo.
 			}
 			trem_phase_int = (uint16_t) trem_phase;
 			trem_phase_int &= (SINE_LOOKUP_SIZE-1);
-			tremolo = 1.0 + 0.2*sine_table[trem_phase_int];
-			leftOut *= tremolo;
+			tremolo = 1.0f + 0.2f*sine_table[trem_phase_int];
+			left_out *= tremolo;
 		}
 		//debug_flag = 7;
 		// Filter processing
@@ -1800,10 +1797,10 @@ void Calc_Wave() {
 		//leftOut = compressor(leftOut);
 		// EQ
 		if (do_filt) {
-			leftOutFilt = Process_Filter(leftOut);
+			left_out_filt = Process_Filter(left_out);
 		}
 		else {
-			leftOutFilt = leftOut;
+			left_out_filt = left_out;
 		}
 //		if (leftOutFilt > samp_max) {
 //			samp_max = leftOutFilt;
@@ -1820,7 +1817,7 @@ void Calc_Wave() {
 			Update_Note_Envelope(&my_midi_notes, AD_attack, k_decay_table[AD_decay], k_release_table[AD_release]);
 		}
 		debug_flag = 8;
-		out_buf_ptr[n] = (int16_t)(FLOAT_TO_INT16 * leftOutFilt * 0.1f); //32768 OVERFLOWs
+		out_buf_ptr[n] = (int16_t)(FLOAT_TO_INT16 * left_out_filt * 0.1f); //32768 OVERFLOWs
 		out_buf_ptr[n + 1] = out_buf_ptr[n]; //TODO: do something with stereo.
 		ticks++;
 
@@ -2231,7 +2228,7 @@ int main(void)
 		// Populate half of the DAC buffer if it just sent off that half.
 		if (data_ready_flag) {
 			// Every __ loops through the half DAC buffer, read the ADC knobs.
-			if (! (loops % 200)) { //was 2000 //TODO replace with bitwise & and multiple of 2.
+			if (! (loops % 255)) {
 				HAL_ADC_Start_DMA(&hadc1, (uint32_t *) AD_RES_BUFFER, N_ADC);
 			}
 //			Centers
@@ -2278,10 +2275,10 @@ int main(void)
 				if (AD_waveform < wave_knob_edges[2]) {
 					p_wave_table = sine_table;
 				}
-				else if (AD_waveform <wave_knob_edges[3]) {
+				else if (AD_waveform < wave_knob_edges[3]) {
 					p_wave_table = sn3_table;
 				}
-				else if (AD_waveform <wave_knob_edges[4]) {
+				else if (AD_waveform < wave_knob_edges[4]) {
 					p_wave_table = tri_table;
 				}
 				else if (AD_waveform< wave_knob_edges[5]) {
@@ -2308,31 +2305,31 @@ int main(void)
 
 			// If we're using a preset, don't query the buttons:
 				if (preset_ind) {
-					AD_LPF = preset_matrix[preset_ind-1][0];
-					AD_decay = preset_matrix[preset_ind-1][1];
-					AD_FX = preset_matrix[preset_ind-1][2];
-					AD_attack = preset_matrix[preset_ind-1][3];
-					AD_release = preset_matrix[preset_ind-1][4];
-					AD_waveform = preset_matrix[preset_ind-1][5];
+					AD_LPF =     preset_matrix[preset_ind-1][0];
+					AD_decay =   preset_matrix[preset_ind-1][1];
+					AD_FX =      preset_matrix[preset_ind-1][2];
+					AD_attack =  preset_matrix[preset_ind-1][3];
+					AD_release=  preset_matrix[preset_ind-1][4];
+					AD_waveform= preset_matrix[preset_ind-1][5];
 					AD_LA_rate = preset_matrix[preset_ind-1][6];
-					doodle_mode = preset_matrix[preset_ind-1][7];
-					PLA_ind = preset_matrix[preset_ind-1][8];
-					FX_ind = preset_matrix[preset_ind-1][9];
+					doodle_mode= preset_matrix[preset_ind-1][7];
+					PLA_ind =    preset_matrix[preset_ind-1][8];
+					FX_ind =     preset_matrix[preset_ind-1][9];
 
 					legato_mode = (PLA_ind == 1);
 					arpeggio_mode = (PLA_ind == 2);
 
-					HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
-					HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
+					HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b001);
+					HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b010);
 					HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
 					HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
-					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1); //1
-					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
-					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
+					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_bool_map[FX_ind] & 0b001); //1
+					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_bool_map[FX_ind] & 0b010);//2
+					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_bool_map[FX_ind] & 0b100);//3
 
 				}
 			}
-			// Query buttons if not in a preset"
+			// Query buttons if not in a preset:
 			if (!preset_ind) {
 				if (doodle_press && (loops - loops_doodle_press > 350)) {
 					loops_doodle_press = loops;
@@ -2343,10 +2340,10 @@ int main(void)
 				if (FX_press && (loops - loops_FX_press > 350)) {
 					loops_FX_press = loops;
 					FX_ind += 1;
-					FX_ind %= 4;
-					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_disp_map[FX_ind] & 0b1); //1
-					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_disp_map[FX_ind] & 0b10);//2
-					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_disp_map[FX_ind] & 0b100);//3
+					FX_ind %= 6;
+					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_bool_map[FX_ind] & 0b001); //1
+					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_bool_map[FX_ind] & 0b010);//2
+					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_bool_map[FX_ind] & 0b100);//3
 				}
 			}
 			//TODO comment this back in if button works on different PCB
