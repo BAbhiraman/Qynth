@@ -2196,8 +2196,14 @@ int main(void)
 	printf("CS4X init returned %d\r\n", rc);
 	rc = cs4x_start(&dac);
 	printf("CS4X start returned %d\r\n", rc);
-	cs4x_master_volume(&dac, 225); //255 max, 169 default, 225 is nice and loud.
 
+	doodle_press = !HAL_GPIO_ReadPin(doodle_button_GPIO_Port, doodle_button_Pin);
+	if (doodle_press) {
+		cs4x_master_volume(&dac, 185);
+	}
+	else {
+		cs4x_master_volume(&dac, 225); //255 max, 169 default, 225 is nice and loud.
+	}
 	HAL_Delay(1);
 
 	HAL_StatusTypeDef res;
