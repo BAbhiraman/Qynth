@@ -93,6 +93,8 @@ PC13 LED
 //#define thresh 0.5f
 //#define ratio  0.5f //s.t. thresh + (3-thresh)*ratio = 1. 3 is a realistic max sample.
 
+#define STEREO_AMT 30 // the LPF for the right channel (0-255) is set this amt higher
+
 #define N_ADC 7
 
 #define RX_BUFFER_SIZE 256
@@ -361,6 +363,10 @@ float envelope_gain = 1.0;
 float a_coeffs[5] = {1.0f         ,-3.25488493f,  4.02988597f, -2.24299626f,  0.47269615f}; // b0, b1, b2, b3, b4
 float b_coeffs[5] = {0.00029381f, 0.00117523f, 0.00176285f, 0.00117523f, 0.00029381f};    // a0, a1, a2, a3, a4 (a0 should be 1.0)
 float w_states[4] = {0.0f, 0.0f, 0.0f, 0.0f}; // w1, w2, w3, w4
+
+float a_coeffs_R[5] = {1.0f         ,-3.25488493f,  4.02988597f, -2.24299626f,  0.47269615f}; // b0, b1, b2, b3, b4
+float b_coeffs_R[5] = {0.00029381f, 0.00117523f, 0.00176285f, 0.00117523f, 0.00029381f};    // a0, a1, a2, a3, a4 (a0 should be 1.0)
+float w_states_R[4] = {0.0f, 0.0f, 0.0f, 0.0f}; // w1, w2, w3, w4
 
 // WWaveform lookup tables
 #if 1
@@ -801,6 +807,27 @@ float Process_Filter(float input_sample) {
     w_states[1] = b_coeffs[2] * input_sample - a_coeffs[2] * output_sample + w_states[2];
     w_states[2] = b_coeffs[3] * input_sample - a_coeffs[3] * output_sample + w_states[3];
     w_states[3] = b_coeffs[4] * input_sample - a_coeffs[4] * output_sample; // No next state to add
+
+
+    return fmax(-10.0, fmin(output_sample, 10.0));;
+}
+
+float Process_Filter_R(float input_sample) {
+    float output_sample;
+
+    // Direct Form II Transposed implementation for 4th order IIR
+    // y[n] = b0*x[n] + w1[n-1]
+    // w1[n] = b1*x[n] - a1*y[n] + w2[n-1]
+    // w2[n] = b2*x[n] - a2*y[n] + w3[n-1]
+    // w3[n] = b3*x[n] - a3*y[n] + w4[n-1]
+    // w4[n] = b4*x[n] - a4*y[n]
+
+    output_sample = b_coeffs_R[0] * input_sample + w_states_R[0];
+
+    w_states_R[0] = b_coeffs_R[1] * input_sample - a_coeffs_R[1] * output_sample + w_states_R[1];
+    w_states_R[1] = b_coeffs_R[2] * input_sample - a_coeffs_R[2] * output_sample + w_states_R[2];
+    w_states_R[2] = b_coeffs_R[3] * input_sample - a_coeffs_R[3] * output_sample + w_states_R[3];
+    w_states_R[3] = b_coeffs_R[4] * input_sample - a_coeffs_R[4] * output_sample; // No next state to add
 
 
     return fmax(-10.0, fmin(output_sample, 10.0));;
@@ -1426,6 +1453,7 @@ void Update_Note_Envelope(Notes* notes_system, uint8_t attack_ind, float decay_k
 }
 
 void Parse_MIDI(uint8_t* data, uint16_t length) {
+	// TODO: handle rolling control status (ignore),
 	int did_something = 0;
 	uint8_t byte;
 	// Iterate through all received MIDI bytes
@@ -1434,7 +1462,7 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 		// 254 is Yamaha CP reface's "heartbeat"; it means nothing
 		if ((byte != 254) & (byte != 248)) {
 			did_something = 1;
-			//printf("%02X\r\n", byte);
+			printf("%02X\r\n", byte);
 			// Status byte if MSB = 1. This is a note command or a pedal command
 			if ((byte >> 7) & 0x01) {
 				// if MS Nybble is 0x9, Note On command
@@ -1568,7 +1596,7 @@ void Calc_Wave() {
 	else {
 		HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_SET); //red
 	}
-	static float left_out, left_out_filt; //, compressed;
+	static float left_out, left_out_filt, right_out, right_out_filt; //, compressed;
 	left_out = 0.0;
 	float vibrato = 1.0;
 	float tremolo = 1.0;
@@ -1617,7 +1645,6 @@ void Calc_Wave() {
 		// Calculate arpeggio note duration
 		// 0 --> 0.5 seconds, 255 --> 0.016 seconds (1/64th)
 		debug_flag = 11;
-		//TODO division is evil!
 
 		// Arpeggio mode requires notes be added to my_midi_notes here. Store list of chord tones in diff
 		// data structure, since active_notes below has a different definition including released notes.
@@ -1698,9 +1725,11 @@ void Calc_Wave() {
 		//Update filter coefficients based on knob
 		// If trying to filter (not turning cut-off freq to the extreme)
 		if ((n & 3) == 0) {
+			int right_lpf;
 			if (FX_bool_map[FX_ind] & LPM_MASK) {
 				do_filt = 1;			//was 50.0f
 				int new_lpf_value;
+
 				// if only using LPMod, use the AD_FX knob, else reserve it for vib/trem
 				if (FX_bool_map[FX_ind] == LPM_MASK) {
 					new_lpf_value = (int)(0.4f*AD_FX * total_env);
@@ -1711,16 +1740,25 @@ void Calc_Wave() {
 							//was 180, 190, 200// was max(0
 				//TODO: why so vulnerable to popping in legato mode??
 				new_lpf_value = min(190, max(AD_LPF, new_lpf_value));
+				right_lpf = min(245, new_lpf_value+STEREO_AMT);
 				for (int i = 0; i<5; i++) {
-					a_coeffs[i] = 0.2f*a_table[5*new_lpf_value + i] + 0.8f*a_coeffs[i];
-					b_coeffs[i] = 0.2f*b_table[5*new_lpf_value + i] + 0.8f*b_coeffs[i];
+					// TODO refactor so this block isn't repeated
+					a_coeffs[i] =   0.2f*a_table[5*new_lpf_value + i] + 0.8f*a_coeffs[i];
+					b_coeffs[i] =   0.2f*b_table[5*new_lpf_value + i] + 0.8f*b_coeffs[i];
+
+					a_coeffs_R[i] = 0.2f*a_table[5*right_lpf + i] + 0.8f*a_coeffs_R[i];
+					b_coeffs_R[i] = 0.2f*b_table[5*right_lpf + i] + 0.8f*b_coeffs_R[i];
 				}
 			}
 			else if (AD_LPF <= 245) {
 				do_filt = 1;
+				right_lpf = min(245, AD_LPF+STEREO_AMT);
 				for (int i = 0; i<5; i++) {
-					a_coeffs[i] = 0.2f*a_table[5*AD_LPF + i] + 0.8f*a_coeffs[i];
-					b_coeffs[i] = 0.2f*b_table[5*AD_LPF + i] + 0.8f*b_coeffs[i];
+					a_coeffs[i] =   0.2f*a_table[5*AD_LPF + i] + 0.8f*a_coeffs[i];
+					b_coeffs[i] =   0.2f*b_table[5*AD_LPF + i] + 0.8f*b_coeffs[i];
+
+					a_coeffs_R[i] = 0.2f*a_table[5*right_lpf + i] + 0.8f*a_coeffs_R[i];
+					b_coeffs_R[i] = 0.2f*b_table[5*right_lpf + i] + 0.8f*b_coeffs_R[i];
 				}
 			}
 			// If user turns knob almost all the way to the high end, just don't filter.
@@ -1812,9 +1850,11 @@ void Calc_Wave() {
 		// EQ
 		if (do_filt) {
 			left_out_filt = Process_Filter(left_out);
+			right_out_filt = Process_Filter_R(left_out);
 		}
 		else {
 			left_out_filt = left_out;
+			right_out_filt = left_out;
 		}
 //		if (leftOutFilt > samp_max) {
 //			samp_max = leftOutFilt;
@@ -1832,7 +1872,7 @@ void Calc_Wave() {
 		}
 		debug_flag = 8;
 		out_buf_ptr[n] = (int16_t)(FLOAT_TO_INT16 * left_out_filt * 0.1f); //32768 OVERFLOWs
-		out_buf_ptr[n + 1] = out_buf_ptr[n]; //TODO: do something with stereo.
+		out_buf_ptr[n + 1] = (int16_t)(FLOAT_TO_INT16 * right_out_filt * 0.1f); //TODO: do something with stereo.
 		ticks++;
 
 	}
