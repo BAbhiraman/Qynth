@@ -300,16 +300,17 @@ float    total_env;
 uint8_t RX_UART[RX_BUFFER_SIZE];
 volatile uint16_t old_pos = 0;
 typedef enum { // MIDI command states
-    LAST_READ_STATUS,
+    LAST_READ_NOTE_STATUS,
     LAST_READ_PITCH,
     LAST_READ_VELOCITY,
 	LAST_READ_CONTROL, // Control event, i.e. pedal
     LAST_READ_PEDAL, // Control event identifier = 0d40
 	LAST_READ_PEDAL_VELOCITY,
     LAST_READ_NONE, // Good to have an initial/default state
+	LAST_READ_DISPO_CTRL,
 } lastRead_t; // Using a typedef for easier use, and _t suffix is common for enums/structs
 lastRead_t current_last_read = LAST_READ_NONE;
-uint8_t in_note_event = 0;
+uint8_t in_note_event = 0; //boolean for whether UART is parsing a MIDI note on event
 volatile uint16_t curr_MIDI_pitch = 255; //actual values are 0-127
 volatile uint16_t MIDI_ptr = 253;
 volatile uint8_t playing_note;
@@ -1437,14 +1438,15 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 			// Status byte if MSB = 1. This is a note command or a pedal command
 			if ((byte >> 7) & 0x01) {
 				// if MS Nybble is 0x9, Note On command
-				current_last_read = LAST_READ_STATUS;
+				current_last_read = LAST_READ_NOTE_STATUS;
 				if ((byte >> 4) == 0x9) {
-					//inNoteEvent = 1;
+					in_note_event = 1;
 					//printf("ON ");
 				}
 				else if ((byte >> 4) == 0x8) {
-					//inNoteEvent = 0;
+					in_note_event = 0;
 					//printf("OFF ");
+					//urrent_last_read = LAST_READ_NOTE_OFF;
 				}
 				else if ((byte >> 4) == 0xB) {
 					//printf("PEDAL 0xB \r\n");
@@ -1455,9 +1457,21 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 			else {
 				// Expect control command is followed by 0d40 = sustain pedal flag.
 				if ((current_last_read == LAST_READ_CONTROL) | (current_last_read == LAST_READ_PEDAL_VELOCITY)) {
-					// For now assume we're receiving a 40 (decimal), which is sustain
+					// If we're receiving a 40 (decimal), which is sustain
+					if (byte == 40) {
+						current_last_read = LAST_READ_PEDAL;
+					}
+					// Ignore otherwise, get ready for...
+					else {
+						current_last_read = LAST_READ_DISPO_CTRL; // just throw out the value
+					}
 					current_last_read = LAST_READ_PEDAL;
 					//printf("last read pedal\r\n");
+				}
+				else if (current_last_read == LAST_READ_DISPO_CTRL) {
+					// lie, but it doesn't matter
+					current_last_read = LAST_READ_PEDAL_VELOCITY;
+					// don't do anything with the byte
 				}
 				// Sustain pedal flag followed by sustain velocity. 0 for off.
 				else if (current_last_read == LAST_READ_PEDAL) {
@@ -1466,7 +1480,7 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 					sustain = byte;
 				}
 				// If in a note status event, or in a rolling status (last read velocity), you're receiving a pitch.
-				else if ((current_last_read == LAST_READ_STATUS) | (current_last_read == LAST_READ_VELOCITY)) {
+				else if ((current_last_read == LAST_READ_NOTE_STATUS) | (current_last_read == LAST_READ_VELOCITY)) {
 					current_last_read = LAST_READ_PITCH;
 					MIDI_ptr = byte;
 					//printf("note %02X ", byte);
@@ -1474,7 +1488,7 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 				// Interpret velocity.
 				else if (current_last_read == LAST_READ_PITCH) {
 					current_last_read = LAST_READ_VELOCITY;
-					if (byte == 0) {
+					if ((byte == 0) | (in_note_event == 0)) {
 						in_note_event = 0;
 						if (legato_mode) {
 							// Only release the legato note if the released note is the currentMIDIpitch
@@ -2202,7 +2216,7 @@ int main(void)
 		cs4x_master_volume(&dac, 185);
 	}
 	else {
-		cs4x_master_volume(&dac, 225); //255 max, 169 default, 225 is nice and loud.
+		cs4x_master_volume(&dac, 240); //255 max, 169 default, 225 is nice and loud.
 	}
 	HAL_Delay(1);
 
