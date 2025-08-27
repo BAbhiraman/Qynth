@@ -1462,22 +1462,24 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 		// 254 is Yamaha CP reface's "heartbeat"; it means nothing
 		if ((byte != 254) & (byte != 248)) {
 			did_something = 1;
-			printf("%02X\r\n", byte);
+			//printf("%02X\r\n", byte);
 			// Status byte if MSB = 1. This is a note command or a pedal command
 			if ((byte >> 7) & 0x01) {
 				// if MS Nybble is 0x9, Note On command
 				current_last_read = LAST_READ_NOTE_STATUS;
 				if ((byte >> 4) == 0x9) {
 					in_note_event = 1;
-					//printf("ON ");
+					// NOTE: these bools don't have to be updated elsewhere.
+					// E.g. Yamaha won't need these, but Nord will.
+					//printf("NOTE ON \r\n");
 				}
 				else if ((byte >> 4) == 0x8) {
 					in_note_event = 0;
-					//printf("OFF ");
+					//printf("NOTE OFF \r\n");
 					//urrent_last_read = LAST_READ_NOTE_OFF;
 				}
 				else if ((byte >> 4) == 0xB) {
-					//printf("PEDAL 0xB \r\n");
+					//printf("CTRL 0xB \r\n");
 					current_last_read = LAST_READ_CONTROL;
 				}
 			}
@@ -1511,13 +1513,15 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 				else if ((current_last_read == LAST_READ_NOTE_STATUS) | (current_last_read == LAST_READ_VELOCITY)) {
 					current_last_read = LAST_READ_PITCH;
 					MIDI_ptr = byte;
-					//printf("note %02X ", byte);
+					//printf("LAST_READ_PITCH, pitch = %d \r\n", byte);
 				}
 				// Interpret velocity.
 				else if (current_last_read == LAST_READ_PITCH) {
 					current_last_read = LAST_READ_VELOCITY;
+					// FORK HERE determine in_note_Event first
+					// Yamaha can have in_note_event be 0 when in a rolling status report erroneously
 					if ((byte == 0) | (in_note_event == 0)) {
-						in_note_event = 0;
+						//printf("LAST_READ_VELOCITY, 0vel = %d \r\n", byte);
 						if (legato_mode) {
 							// Only release the legato note if the released note is the currentMIDIpitch
 							if (MIDI_ptr == curr_MIDI_pitch) {
@@ -1534,6 +1538,7 @@ void Parse_MIDI(uint8_t* data, uint16_t length) {
 						}
 					}
 					else {
+						//printf("LAST_READ_VELOCITY, vel = %d \r\n", byte);
 						curr_MIDI_pitch = MIDI_ptr;
 						if (legato_mode) {
 							// If a fresh note is required, instantiate it!
@@ -1872,7 +1877,7 @@ void Calc_Wave() {
 		}
 		debug_flag = 8;
 		out_buf_ptr[n] = (int16_t)(FLOAT_TO_INT16 * left_out_filt * 0.1f); //32768 OVERFLOWs
-		out_buf_ptr[n + 1] = (int16_t)(FLOAT_TO_INT16 * right_out_filt * 0.1f); //TODO: do something with stereo.
+		out_buf_ptr[n + 1] = (int16_t)(FLOAT_TO_INT16 * right_out_filt * 0.1f);
 		ticks++;
 
 	}
@@ -2256,7 +2261,7 @@ int main(void)
 		cs4x_master_volume(&dac, 185);
 	}
 	else {
-		cs4x_master_volume(&dac, 240); //255 max, 169 default, 225 is nice and loud.
+		cs4x_master_volume(&dac, 225); //255 max, 169 default, 225 is nice and loud. //240 for Nord
 	}
 	HAL_Delay(1);
 
