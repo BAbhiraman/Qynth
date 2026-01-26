@@ -77,7 +77,7 @@ PC13 LED
 #define BUFFER_SIZE 128 //Phil's lab used 128
 #define INT16_TO_FLOAT 1.0f/(32767.0f)
 #define FLOAT_TO_INT16 32767.0f
-#define FS 32063.0f //42751.0f ////see .ioc see for kHz inaccuracy
+#define FS 48095.0f //42751.0f //32063.0f ////see .ioc see for kHz inaccuracy
 #define TS 1.0f/(float)FS // sample time
 #define SINE_LOOKUP_SIZE 4096
 #define WAVE_TABLE_SIZE 128
@@ -281,12 +281,12 @@ uint8_t arp_cycle_matrix[10][10] = {
 uint8_t preset_matrix[7][10] = {
 // AD_LPF, AD_decay, AD_FX, AD_attack, AD_release, AD_waveform, AD_LA_rate, doodle_mode, PLA_ind, FX_ind
 		{2, 128, 162, 53, 59, 206, 195, 0, 0, 3}, //1: funky wah saw
-		{129, 174, 55, 103, 64, 198, 130, 0, 1, 1}, //2: searing saw lead
-		{141, 129, 54, 92, 72, 0, 130, 1, 0, 1}, //3 : cello suite
-		{91, 129, 53, 20, 69, 255, 130, 1, 0, 1},//4: little piano
-		{102, 73, 56, 45, 82, 125, 87, 0, 0, 0},//5: harp dreams
-		{88, 255, 50, 23, 38, 86, 87, 0, 0, 1},//6: pocket hammond
-		{154, 175, 55, 88, 64, 231, 55, 1, 0, 1},//7: clarinet choir
+		{129*(32.0f/48.0f), 174, 55, 103, 64, 198, 130, 0, 1, 1}, //2: searing saw lead
+		{141*(32.0f/48.0f), 129, 54, 92, 72, 0, 130, 1, 0, 1}, //3 : cello suite
+		{91*(32.0f/48.0f), 129, 53, 20, 69, 255, 130, 1, 0, 1},//4: little piano
+		{102*(32.0f/48.0f), 73, 56, 45, 82, 125, 87, 0, 0, 0},//5: harp dreams
+		{88*(32.0f/48.0f), 255, 50, 23, 38, 86, 87, 0, 0, 1},//6: pocket hammond
+		{154*(32.0f/48.0f), 175, 55, 88, 64, 231, 55, 1, 0, 1},//7: clarinet choir
 
 };
 
@@ -341,6 +341,8 @@ volatile uint64_t loops = 0;
 
 // Button flag
 volatile uint8_t button_flag = 0;
+volatile uint8_t blue_button_press = 0;
+
 // Waveform mode
 uint8_t wave_mode = 0;
 uint8_t num_wave_modes = 4;
@@ -999,23 +1001,26 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   /* USER CODE BEGIN HAL_GPIO_EXTI_Callback 0 */
-	// Only listen to the button if not in a preset
-	  if ((GPIO_Pin == B1_Pin) & !preset_ind)
-	  {
-		  Notes_Init(&my_midi_notes);
-		  // Set the flag when the interrupt for PA0 (EXTI Line0) occurs
-		  //button_flag = 1;
-		  if (loops - loops_PLA_press > 175) {
-			  loops_PLA_press = loops;
-			  PLA_ind += 1;
-			  PLA_ind %= 3;
-			  HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
-			  HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
-			  HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
-			  legato_mode = (PLA_ind == 1);
-			  arpeggio_mode = (PLA_ind == 2);
-		  }
-	  }
+	// Only listen to the  if not in a preset
+//	  if ((GPIO_Pin == B1_Pin) & !preset_ind)
+//	  {
+//		  Notes_Init(&my_midi_notes);
+//		  // Set the flag when the interrupt for PA0 (EXTI Line0) occurs
+//		  //button_flag = 1;
+//		  if (loops - loops_PLA_press > 175) {
+//			  loops_PLA_press = loops;
+//			  PLA_ind += 1;
+//			  PLA_ind %= 3;
+//			  HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
+//			  HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
+//			  HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
+//			  legato_mode = (PLA_ind == 1);
+//			  arpeggio_mode = (PLA_ind == 2);
+//		  }
+//	  }
+	if (GPIO_Pin == B1_Pin) {
+		blue_button_press = 1;
+	}
   /* USER CODE END HAL_GPIO_EXTI_Callback 0 */
 
   /* USER CODE BEGIN HAL_GPIO_EXTI_Callback 1 */
@@ -1601,9 +1606,10 @@ void Calc_Wave() {
 	if (out_buf_ptr == &dac_data[0]) {
 		HAL_GPIO_WritePin(GPIOD, LD6_Pin, GPIO_PIN_SET); //blue
 	}
-	else {
-		HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_SET); //red
-	}
+	//else {
+		// Commented out on Henry's PCB
+		//HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_SET); //red
+	//}
 	static float left_out, left_out_filt, right_out, right_out_filt; //, compressed;
 	left_out = 0.0;
 	float vibrato = 1.0;
@@ -1888,7 +1894,7 @@ void Calc_Wave() {
 	data_ready_flag = 0;
 	// Turn off LEDs. You can see how hard this function works based on the LED brightness!
 	HAL_GPIO_WritePin(GPIOD, LD6_Pin, GPIO_PIN_RESET); //blue
-	HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_RESET); //red
+	//Commented out on Henry's PCB HAL_GPIO_WritePin(GPIOD, LD5_Pin, GPIO_PIN_RESET); //red
 
 }
 
@@ -2268,7 +2274,7 @@ int main(void)
 	}
 	// Use waveform knob as startup volume knob if doodle is pressed
 	if (doodle_press) {
-		cs4x_master_volume(&dac, AD_waveform);
+		cs4x_master_volume(&dac, AD_waveform/3+170);
 	}
 	// Otherwise default to 225, which is reasonably loud
 	else {
@@ -2367,10 +2373,16 @@ int main(void)
 
 			// Poll buttons
 			FX_press = !HAL_GPIO_ReadPin(FX_button_GPIO_Port, FX_button_Pin);
-			//PLA_press = !HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);//!HAL_GPIO_ReadPin(PLA_button_GPIO_Port, PLA_button_Pin);
+			PLA_press = !HAL_GPIO_ReadPin(PLA_button_GPIO_Port, PLA_button_Pin);
 			doodle_press = !HAL_GPIO_ReadPin(doodle_button_GPIO_Port, doodle_button_Pin);
 			preset_press = !HAL_GPIO_ReadPin(preset_button_GPIO_Port, preset_button_Pin);
-			if (preset_press && (loops - loops_preset_press > 350)) {
+			// Volume
+			if (blue_button_press) {
+				// Change master volume via AD_LA_rate knob
+				cs4x_master_volume(&dac, AD_LA_rate/3+170);
+				blue_button_press = 0;
+			}
+			if (preset_press && (loops - loops_preset_press > 500)) {
 				loops_preset_press = loops;
 				preset_ind += 1;
 				preset_ind %= NUM_PRESETS;
@@ -2406,32 +2418,39 @@ int main(void)
 				}
 			}
 			// Query buttons if not in a preset:
-			if (!preset_ind) {
-				if (doodle_press && (loops - loops_doodle_press > 350)) {
-					loops_doodle_press = loops;
-					doodle_mode ^= 1;
-					HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
-				}
-
-				if (FX_press && (loops - loops_FX_press > 350)) {
-					loops_FX_press = loops;
-					FX_ind += 1;
-					FX_ind %= 6;
-					HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_bool_map[FX_ind] & 0b001); //1
-					HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_bool_map[FX_ind] & 0b010);//2
-					HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_bool_map[FX_ind] & 0b100);//3
-				}
+			//if (!preset_ind) {
+			if (doodle_press && (loops - loops_doodle_press > 500)) {
+				loops_doodle_press = loops;
+				doodle_mode ^= 1;
+				HAL_GPIO_WritePin(doodle_GPIO_Port, doodle_Pin, doodle_mode);
 			}
-			//TODO comment this back in if button works on different PCB
-			// MOVED TO EXTI because mapping to blue mcu button instead (broken connection on my PCB).
-//			if (PLA_press && (loops - loops_PLA_press > 350)) {
-//				loops_PLA_press = loops;
-//				PLA_ind += 1;
-//				PLA_ind %= 3;
-//				HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
-//				HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
-//				HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
-//			}
+
+			if (FX_press && (loops - loops_FX_press > 500)) {
+				loops_FX_press = loops;
+				FX_ind += 1;
+				FX_ind %= 6;
+				HAL_GPIO_WritePin(vibrato_GPIO_Port, vibrato_Pin, FX_bool_map[FX_ind] & 0b001); //1
+				HAL_GPIO_WritePin(trem_GPIO_Port,    trem_Pin,    FX_bool_map[FX_ind] & 0b010);//2
+				// Tremolo is red LED on Henry's PCB.
+				//HAL_GPIO_WritePin(GPIOD, LD5_Pin, FX_bool_map[FX_ind] & 0b010); //red)
+				HAL_GPIO_WritePin(fxx_GPIO_Port,     fxx_Pin,     FX_bool_map[FX_ind] & 0b100);//3
+			}
+			//}
+			if (PLA_press && (loops - loops_PLA_press > 500)) {
+				  Notes_Init(&my_midi_notes);
+				  // Set the flag when the interrupt for PA0 (EXTI Line0) occurs
+				  //button_flag = 1;
+				  if (loops - loops_PLA_press > 250) {
+					  loops_PLA_press = loops;
+					  PLA_ind += 1;
+					  PLA_ind %= 3;
+					  HAL_GPIO_WritePin(poly_GPIO_Port, poly_Pin,        PLA_disp_map[PLA_ind] & 0b1);
+					  HAL_GPIO_WritePin(legato_GPIO_Port,legato_Pin,     PLA_disp_map[PLA_ind] & 0b10);
+					  HAL_GPIO_WritePin(arpeggio_GPIO_Port, arpeggio_Pin,PLA_disp_map[PLA_ind] & 0b100);
+					  legato_mode = (PLA_ind == 1);
+					  arpeggio_mode = (PLA_ind == 2);
+				  }
+			}
 
 			// If in hammond mode, treat sustain like a toggle switch
 			if (sustain && (preset_ind == 6) && (loops - loops_sustain_press > 350)) {
@@ -2653,7 +2672,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
   hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
-  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_32K;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
   hi2s3.Init.CPOL = I2S_CPOL_LOW;
   hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
